@@ -1,8 +1,6 @@
 package connector;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.net.Socket;
 
 /**
@@ -14,6 +12,14 @@ public class HttpProcessor implements Runnable{
 
 
     private Socket socket = null;
+
+
+    private static final String HTML = "HTTP/1.1 200 OK\r\n"
+            + "Content-Type: text/html\r\n"
+            + "Content-Length: %d\r\n" + "\r\n"
+            + "%s";
+
+
     public HttpProcessor(Socket socket) {
         if (socket==null) throw new NullPointerException();
         this.socket = socket;
@@ -23,19 +29,36 @@ public class HttpProcessor implements Runnable{
     public void run() {
         try {
             InputStream in  = socket.getInputStream();
+            OutputStream out = socket.getOutputStream();
 
-            ByteArrayOutputStream outSteam = new ByteArrayOutputStream();
-            byte[] buffer = new byte[1024];
-            int len = -1;
-            while ((len = in.read(buffer)) != -1) {
-                outSteam.write(buffer, 0, len);
-            }
-            outSteam.close();
+            // handle inputStream
+            BufferedReader br = new BufferedReader(new InputStreamReader(in));
+            StringBuilder reqStr = new StringBuilder();
+
+
+            //TODO 判断缓冲区是否超过而不是使用大缓冲区
+
+            char[] buf = new char[1024*8];
+            do {
+                if (br.read(buf) != -1) {
+                    reqStr.append(buf);
+                }
+            } // the key point to read a complete arrival socket stream with bio but without block
+            while (br.ready());
+
+            // get uri in http request line
+            String respStr = reqStr.toString();
+
+            // join the html content
+            respStr = "<h1>" + respStr + "</h1>";
+            out.write(String.format(HTML, respStr.length(), respStr).getBytes());
+            out.flush();
+
             in.close();
+            out.close();
 
-            byte[] bt = outSteam.toByteArray();
-            String str = new String(bt);
-            System.out.println("主机收到信息：" + str);
+            String str = new String(reqStr);
+            System.out.println("主机收到信息：\n" + str);
         } catch (IOException e) {
             e.printStackTrace();
         }
