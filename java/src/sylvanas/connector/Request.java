@@ -1,4 +1,4 @@
-package connector;
+package sylvanas.connector;
 
 import javax.servlet.*;
 import javax.servlet.http.*;

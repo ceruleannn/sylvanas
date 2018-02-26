@@ -1,2 +1,2 @@
 # Sylvanas
-web container for java
+web sylvanas.container for java

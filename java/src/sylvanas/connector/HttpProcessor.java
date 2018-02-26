@@ -1,4 +1,4 @@
-package connector;
+package sylvanas.connector;
 
 import java.io.*;
 import java.net.Socket;
@@ -43,11 +43,16 @@ public class HttpProcessor implements Runnable{
                 if (br.read(buf) != -1) {
                     reqStr.append(buf);
                 }
+
             } // the key point to read a complete arrival socket stream with bio but without block
             while (br.ready());
 
             // get uri in http request line
             String respStr = reqStr.toString();
+
+            //
+            RawRequest rawRequest = new RawRequest(respStr);
+
 
             // join the html content
             respStr = "<h1>" + respStr + "</h1>";

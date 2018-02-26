@@ -1,4 +1,4 @@
-package connector;
+package sylvanas.connector;
 
 import java.net.Socket;
 import java.util.concurrent.ThreadPoolExecutor;
