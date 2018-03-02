@@ -31,18 +31,12 @@ public class MimeHeaders {
                 System.out.println("error"+rawHeaders);
                 continue;
             }
-            String name = s.substring(0,index);
-            String value = s.substring(index+1);
+            String name = s.substring(0,index).trim();
+            String value = s.substring(index+1).trim();
             addHeader(name, value);
         }
 
-        Enumeration<String> enumeration = getHeaderNames();
-        while (enumeration.hasMoreElements()) {
-            String name = (String) enumeration.nextElement();
-            String value = getHeader(name);
-
-            System.out.println(name+" #-#"+value);
-        }
+        //printHeaders();
     }
 
     public void addHeader(String name, String value){
@@ -157,6 +151,17 @@ public class MimeHeaders {
             names.add(field.getName());
         }
         return new Enumerator(names);
+    }
+
+    public void printHeaders(){
+
+        Enumeration<String> enumeration = getHeaderNames();
+        while (enumeration.hasMoreElements()) {
+            String name = (String) enumeration.nextElement();
+            String value = getHeader(name);
+
+            System.out.println(name+" #-#"+value);
+        }
     }
 
 }

@@ -16,7 +16,11 @@ public final class Parameters {
 
     private boolean isParametersParsed = false;
 
+    private boolean isParseBody = false;
+
     private String query = null;
+
+    private String body = null;
 
     private String encoding = "UTF-8";
 
@@ -24,24 +28,41 @@ public final class Parameters {
     //FailReason
     //URLDecode
 
-    public Parameters(){
-
+    public Parameters(boolean isParseBody, String query, String body){
+        this.isParseBody = isParseBody;
+        this.query = query;
+        this.body = body;
     }
 
     public void parse(){
-        parseRequestLineParam();
-        parseRequestBodyParam();
-        isParametersParsed = true;
-    }
 
-    public void parseRequestLineParam(){
-
-        if (query==null){
+        if (isParametersParsed){
             return;
         }
 
-        String params = query.substring(query.indexOf('?')+1);
-        String[] res = params.split("&");
+        String str = query.substring(query.indexOf('?')+1);
+        parseParam(str);
+
+        if (isParseBody){
+            parseParam(body);
+        }
+
+        isParametersParsed = true;
+
+        printParameters();
+    }
+
+    /**
+     * @Description: key=v1&oo=11 从此格式字符串中提取请求参数
+     *
+     */
+    public void parseParam(String str){
+
+        if (str==null){
+            return;
+        }
+
+        String[] res = str.split("&");
 
         for (String s : res) {
             int index = s.indexOf('=');
@@ -65,9 +86,6 @@ public final class Parameters {
 
     }
 
-    public void parseRequestBodyParam(){
-
-    }
 
     public void addParameter(String key, String value){
 
@@ -128,6 +146,22 @@ public final class Parameters {
         }
 
         return ResourceUtils.deepClone(this.paramMap);
+    }
+
+    public void printParameters(){
+
+        System.out.println("------Parameters------");
+        Map<String, ArrayList<String>> map = getParameterMap();
+
+        for (Map.Entry<String, ArrayList<String>> entry: map.entrySet()){
+            System.out.print(entry.getKey()+" # ");
+            for (String s : entry.getValue()) {
+                System.out.print(s+" ");
+            }
+            System.out.println();
+        }
+        System.out.println("----------------------");
+        System.out.println();
     }
 
     public String getQuery() {
