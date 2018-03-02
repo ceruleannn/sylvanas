@@ -7,7 +7,7 @@ import java.io.*;
  */
 public class ResourceUtils {
 
-    public static <T extends Serializable> T clone(T obj){
+    public static <T extends Serializable> T deepClone(T obj){
 
         T clonedObj = null;
         try {

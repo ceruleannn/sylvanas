@@ -12,7 +12,7 @@ import java.util.*;
 public final class Parameters {
 
     private final LinkedHashMap<String,ArrayList<String>> paramMap =
-            new LinkedHashMap<String,ArrayList<String>>();
+            new LinkedHashMap<>();
 
     private boolean isParametersParsed = false;
 
@@ -127,7 +127,7 @@ public final class Parameters {
 
         }
 
-        return ResourceUtils.clone(this.paramMap);
+        return ResourceUtils.deepClone(this.paramMap);
     }
 
     public String getQuery() {

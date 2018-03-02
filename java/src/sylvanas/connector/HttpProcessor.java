@@ -63,7 +63,7 @@ public class HttpProcessor implements Runnable{
             out.close();
 
             String str = new String(reqStr);
-            System.out.println("主机收到信息：\n" + str);
+            //System.out.println("主机收到信息：\n" + str);
         } catch (IOException e) {
             e.printStackTrace();
         }

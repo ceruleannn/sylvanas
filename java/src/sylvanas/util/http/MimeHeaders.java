@@ -9,10 +9,40 @@ public class MimeHeaders {
 
     public static final int DEFAULT_SIZE = 10;
 
-    private static final ArrayList<MimeHeaderField> list = new ArrayList<>(DEFAULT_SIZE);
+    private final ArrayList<MimeHeaderField> list = new ArrayList<>(DEFAULT_SIZE);
 
-    public MimeHeaders(){
+    private String rawHeaders = null;
 
+    public MimeHeaders(String rawHeaders){
+        this.rawHeaders = rawHeaders;
+        parseHeaders();
+    }
+
+    public void parseHeaders(){
+
+        if (rawHeaders==null){
+            return;
+        }
+
+        String[] line = rawHeaders.split("\r\n");
+        for (String s : line) {
+            int index = s.indexOf(':');
+            if (index<=0){
+                System.out.println("error"+rawHeaders);
+                continue;
+            }
+            String name = s.substring(0,index);
+            String value = s.substring(index+1);
+            addHeader(name, value);
+        }
+
+        Enumeration<String> enumeration = getHeaderNames();
+        while (enumeration.hasMoreElements()) {
+            String name = (String) enumeration.nextElement();
+            String value = getHeader(name);
+
+            System.out.println(name+" #-#"+value);
+        }
     }
 
     public void addHeader(String name, String value){
