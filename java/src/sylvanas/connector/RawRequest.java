@@ -1,5 +1,6 @@
 package sylvanas.connector;
 
+import sylvanas.util.http.Cookies;
 import sylvanas.util.http.MimeHeaders;
 import sylvanas.util.http.Parameters;
 
@@ -26,6 +27,8 @@ public class RawRequest {
 
     private MimeHeaders mimeHeaders = null;
 
+    private Cookies cookies = null;
+
 
     public RawRequest(String rawRequest){
         this.rawRequest = rawRequest;
@@ -33,6 +36,7 @@ public class RawRequest {
         parseRequestLine();
         parseHeaders();
         parseParameters();
+        parseCookies();
     }
 
     public void parseDepart(){
@@ -70,5 +74,10 @@ public class RawRequest {
                 .equalsIgnoreCase(mimeHeaders.getHeader("Content-Type"));
         parameters = new Parameters(isParseBody,query,rawBody);
         parameters.parse();
+    }
+
+    public void parseCookies(){
+
+        cookies = new Cookies(mimeHeaders);
     }
 }

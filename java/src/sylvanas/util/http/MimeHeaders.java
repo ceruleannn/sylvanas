@@ -5,7 +5,7 @@ import java.util.*;
 /**
  * @Description: request headers 请求头
  */
-public class MimeHeaders {
+public final class MimeHeaders {
 
     public static final int DEFAULT_SIZE = 10;
 

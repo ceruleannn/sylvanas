@@ -16,9 +16,11 @@ import java.util.Map;
  */
 public class Request implements HttpServletRequest {
 
+    private RawRequest rawRequest = null;
 
-
-
+    public Request(RawRequest rawRequest){
+        this.rawRequest = rawRequest;
+    }
 
     @Override
     public String getAuthType() {

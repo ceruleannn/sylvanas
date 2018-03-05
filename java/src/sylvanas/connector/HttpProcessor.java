@@ -52,6 +52,7 @@ public class HttpProcessor implements Runnable{
 
             //
             RawRequest rawRequest = new RawRequest(respStr);
+            Request request = new Request(rawRequest);
 
 
             // join the html content
@@ -62,7 +63,7 @@ public class HttpProcessor implements Runnable{
             in.close();
             out.close();
 
-            String str = new String(reqStr);
+            //String str = new String(reqStr);
             //System.out.println("主机收到信息：\n" + str);
         } catch (IOException e) {
             e.printStackTrace();
