@@ -4,6 +4,8 @@ import sylvanas.util.http.Cookies;
 import sylvanas.util.http.MimeHeaders;
 import sylvanas.util.http.Parameters;
 
+import java.util.HashMap;
+
 /**
  * @Description:
  */
@@ -28,6 +30,8 @@ public class RawRequest {
     private MimeHeaders mimeHeaders = null;
 
     private Cookies cookies = null;
+
+    private HashMap<String, Object> attributes = new HashMap<>();
 
 
     public RawRequest(String rawRequest){
@@ -79,5 +83,77 @@ public class RawRequest {
     public void parseCookies(){
 
         cookies = new Cookies(mimeHeaders);
+    }
+
+    public String getRawRequest() {
+        return rawRequest;
+    }
+
+    public String getRawRequestLine() {
+        return rawRequestLine;
+    }
+
+    public String getRawHeaders() {
+        return rawHeaders;
+    }
+
+    public String getRawBody() {
+        return rawBody;
+    }
+
+    public String getMethod() {
+        return method;
+    }
+
+    public String getQuery() {
+        return query;
+    }
+
+    public String getProtocol() {
+        return protocol;
+    }
+
+    public Parameters getParameters() {
+        return parameters;
+    }
+
+    public MimeHeaders getMimeHeaders() {
+        return mimeHeaders;
+    }
+
+    public Cookies getCookies() {
+        return cookies;
+    }
+
+    public Object getAttribute(String name) {
+
+        Object attr = attributes.get(name);
+
+        if(attr!=null) {
+            return(attr);
+        }
+        return null;
+    }
+
+    public void setAttribute(String name, Object object) {
+
+        if (name == null) {
+            return;
+        }
+
+        if (object == null) {
+            removeAttribute(name);
+            return;
+        }
+
+        attributes.put(name, object);
+    }
+
+    public void removeAttribute(String name){
+
+        Object object = attributes.get(name);
+        if (object != null){
+            attributes.remove(object);
+        }
     }
 }

@@ -6,10 +6,7 @@ import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.Principal;
-import java.util.Collection;
-import java.util.Enumeration;
-import java.util.Locale;
-import java.util.Map;
+import java.util.*;
 
 /**
  * @Description:
@@ -17,6 +14,7 @@ import java.util.Map;
 public class Request implements HttpServletRequest {
 
     private RawRequest rawRequest = null;
+
 
     public Request(RawRequest rawRequest){
         this.rawRequest = rawRequest;
@@ -270,6 +268,11 @@ public class Request implements HttpServletRequest {
     @Override
     public void removeAttribute(String name) {
 
+        if (name==null){
+            return;
+        }
+
+        attributes.remove(name);
     }
 
     @Override
