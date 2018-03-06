@@ -1,17 +1,17 @@
 package sylvanas.test;
 
+import java.util.HashMap;
+
 /**
  * @Description:
  */
 public class TestSplit {
 
-
+    private static String s = "iloveyou";
 
     public static void main(String[] args) {
-        String s = "kkk=vvvqqq=eee";
-        String[] array = s.split(";");
-        for (String ss: array){
-            System.out.println(array.length);
-        }
+        HashMap<String, String> hashMap = new HashMap<>();
+        hashMap.put("aaa","bbb");
+        System.out.println(hashMap.remove(null));
     }
 }

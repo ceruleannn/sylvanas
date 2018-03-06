@@ -1,4 +1,4 @@
-package sylvanas.connector;
+package sylvanas.http.connector;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;

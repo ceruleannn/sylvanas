@@ -1,4 +1,4 @@
-package sylvanas.connector;
+package sylvanas.http.connector;
 
 import java.io.IOException;
 import java.net.InetAddress;

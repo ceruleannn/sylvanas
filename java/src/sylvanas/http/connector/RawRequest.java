@@ -1,4 +1,4 @@
-package sylvanas.connector;
+package sylvanas.http.connector;
 
 import sylvanas.util.http.Cookies;
 import sylvanas.util.http.MimeHeaders;
@@ -31,7 +31,7 @@ public class RawRequest {
 
     private Cookies cookies = null;
 
-    private HashMap<String, Object> attributes = new HashMap<>();
+    private final HashMap<String, Object> attributes = new HashMap<>();
 
 
     public RawRequest(String rawRequest){
@@ -127,12 +127,8 @@ public class RawRequest {
 
     public Object getAttribute(String name) {
 
-        Object attr = attributes.get(name);
+        return attributes.get(name);
 
-        if(attr!=null) {
-            return(attr);
-        }
-        return null;
     }
 
     public void setAttribute(String name, Object object) {

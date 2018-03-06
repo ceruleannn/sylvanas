@@ -1,11 +1,12 @@
-package sylvanas.connector;
+package sylvanas.http.connector;
 
 import java.io.*;
 import java.net.Socket;
 
 /**
  * @Description:
- *
+ * 对每个请求创建一个独立的HttpProcessor, 并将其委派至Manager中调用executor在
+ * 新线程中启用
  *
  */
 public class HttpProcessor implements Runnable{

@@ -1,6 +1,6 @@
 package sylvanas.bootstrap;
 
-import sylvanas.connector.HttpConnector;
+import sylvanas.http.connector.HttpConnector;
 
 /**
  * @Date:
