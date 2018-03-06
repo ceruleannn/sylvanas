@@ -1,5 +1,8 @@
 package sylvanas.http.connector;
 
+import sylvanas.http.session.SessionManager;
+import sylvanas.http.session.StandardSession;
+
 import javax.servlet.*;
 import javax.servlet.http.*;
 import java.io.BufferedReader;
@@ -15,10 +18,14 @@ public class Request implements HttpServletRequest {
 
     private RawRequest rawRequest = null;
 
+    private StandardSession session = null;
+
+    private final HashMap<String, Object> attributes = new HashMap<>();
 
     public Request(RawRequest rawRequest){
         this.rawRequest = rawRequest;
     }
+
 
     /**
      * Returns the name of the authentication scheme used to protect the
@@ -390,7 +397,78 @@ public class Request implements HttpServletRequest {
      */
     @Override
     public HttpSession getSession(boolean create) {
-        return null;
+
+        StandardSession session =  doGetSession(create);
+        if (session==null){
+            return null;
+        }
+
+        return session.getSessionFacade();
+    }
+
+
+    /**
+     * 1 判断当前Request对象是否已经存在有效的Session信息，如果存在则返回此Session，否则进入下一步；
+     * 2 获取SessionManager；
+     * 3 从StandardManager的Session缓存中获取Session，如果有则返回此Session，否则进入下一步；
+     * 4 创建Session；
+     * 5 创建保存Session ID的Cookie；
+     * 6 通过调用Session的access方法更新Session的访问时间以及访问次数。
+     *
+     * @param create
+     * @return
+     */
+    private StandardSession doGetSession(boolean create){
+
+        if ((session != null) && !session.isValid()){
+            session = null;
+        }
+
+        if (session != null){
+            return session;
+        }
+
+        if (context==null){
+            return null;
+        }
+
+        SessionManager sessionManager = context.getSessionManager();
+
+        if (sessionManager==null){
+            return null;
+        }
+
+        StandardSession session = sessionManager.getSession(rawRequest.getSessionID());
+        if ((session != null) && !session.isValid())
+            session = null;
+
+        if (session != null) {
+            session.access();
+            return session;
+        }
+
+        if (!create){
+            return null;
+        }
+
+        session = sessionManager.createSession();
+
+
+        //TODO : RESPONSE ADD COOKIE FOR SESSION
+
+//        if ((session != null) && (getContext() != null)
+//                && getContext().getServletContext().
+//                getEffectiveSessionTrackingModes().contains(
+//                SessionTrackingMode.COOKIE)) {
+//            Cookie cookie =
+//                    ApplicationSessionCookieConfig.createSessionCookie(
+//                            context, session.getIdInternal(), isSecure());
+//
+//            response.addSessionCookieInternal(cookie);
+//        }
+
+        session.access();
+        return session;
     }
 
     /**
@@ -549,7 +627,7 @@ public class Request implements HttpServletRequest {
      */
     @Override
     public Object getAttribute(String name) {
-        return null;
+        return attributes.get(name);
     }
 
     /**
@@ -829,11 +907,20 @@ public class Request implements HttpServletRequest {
      * servlet.
      *
      * @param name a <code>String</code> specifying the name of the attribute
-     * @param o
+     * @param object
      */
     @Override
-    public void setAttribute(String name, Object o) {
+    public void setAttribute(String name, Object object) {
+        if (name == null) {
+            return;
+        }
 
+        if (object == null) {
+            removeAttribute(name);
+            return;
+        }
+
+        attributes.put(name, object);
     }
 
     /**
@@ -850,7 +937,10 @@ public class Request implements HttpServletRequest {
      */
     @Override
     public void removeAttribute(String name) {
-
+        Object object = attributes.get(name);
+        if (object != null){
+            attributes.remove(object);
+        }
     }
 
     /**

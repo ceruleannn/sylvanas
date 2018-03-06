@@ -1,5 +1,7 @@
 package sylvanas.util.http;
 
+import sylvanas.http.connector.RawRequest;
+
 import javax.servlet.http.Cookie;
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +16,20 @@ import java.util.List;
  */
 public final class Cookies {
 
+    public static final String SESSION_ID_KEY = "sessionid";
+
+    private RawRequest rawRequest = null;
+
     private MimeHeaders headers = null;
 
     private List<Cookie> list = new ArrayList<>(8);
 
     private boolean isCookiesParsed = false; //lazy evaluated
 
-    public Cookies(MimeHeaders headers){
+    public Cookies(MimeHeaders headers,RawRequest rawRequest){
         this.headers = headers;
+        this.rawRequest = rawRequest;
+
         parseHeaders();
         printCookies();
     }
@@ -49,9 +57,15 @@ public final class Cookies {
         String value = null;
         for (String cookie : cookies) {
             index = cookie.indexOf('=');
-            name = cookie.substring(0,index);
-            value = cookie.substring(index+1);
-            list.add(new Cookie(name.trim(),value.trim()));
+            name = cookie.substring(0,index).trim();
+            value = cookie.substring(index+1).trim();
+
+            //find session id
+            if (name.equalsIgnoreCase(SESSION_ID_KEY)){
+                rawRequest.setSessionID(value);
+            }
+
+            list.add(new Cookie(name,value));
         }
     }
 

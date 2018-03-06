@@ -65,11 +65,6 @@ public class SessionManager {
         sessions.remove(standardSession);
     }
 
-    public void updateLastAccess(String id){
-
-    }
-
-
     public int getMaxInactiveInterval() {
         return maxInactiveInterval;
     }

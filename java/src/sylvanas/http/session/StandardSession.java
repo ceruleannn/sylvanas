@@ -16,6 +16,11 @@ public class StandardSession implements HttpSession{
 
     private String id = null;
 
+    /**
+     *  session最后访问时间
+     *  实际应设置access / endAccess 请求/结束请求 时间,
+     *  考虑到设计简单这里统一为 access 请求时间
+     */
     private long lastAccessedTime = 0;
 
     private long creationTime = 0;
@@ -31,6 +36,8 @@ public class StandardSession implements HttpSession{
     private boolean isNew = false;
 
     SessionManager sessionManager = null;
+
+    private StandardSessionFacade sessionFacade = null;
 
     public StandardSession(SessionManager sessionManager){
         this.sessionManager = sessionManager;
@@ -204,6 +211,17 @@ public class StandardSession implements HttpSession{
         //TODO LISTENER
     }
 
+    public void access(){
+        setLastAccessedTime(System.currentTimeMillis());
+    }
+
+    public StandardSessionFacade getSessionFacade(){
+        if (sessionFacade==null){
+            sessionFacade = new StandardSessionFacade(this);
+        }
+        return sessionFacade;
+    }
+
     public void setNew(boolean aNew) {
         isNew = aNew;
     }
@@ -230,5 +248,9 @@ public class StandardSession implements HttpSession{
 
     public void setExpired(boolean expired) {
         isExpired = expired;
+    }
+
+    public void setLastAccessedTime(long lastAccessedTime) {
+        this.lastAccessedTime = lastAccessedTime;
     }
 }

@@ -4,10 +4,10 @@ import sylvanas.util.http.Cookies;
 import sylvanas.util.http.MimeHeaders;
 import sylvanas.util.http.Parameters;
 
-import java.util.HashMap;
-
 /**
  * @Description:
+ * a RawRequest for process String
+ * 处理请求源 字符串的解析
  */
 public class RawRequest {
 
@@ -31,7 +31,7 @@ public class RawRequest {
 
     private Cookies cookies = null;
 
-    private final HashMap<String, Object> attributes = new HashMap<>();
+    private String sessionID = null;
 
 
     public RawRequest(String rawRequest){
@@ -82,7 +82,7 @@ public class RawRequest {
 
     public void parseCookies(){
 
-        cookies = new Cookies(mimeHeaders);
+        cookies = new Cookies(mimeHeaders, this);
     }
 
     public String getRawRequest() {
@@ -125,31 +125,11 @@ public class RawRequest {
         return cookies;
     }
 
-    public Object getAttribute(String name) {
-
-        return attributes.get(name);
-
+    public String getSessionID() {
+        return sessionID;
     }
 
-    public void setAttribute(String name, Object object) {
-
-        if (name == null) {
-            return;
-        }
-
-        if (object == null) {
-            removeAttribute(name);
-            return;
-        }
-
-        attributes.put(name, object);
-    }
-
-    public void removeAttribute(String name){
-
-        Object object = attributes.get(name);
-        if (object != null){
-            attributes.remove(object);
-        }
+    public void setSessionID(String sessionID) {
+        this.sessionID = sessionID;
     }
 }
