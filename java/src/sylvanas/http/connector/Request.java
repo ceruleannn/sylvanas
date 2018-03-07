@@ -428,11 +428,12 @@ public class Request implements HttpServletRequest {
             return session;
         }
 
-        if (context==null){
-            return null;
-        }
+       // if (context==null){
+        //    return null;
+       // }
 
-        SessionManager sessionManager = context.getSessionManager();
+        //SessionManager sessionManager = context.getSessionManager();
+        SessionManager sessionManager = null;
 
         if (sessionManager==null){
             return null;

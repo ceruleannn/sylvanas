@@ -1,5 +1,7 @@
 package sylvanas.container;
 
+import sylvanas.container.pipeline.Pipeline;
+import sylvanas.container.pipeline.StandardPipeline;
 import sylvanas.http.connector.Request;
 import sylvanas.http.connector.Response;
 
@@ -10,10 +12,14 @@ public abstract class ContainerBase implements Container, Handler{
 
     protected Handler nextHandler = null;
 
-    @Override
-    public void doChain(Request request, Response response){
+    protected final Pipeline pipeline = new StandardPipeline();
 
-        doHandle(request,response);
+    @Override
+    public final void doChain(Request request, Response response){
+
+        if (!doHandle(request,response)){
+            return;
+        }
 
         Handler next = getNextHandler();
         if (next!=null){
@@ -22,12 +28,13 @@ public abstract class ContainerBase implements Container, Handler{
     }
 
     /**
-     * specific
+     * specific task 具体的任务
      * @param request
      * @param response
+     * @return  do next or not
      */
     @Override
-    public abstract void doHandle(Request request, Response response);
+    public abstract boolean doHandle(Request request, Response response);
 
     @Override
     public void addNextHandler(Handler nextHandler) {

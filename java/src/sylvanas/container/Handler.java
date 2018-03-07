@@ -9,7 +9,7 @@ import sylvanas.http.connector.Response;
 public interface Handler {
 
 
-    public void doHandle(Request request, Response response);
+    public boolean doHandle(Request request, Response response);
 
     public void doChain(Request request, Response response);
 
