@@ -1,4 +1,4 @@
-package sylvanas.util;
+package sylvanas.util.resource;
 
 import java.io.*;
 

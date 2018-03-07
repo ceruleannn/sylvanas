@@ -1,6 +1,6 @@
 package sylvanas.util.http;
 
-import sylvanas.util.ResourceUtils;
+import sylvanas.util.resource.ResourceUtils;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;

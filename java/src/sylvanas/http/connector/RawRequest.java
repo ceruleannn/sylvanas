@@ -7,7 +7,7 @@ import sylvanas.util.http.Parameters;
 /**
  * @Description:
  * a RawRequest for process String
- * 处理请求源 字符串的解析
+ * 处理请求源 字符串的解析处理
  */
 public class RawRequest {
 
