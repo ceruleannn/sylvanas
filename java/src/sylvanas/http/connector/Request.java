@@ -452,6 +452,7 @@ public class Request implements HttpServletRequest {
         }
 
         session = sessionManager.createSession();
+        sessionManager.addSession(session);
 
 
         //TODO : RESPONSE ADD COOKIE FOR SESSION

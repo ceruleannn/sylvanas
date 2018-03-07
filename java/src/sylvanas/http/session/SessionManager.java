@@ -5,9 +5,14 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Description:
+ * 1.维护 map<id,session>
+ * 2.开启timer线程检查session超时
  */
 public class SessionManager {
 
@@ -23,9 +28,13 @@ public class SessionManager {
     }
 
     public void init(){
-        Thread thread = new Thread(new checkExpireThread(this));
-        thread.setDaemon(true);
-        thread.start();
+//        Thread thread = new Thread(new Timer(this));
+//        thread.setDaemon(true);
+//        thread.start();
+
+        ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
+        service.scheduleAtFixedRate(new Timer(this), 10, 30, TimeUnit.SECONDS);
+        //TODO: LIFECYCLE END THIS TASK
     }
 
     private String createSessionID(){
@@ -43,7 +52,10 @@ public class SessionManager {
 
         session.setNew(true);
         session.setValid(true);
-        session.setCreationTime(System.currentTimeMillis());
+
+        long now = System.currentTimeMillis();
+        session.setCreationTime(now);
+        session.setLastAccessedTime(now);
         session.setMaxInactiveInterval(this.maxInactiveInterval);
 
         String id = createSessionID();
@@ -58,6 +70,15 @@ public class SessionManager {
 
     public Collection<StandardSession> getSessions(){
         return sessions.values();
+    }
+
+    public void addSession(StandardSession standardSession){
+
+        String id = standardSession.getId();
+        if (sessions.containsKey(id)){
+            return;
+        }
+        sessions.put(id, standardSession);
     }
 
     public void removeSession(StandardSession standardSession){
@@ -75,13 +96,13 @@ public class SessionManager {
 }
 
 
-class checkExpireThread implements Runnable{
+class Timer implements Runnable{
 
     private SessionManager sessionManager = null;
 
     //TODO 中断 唤醒
     private boolean isStop = false;
-    public checkExpireThread(SessionManager sessionManager){
+    public Timer(SessionManager sessionManager){
         this.sessionManager = sessionManager;
     }
 
