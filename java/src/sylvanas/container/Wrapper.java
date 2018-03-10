@@ -6,7 +6,11 @@ import sylvanas.http.connector.Response;
 /**
  * @Description:
  */
-public class HostHandler extends ContainerBase{
+public class Wrapper extends ContainerBase {
+
+    public Wrapper(){
+        super();
+    }
 
     @Override
     public boolean doHandle(Request request, Response response) {

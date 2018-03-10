@@ -8,9 +8,9 @@ import sylvanas.http.connector.Response;
 /**
  * @Description:
  */
-public abstract class ContainerBase implements Container, Handler{
+public abstract class ContainerBase implements Container {
 
-    protected Handler nextHandler = null;
+    protected Container nextContainer = null;
 
     protected final Pipeline pipeline = new StandardPipeline();
 
@@ -21,7 +21,7 @@ public abstract class ContainerBase implements Container, Handler{
             return;
         }
 
-        Handler next = getNextHandler();
+        Container next = getNextContainer();
         if (next!=null){
             next.doChain(request, response);
         }
@@ -37,12 +37,12 @@ public abstract class ContainerBase implements Container, Handler{
     public abstract boolean doHandle(Request request, Response response);
 
     @Override
-    public void addNextHandler(Handler nextHandler) {
-        this.nextHandler = nextHandler;
+    public void addNextContainer(Container nextContainer) {
+        this.nextContainer = nextContainer;
     }
 
     @Override
-    public Handler getNextHandler() {
-        return nextHandler;
+    public Container getNextContainer() {
+        return nextContainer;
     }
 }

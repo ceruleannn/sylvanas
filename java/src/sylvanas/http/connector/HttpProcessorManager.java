@@ -17,14 +17,18 @@ public class HttpProcessorManager {
     private int maxSize = 100;
     private int coreSize = 30;
 
-    public HttpProcessorManager(){
+    private HttpConnector connector = null;
+
+    public HttpProcessorManager(HttpConnector connector){
+        this.connector = connector;
+
         executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
         executor.setMaximumPoolSize(maxSize);
         executor.setCorePoolSize(coreSize);
     }
 
     public void processSocket(Socket socket){
-        getExecutor().execute(new HttpProcessor(socket));
+        getExecutor().execute(new HttpProcessor(connector, socket));
     }
 
 

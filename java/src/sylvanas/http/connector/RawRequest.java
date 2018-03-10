@@ -74,6 +74,7 @@ public class RawRequest {
 
     public void parseParameters(){
 
+        // 根据 Content-Type 判断请求体是否是请求参数
         boolean isParseBody = "application/x-www-form-urlencoded"
                 .equalsIgnoreCase(mimeHeaders.getHeader("Content-Type"));
         parameters = new Parameters(isParseBody,query,rawBody);

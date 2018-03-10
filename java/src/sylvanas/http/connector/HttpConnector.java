@@ -1,5 +1,7 @@
 package sylvanas.http.connector;
 
+import sylvanas.container.Container;
+
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.ServerSocket;
@@ -18,10 +20,12 @@ public class HttpConnector implements Runnable{
     private int port = 8080;
     private String ip = "127.0.0.1";
     private boolean stopped = false;
-    HttpProcessorManager httpProcessorManager = null;
+    private HttpProcessorManager httpProcessorManager = null;
+    private Container container = null;
+
 
     public HttpConnector(){
-        httpProcessorManager = new HttpProcessorManager();
+        httpProcessorManager = new HttpProcessorManager(this);
     }
 
     @Override
@@ -49,5 +53,13 @@ public class HttpConnector implements Runnable{
     public void start(){
         Thread thread = new Thread(this);
         thread.start();
+    }
+
+    public Container getContainer() {
+        return container;
+    }
+
+    public void setContainer(Container container) {
+        this.container = container;
     }
 }

@@ -18,6 +18,8 @@ public class Request implements HttpServletRequest {
 
     private RawRequest rawRequest = null;
 
+    private Response response = null;
+
     private StandardSession session = null;
 
     private final HashMap<String, Object> attributes = new HashMap<>();
@@ -1145,5 +1147,13 @@ public class Request implements HttpServletRequest {
     @Override
     public DispatcherType getDispatcherType() {
         return null;
+    }
+
+    public Response getResponse() {
+        return response;
+    }
+
+    public void setResponse(Response response) {
+        this.response = response;
     }
 }

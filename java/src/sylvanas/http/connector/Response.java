@@ -12,6 +12,16 @@ import java.util.Locale;
  * @Description:
  */
 public class Response implements HttpServletResponse{
+
+    private RawResponse rawResponse = null;
+
+    private Request request = null;
+
+    public Response(RawResponse rawResponse){
+       this.rawResponse = rawResponse;
+    }
+
+
     @Override
     public void addCookie(Cookie cookie) {
 
@@ -190,5 +200,13 @@ public class Response implements HttpServletResponse{
     @Override
     public Locale getLocale() {
         return null;
+    }
+
+    public Request getRequest() {
+        return request;
+    }
+
+    public void setRequest(Request request) {
+        this.request = request;
     }
 }
