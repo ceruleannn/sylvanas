@@ -23,16 +23,16 @@ import java.util.Collection;
  * TODO SERVLET3 - Add comments
  */
 public interface JspPropertyGroupDescriptor {
-    public Collection<String> getUrlPatterns();
-    public String getElIgnored();
-    public String getPageEncoding();
-    public String getScriptingInvalid();
-    public String getIsXml();
-    public Collection<String> getIncludePreludes();
-    public Collection<String> getIncludeCodas();
-    public String getDeferredSyntaxAllowedAsLiteral();
-    public String getTrimDirectiveWhitespaces();
-    public String getDefaultContentType();
-    public String getBuffer();
-    public String getErrorOnUndeclaredNamespace();
+    Collection<String> getUrlPatterns();
+    String getElIgnored();
+    String getPageEncoding();
+    String getScriptingInvalid();
+    String getIsXml();
+    Collection<String> getIncludePreludes();
+    Collection<String> getIncludeCodas();
+    String getDeferredSyntaxAllowedAsLiteral();
+    String getTrimDirectiveWhitespaces();
+    String getDefaultContentType();
+    String getBuffer();
+    String getErrorOnUndeclaredNamespace();
 }

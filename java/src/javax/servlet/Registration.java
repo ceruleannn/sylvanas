@@ -25,9 +25,9 @@ import java.util.Set;
  */
 public interface Registration {
     
-    public String getName();
+    String getName();
     
-    public String getClassName();
+    String getClassName();
 
     /**
      * 
@@ -37,9 +37,9 @@ public interface Registration {
      * @throws IllegalArgumentException
      * @throws IllegalStateException
      */
-    public boolean setInitParameter(String name, String value);
+    boolean setInitParameter(String name, String value);
 
-    public String getInitParameter(String name);
+    String getInitParameter(String name);
     
     /**
      * 
@@ -48,17 +48,17 @@ public interface Registration {
      * @throws IllegalArgumentException
      * @throws IllegalStateException
      */
-    public Set<String> setInitParameters(Map<String, String> initParameters);
+    Set<String> setInitParameters(Map<String, String> initParameters);
 
-    public Map<String, String> getInitParameters();
+    Map<String, String> getInitParameters();
 
-    public interface Dynamic extends Registration {
+    interface Dynamic extends Registration {
         
         /**
          * 
          * @param isAsyncSupported
          * @throws IllegalStateException
          */
-        public void setAsyncSupported(boolean isAsyncSupported);
+        void setAsyncSupported(boolean isAsyncSupported);
     }
 }

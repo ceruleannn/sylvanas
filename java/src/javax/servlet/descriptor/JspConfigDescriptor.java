@@ -23,6 +23,6 @@ import java.util.Collection;
  * TODO SERVLET3 - Add comments
  */
 public interface JspConfigDescriptor {
-    public Collection<TaglibDescriptor> getTaglibs();
-    public Collection<JspPropertyGroupDescriptor> getJspPropertyGroups();
+    Collection<TaglibDescriptor> getTaglibs();
+    Collection<JspPropertyGroupDescriptor> getJspPropertyGroups();
 }

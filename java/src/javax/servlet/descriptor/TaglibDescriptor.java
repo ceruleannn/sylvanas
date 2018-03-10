@@ -21,6 +21,6 @@ package javax.servlet.descriptor;
  * TODO SERVLET3 - Add comments
  */
 public interface TaglibDescriptor {
-    public String getTaglibURI();
-    public String getTaglibLocation();
+    String getTaglibURI();
+    String getTaglibLocation();
 }

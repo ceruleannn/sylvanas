@@ -28,54 +28,54 @@ public interface SessionCookieConfig {
      * @param name
      * @throws IllegalStateException
      */
-    public void setName(String name);
+    void setName(String name);
     
-    public String getName();
+    String getName();
     
     /**
      * 
      * @param domain
      * @throws IllegalStateException
      */
-    public void setDomain(String domain);
+    void setDomain(String domain);
     
-    public String getDomain();
+    String getDomain();
     
     /**
      * 
      * @param path
      * @throws IllegalStateException
      */
-    public void setPath(String path);
+    void setPath(String path);
     
-    public String getPath();
+    String getPath();
     
     /**
      * 
      * @param comment
      * @throws IllegalStateException
      */
-    public void setComment(String comment);
+    void setComment(String comment);
     
-    public String getComment();
+    String getComment();
     
     /**
      * 
      * @param httpOnly
      * @throws IllegalStateException
      */
-    public void setHttpOnly(boolean httpOnly);
+    void setHttpOnly(boolean httpOnly);
     
-    public boolean isHttpOnly();
+    boolean isHttpOnly();
     
     /**
      * 
      * @param secure
      * @throws IllegalStateException
      */
-    public void setSecure(boolean secure);
+    void setSecure(boolean secure);
     
-    public boolean isSecure();
+    boolean isSecure();
 
     /**
      * Sets the maximum age.
@@ -83,8 +83,8 @@ public interface SessionCookieConfig {
      * @param MaxAge the maximum age to set
      * @throws IllegalStateException
      */
-    public void setMaxAge(int MaxAge);
+    void setMaxAge(int MaxAge);
     
-    public int getMaxAge();
+    int getMaxAge();
     
 }

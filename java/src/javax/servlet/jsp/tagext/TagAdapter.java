@@ -133,7 +133,7 @@ public class TagAdapter implements Tag {
      *             never thrown
      */
     @Override
-    public int doStartTag() throws JspException {
+    public int doStartTag() {
         throw new UnsupportedOperationException(
                 "Illegal to invoke doStartTag() on TagAdapter wrapper");
     }
@@ -148,7 +148,7 @@ public class TagAdapter implements Tag {
      *             never thrown
      */
     @Override
-    public int doEndTag() throws JspException {
+    public int doEndTag() {
         throw new UnsupportedOperationException(
                 "Illegal to invoke doEndTag() on TagAdapter wrapper");
     }

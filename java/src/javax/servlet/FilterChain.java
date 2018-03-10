@@ -43,7 +43,7 @@ public interface FilterChain {
      * 
      * @since 2.3
      */
-    public void doFilter(ServletRequest request, ServletResponse response)
+    void doFilter(ServletRequest request, ServletResponse response)
             throws IOException, ServletException;
 
 }

@@ -172,7 +172,7 @@ public abstract class GenericServlet implements Servlet, ServletConfig,
      *                if an exception occurs that interrupts the servlet's
      *                normal operation
      */
-    public void init() throws ServletException {
+    public void init() {
         // NOOP by default
     }
 

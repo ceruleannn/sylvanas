@@ -59,7 +59,7 @@ public class CompositeELResolver extends ELResolver {
 
     @Override
     public Object getValue(ELContext context, Object base, Object property)
-            throws NullPointerException, PropertyNotFoundException, ELException {
+            throws NullPointerException, ELException {
         context.setPropertyResolved(false);
         int sz = this.size;
         Object result = null;
@@ -75,7 +75,6 @@ public class CompositeELResolver extends ELResolver {
     @Override
     public void setValue(ELContext context, Object base, Object property,
             Object value) throws NullPointerException,
-            PropertyNotFoundException, PropertyNotWritableException,
             ELException {
         context.setPropertyResolved(false);
         int sz = this.size;
@@ -89,7 +88,7 @@ public class CompositeELResolver extends ELResolver {
 
     @Override
     public boolean isReadOnly(ELContext context, Object base, Object property)
-            throws NullPointerException, PropertyNotFoundException, ELException {
+            throws NullPointerException, ELException {
         context.setPropertyResolved(false);
         int sz = this.size;
         boolean readOnly = false;
@@ -123,7 +122,7 @@ public class CompositeELResolver extends ELResolver {
 
     @Override
     public Class<?> getType(ELContext context, Object base, Object property)
-            throws NullPointerException, PropertyNotFoundException, ELException {
+            throws NullPointerException, ELException {
         context.setPropertyResolved(false);
         int sz = this.size;
         Class<?> type;

@@ -1,7 +1,7 @@
 package sylvanas.container;
 
-import sylvanas.http.connector.Request;
-import sylvanas.http.connector.Response;
+import sylvanas.connector.Request;
+import sylvanas.connector.Response;
 
 /**
  * @Description:

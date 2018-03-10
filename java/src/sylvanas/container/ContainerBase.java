@@ -2,8 +2,8 @@ package sylvanas.container;
 
 import sylvanas.container.pipeline.Pipeline;
 import sylvanas.container.pipeline.StandardPipeline;
-import sylvanas.http.connector.Request;
-import sylvanas.http.connector.Response;
+import sylvanas.connector.Request;
+import sylvanas.connector.Response;
 
 /**
  * @Description:

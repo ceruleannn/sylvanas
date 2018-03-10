@@ -1,4 +1,4 @@
-package sylvanas.http.session;
+package sylvanas.connector.session;
 
 import java.util.Collection;
 import java.util.Iterator;

@@ -27,11 +27,11 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 
 public @interface WebServiceRef {
-    public String name() default "";
+    String name() default "";
     @SuppressWarnings("rawtypes") // Can't use Class<?> because API needs to match specification
-    public Class type() default Object.class;
+    Class type() default Object.class;
     @SuppressWarnings("rawtypes") // Can't use Class<?> because API needs to match specification
-    public Class value() default Object.class;
-    public String wsdlLocation() default "";
-    public String mappedName() default "";
+    Class value() default Object.class;
+    String wsdlLocation() default "";
+    String mappedName() default "";
 }

@@ -1,6 +1,6 @@
 package sylvanas.util.http;
 
-import sylvanas.http.connector.RawRequest;
+import sylvanas.connector.RawRequest;
 
 import javax.servlet.http.Cookie;
 import java.util.ArrayList;

@@ -1,15 +1,25 @@
 package sylvanas.container;
 
-import sylvanas.http.connector.Request;
-import sylvanas.http.connector.Response;
+import sylvanas.connector.Request;
+import sylvanas.connector.Response;
 
 /**
  * @Description:
  */
 public class Host extends ContainerBase{
 
+    protected Mapper mapper = null;
+
     public Host(){
         super();
+    }
+
+    public void init(){
+        mapper = new Mapper();
+
+        // digester.read deploy
+        // Context context = new Context()
+        // mapper.add(projectName, context)
     }
 
     @Override

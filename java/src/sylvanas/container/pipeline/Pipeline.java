@@ -5,11 +5,11 @@ package sylvanas.container.pipeline;
  */
 public interface Pipeline {
 
-    public void addValue(Valve valve);
+    void addValue(Valve valve);
 
-    public Valve getFirstValue();
+    Valve getFirstValue();
 
-    public void removeValue(Valve valve);
+    void removeValue(Valve valve);
 
-    public Valve[] getValues();
+    Valve[] getValues();
 }

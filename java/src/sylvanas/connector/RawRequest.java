@@ -1,4 +1,4 @@
-package sylvanas.http.connector;
+package sylvanas.connector;
 
 import sylvanas.util.http.Cookies;
 import sylvanas.util.http.MimeHeaders;
@@ -11,31 +11,83 @@ import sylvanas.util.http.Parameters;
  */
 public class RawRequest {
 
-    private String rawRequest = null;
+    /**
+     *  Whole Request String / 全部请求字符串
+     */
+    private String raw = null;
 
+
+    /**
+     *  Request Line / 请求行
+     */
     private String rawRequestLine = null;
 
+
+    /**
+     *  Request Headers / 请求头
+     */
     private String rawHeaders = null;
 
+
+    /**
+     *  Request Body / 请求体
+     */
     private String rawBody = null;
 
+
+    /**
+     *  Request Method / 请求方法
+     */
     private String method = null;
 
+
+    /**
+     *  Request Path / 请求路径
+     */
     private String query = null;
 
+
+    /**
+     *  Request Protocol / 请求协议
+     */
     private String protocol = null;
 
+
+    /**
+     *  Request Parameters / 请求参数
+     */
     private Parameters parameters = null;
 
+
+    /**
+     *  Request MimeHeaders / 请求头
+     */
     private MimeHeaders mimeHeaders = null;
 
+
+    /**
+     *  Request Cookies / 缓存饼干 -_-||
+     */
     private Cookies cookies = null;
 
+
+    /**
+     *  Request SessionID / 会话ID
+     */
     private String sessionID = null;
 
 
-    public RawRequest(String rawRequest){
-        this.rawRequest = rawRequest;
+    public RawRequest(String raw){
+        this.raw = raw;
+
+    }
+
+    public void parse(){
+
+        if (raw == null){
+            throw new IllegalArgumentException("raw request can not be null");
+        }
+
         parseDepart();
         parseRequestLine();
         parseHeaders();
@@ -43,17 +95,17 @@ public class RawRequest {
         parseCookies();
     }
 
-    public void parseDepart(){
-        rawRequestLine = rawRequest.substring(0, rawRequest.indexOf("\r\n"));
+    private void parseDepart(){
+        rawRequestLine = raw.substring(0, raw.indexOf("\r\n"));
 
-        String temp = rawRequest.substring(rawRequestLine.length()+2);
+        String temp = raw.substring(rawRequestLine.length()+2);
         int index = temp.indexOf("\r\n\r\n");
         rawHeaders = temp.substring(0,index);
         rawBody = temp.substring(index+4);
 
     }
 
-    public void parseRequestLine(){
+    private void parseRequestLine(){
 
         String[] result = rawRequestLine.split(" ");
 
@@ -67,12 +119,12 @@ public class RawRequest {
 
     }
 
-    public void parseHeaders(){
+    private void parseHeaders(){
 
         mimeHeaders = new MimeHeaders(rawHeaders);
     }
 
-    public void parseParameters(){
+    private void parseParameters(){
 
         // 根据 Content-Type 判断请求体是否是请求参数
         boolean isParseBody = "application/x-www-form-urlencoded"
@@ -81,13 +133,13 @@ public class RawRequest {
         parameters.parse();
     }
 
-    public void parseCookies(){
+    private void parseCookies(){
 
         cookies = new Cookies(mimeHeaders, this);
     }
 
-    public String getRawRequest() {
-        return rawRequest;
+    public String getRaw() {
+        return raw;
     }
 
     public String getRawRequestLine() {

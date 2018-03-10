@@ -1,9 +1,8 @@
-package sylvanas.http.connector;
+package sylvanas.connector;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Locale;
@@ -53,17 +52,17 @@ public class Response implements HttpServletResponse{
     }
 
     @Override
-    public void sendError(int sc, String msg) throws IOException {
+    public void sendError(int sc, String msg) {
 
     }
 
     @Override
-    public void sendError(int sc) throws IOException {
+    public void sendError(int sc) {
 
     }
 
     @Override
-    public void sendRedirect(String location) throws IOException {
+    public void sendRedirect(String location) {
 
     }
 
@@ -138,12 +137,12 @@ public class Response implements HttpServletResponse{
     }
 
     @Override
-    public ServletOutputStream getOutputStream() throws IOException {
+    public ServletOutputStream getOutputStream() {
         return null;
     }
 
     @Override
-    public PrintWriter getWriter() throws IOException {
+    public PrintWriter getWriter() {
         return null;
     }
 
@@ -173,7 +172,7 @@ public class Response implements HttpServletResponse{
     }
 
     @Override
-    public void flushBuffer() throws IOException {
+    public void flushBuffer() {
 
     }
 

@@ -83,8 +83,8 @@ public interface IterationTag extends Tag {
      * to be the same as the, now deprecated, BodyTag.EVAL_BODY_TAG,
      * 
      */
- 
-    public static final int EVAL_BODY_AGAIN = 2;
+
+    int EVAL_BODY_AGAIN = 2;
 
     /**
      * Process body (re)evaluation.  This method is invoked by the

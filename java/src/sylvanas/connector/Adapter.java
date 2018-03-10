@@ -1,6 +1,10 @@
-package sylvanas.container;
+package sylvanas.connector;
 
-import sylvanas.http.connector.*;
+import sylvanas.container.Container;
+import sylvanas.container.Context;
+import sylvanas.container.Host;
+import sylvanas.container.Wrapper;
+import sylvanas.connector.http.*;
 
 /**
  * @Description:
@@ -25,10 +29,10 @@ public class Adapter {
         Request request = new Request(rawRequest);
         Response response = new Response(rawResponse);
 
+        request.parse();
 
         request.setResponse(response);
         response.setRequest(request);
-
 
         connector.getContainer().doChain(request, response);
     }

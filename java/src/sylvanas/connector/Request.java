@@ -1,7 +1,7 @@
-package sylvanas.http.connector;
+package sylvanas.connector;
 
-import sylvanas.http.session.SessionManager;
-import sylvanas.http.session.StandardSession;
+import sylvanas.connector.session.SessionManager;
+import sylvanas.connector.session.StandardSession;
 
 import javax.servlet.*;
 import javax.servlet.http.*;
@@ -28,6 +28,10 @@ public class Request implements HttpServletRequest {
         this.rawRequest = rawRequest;
     }
 
+
+    public void parse(){
+        rawRequest.parse();
+    }
 
     /**
      * Returns the name of the authentication scheme used to protect the
@@ -545,7 +549,7 @@ public class Request implements HttpServletRequest {
      * @since Servlet 3.0
      */
     @Override
-    public boolean authenticate(HttpServletResponse response) throws IOException, ServletException {
+    public boolean authenticate(HttpServletResponse response) {
         return false;
     }
 
@@ -563,7 +567,7 @@ public class Request implements HttpServletRequest {
      * @since Servlet 3.0
      */
     @Override
-    public void login(String username, String password) throws ServletException {
+    public void login(String username, String password) {
 
     }
 
@@ -574,7 +578,7 @@ public class Request implements HttpServletRequest {
      * @since Servlet 3.0
      */
     @Override
-    public void logout() throws ServletException {
+    public void logout() {
 
     }
 
@@ -588,7 +592,7 @@ public class Request implements HttpServletRequest {
      * @since Servlet 3.0
      */
     @Override
-    public Collection<Part> getParts() throws IOException, IllegalStateException, ServletException {
+    public Collection<Part> getParts() throws IllegalStateException {
         return null;
     }
 
@@ -604,7 +608,7 @@ public class Request implements HttpServletRequest {
      * @since Servlet 3.0
      */
     @Override
-    public Part getPart(String name) throws IOException, IllegalStateException, ServletException {
+    public Part getPart(String name) throws IllegalStateException {
         return null;
     }
 
@@ -672,7 +676,7 @@ public class Request implements HttpServletRequest {
      * @throws UnsupportedEncodingException if this is not a valid encoding
      */
     @Override
-    public void setCharacterEncoding(String env) throws UnsupportedEncodingException {
+    public void setCharacterEncoding(String env) {
 
     }
 
@@ -714,7 +718,7 @@ public class Request implements HttpServletRequest {
      * @throws IOException           if an input or output exception occurred
      */
     @Override
-    public ServletInputStream getInputStream() throws IOException {
+    public ServletInputStream getInputStream() {
         return null;
     }
 
@@ -813,7 +817,7 @@ public class Request implements HttpServletRequest {
 
     /**
      * Returns the name of the scheme used to make this request, for example,
-     * <code>http</code>, <code>https</code>, or <code>ftp</code>. Different
+     * <code>connector</code>, <code>https</code>, or <code>ftp</code>. Different
      * schemes have different rules for constructing URLs, as noted in RFC 1738.
      *
      * @return a <code>String</code> containing the name of the scheme used to
@@ -863,7 +867,7 @@ public class Request implements HttpServletRequest {
      * @see #getInputStream
      */
     @Override
-    public BufferedReader getReader() throws IOException {
+    public BufferedReader getReader() {
         return null;
     }
 

@@ -157,7 +157,7 @@ public final class MimeHeaders {
 
         Enumeration<String> enumeration = getHeaderNames();
         while (enumeration.hasMoreElements()) {
-            String name = (String) enumeration.nextElement();
+            String name = enumeration.nextElement();
             String value = getHeader(name);
 
             System.out.println(name+" #-#"+value);

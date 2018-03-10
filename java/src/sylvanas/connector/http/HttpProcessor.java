@@ -1,6 +1,8 @@
-package sylvanas.http.connector;
+package sylvanas.connector.http;
 
-import sylvanas.container.Adapter;
+import sylvanas.connector.Adapter;
+import sylvanas.connector.RawRequest;
+import sylvanas.connector.RawResponse;
 
 import java.io.*;
 import java.net.Socket;

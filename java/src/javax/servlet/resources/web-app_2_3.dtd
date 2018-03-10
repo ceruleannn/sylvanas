@@ -393,7 +393,7 @@ Example:
 <!ELEMENT home (#PCDATA)>
 
 <!--
-The http-method contains an HTTP method (GET | POST |...).
+The connector-method contains an HTTP method (GET | POST |...).
 
 Used in: web-resource-collection
 -->

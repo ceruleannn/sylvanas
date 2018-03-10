@@ -67,7 +67,7 @@ public interface ServletResponse {
      * @return a <code>String</code> specifying the name of the character
      *         encoding, for example, <code>UTF-8</code>
      */
-    public String getCharacterEncoding();
+    String getCharacterEncoding();
 
     /**
      * Returns the content type used for the MIME body sent in this response.
@@ -83,7 +83,7 @@ public interface ServletResponse {
      *         <code>text/html; charset=UTF-8</code>, or null
      * @since 2.4
      */
-    public String getContentType();
+    String getContentType();
 
     /**
      * Returns a {@link ServletOutputStream} suitable for writing binary data in
@@ -101,7 +101,7 @@ public interface ServletResponse {
      *                if an input or output exception occurred
      * @see #getWriter
      */
-    public ServletOutputStream getOutputStream() throws IOException;
+    ServletOutputStream getOutputStream() throws IOException;
 
     /**
      * Returns a <code>PrintWriter</code> object that can send character text to
@@ -130,7 +130,7 @@ public interface ServletResponse {
      * @see #getOutputStream
      * @see #setCharacterEncoding
      */
-    public PrintWriter getWriter() throws IOException;
+    PrintWriter getWriter() throws IOException;
 
     /**
      * Sets the character encoding (MIME charset) of the response being sent to
@@ -161,7 +161,7 @@ public interface ServletResponse {
      * @see #setContentType #setLocale
      * @since 2.4
      */
-    public void setCharacterEncoding(String charset);
+    void setCharacterEncoding(String charset);
 
     /**
      * Sets the length of the content body in the response In HTTP servlets,
@@ -171,7 +171,7 @@ public interface ServletResponse {
      *            an integer specifying the length of the content being returned
      *            to the client; sets the Content-Length header
      */
-    public void setContentLength(int len);
+    void setContentLength(int len);
 
     /**
      * Sets the content type of the response being sent to the client, if the
@@ -199,7 +199,7 @@ public interface ServletResponse {
      * @see #getOutputStream
      * @see #getWriter
      */
-    public void setContentType(String type);
+    void setContentType(String type);
 
     /**
      * Sets the preferred buffer size for the body of the response. The servlet
@@ -224,7 +224,7 @@ public interface ServletResponse {
      * @see #isCommitted
      * @see #reset
      */
-    public void setBufferSize(int size);
+    void setBufferSize(int size);
 
     /**
      * Returns the actual buffer size used for the response. If no buffering is
@@ -236,7 +236,7 @@ public interface ServletResponse {
      * @see #isCommitted
      * @see #reset
      */
-    public int getBufferSize();
+    int getBufferSize();
 
     /**
      * Forces any content in the buffer to be written to the client. A call to
@@ -248,7 +248,7 @@ public interface ServletResponse {
      * @see #isCommitted
      * @see #reset
      */
-    public void flushBuffer() throws IOException;
+    void flushBuffer() throws IOException;
 
     /**
      * Clears the content of the underlying buffer in the response without
@@ -261,7 +261,7 @@ public interface ServletResponse {
      * @see #reset
      * @since 2.3
      */
-    public void resetBuffer();
+    void resetBuffer();
 
     /**
      * Returns a boolean indicating if the response has been committed. A
@@ -273,7 +273,7 @@ public interface ServletResponse {
      * @see #flushBuffer
      * @see #reset
      */
-    public boolean isCommitted();
+    boolean isCommitted();
 
     /**
      * Clears any data that exists in the buffer as well as the status code and
@@ -287,7 +287,7 @@ public interface ServletResponse {
      * @see #flushBuffer
      * @see #isCommitted
      */
-    public void reset();
+    void reset();
 
     /**
      * Sets the locale of the response, if the response has not been committed
@@ -323,7 +323,7 @@ public interface ServletResponse {
      * @see #setContentType
      * @see #setCharacterEncoding
      */
-    public void setLocale(Locale loc);
+    void setLocale(Locale loc);
 
     /**
      * Returns the locale specified for this response using the
@@ -333,6 +333,6 @@ public interface ServletResponse {
      * 
      * @see #setLocale
      */
-    public Locale getLocale();
+    Locale getLocale();
 
 }

@@ -1,4 +1,4 @@
-package sylvanas.http.connector;
+package sylvanas.connector.http;
 
 import java.net.Socket;
 import java.util.concurrent.ThreadPoolExecutor;

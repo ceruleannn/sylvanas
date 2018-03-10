@@ -30,8 +30,8 @@ import java.util.EventListener;
 public interface HttpSessionActivationListener extends EventListener { 
 
     /** Notification that the session is about to be passivated.*/
-    public void sessionWillPassivate(HttpSessionEvent se); 
+    void sessionWillPassivate(HttpSessionEvent se);
     /** Notification that the session has just been activated.*/
-    public void sessionDidActivate(HttpSessionEvent se);
+    void sessionDidActivate(HttpSessionEvent se);
 } 
 

@@ -1,18 +1,18 @@
 package sylvanas.container.pipeline;
 
-import sylvanas.http.connector.Request;
-import sylvanas.http.connector.Response;
+import sylvanas.connector.Request;
+import sylvanas.connector.Response;
 
 /**
  * @Description:
  */
 public interface Valve {
 
-    public Valve getNext();
+    Valve getNext();
 
-    public void setNext(Valve next);
+    void setNext(Valve next);
 
-    public void invoke(Request request, Response response);
+    void invoke(Request request, Response response);
 
-    public String getInfo();
+    String getInfo();
 }

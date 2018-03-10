@@ -1,7 +1,7 @@
 package sylvanas.container;
 
-import sylvanas.http.connector.Request;
-import sylvanas.http.connector.Response;
+import sylvanas.connector.Request;
+import sylvanas.connector.Response;
 
 /**
  * @Description:
@@ -9,12 +9,12 @@ import sylvanas.http.connector.Response;
 public interface Container {
 
 
-    public boolean doHandle(Request request, Response response);
+    boolean doHandle(Request request, Response response);
 
-    public void doChain(Request request, Response response);
+    void doChain(Request request, Response response);
 
-    public void addNextContainer(Container container);
+    void addNextContainer(Container container);
 
-    public Container getNextContainer();
+    Container getNextContainer();
 
 }

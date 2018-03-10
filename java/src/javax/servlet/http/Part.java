@@ -33,24 +33,24 @@ public interface Part {
      * Obtain an <code>InputStream</code> that can be used to retrieve the
      * contents of the file.
      */
-    public InputStream getInputStream() throws IOException;
+    InputStream getInputStream() throws IOException;
 
     /**
      * Obtain the content type passed by the browser or <code>null</code> if not
      * defined.
      */
-    public String getContentType();
+    String getContentType();
 
     /**
      * Obtain the name of the field in the multipart form corresponding to this
      * part.
      */
-    public String getName();
+    String getName();
 
     /**
      * Obtain the size of this part.
      */
-    public long getSize();
+    long getSize();
 
     /**
      * A convenience method to write an uploaded part to disk. The client code
@@ -67,7 +67,7 @@ public interface Part {
      *                  stored. Relative locations are relative to {@link
      *                  javax.servlet.MultipartConfigElement#getLocation()}
      */
-    public void write(String fileName) throws IOException;
+    void write(String fileName) throws IOException;
 
     /**
      * Deletes the underlying storage for a part, including deleting any
@@ -80,7 +80,7 @@ public interface Part {
      * associated storage when the associated request has finished processing.
      * Behaviour of other containers may be different.
      */
-    public void delete() throws IOException;
+    void delete() throws IOException;
     
     /**
      * Obtains the value of the specified part header as a String. If there are
@@ -91,17 +91,17 @@ public interface Part {
      * @return      The header value or <code>null</code> if the header is not
      *              present
      */
-    public String getHeader(String name);
+    String getHeader(String name);
 
     /**
      * Obtain all the values of the specified part header. If the part did not
      * include any headers of the specified name, this method returns an empty
      * Collection. The header name is case insensitive.
      */
-    public Collection<String> getHeaders(String name);
+    Collection<String> getHeaders(String name);
 
     /**
      * Returns a Collection of all the header names provided for this part.
      */
-    public Collection<String> getHeaderNames();
+    Collection<String> getHeaderNames();
 }

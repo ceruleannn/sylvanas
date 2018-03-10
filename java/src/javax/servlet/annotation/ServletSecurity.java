@@ -76,7 +76,7 @@ public @interface ServletSecurity {
      * The default constraint to apply to requests not handled by specific
      * method constraints
      * 
-     * @return http constraint
+     * @return connector constraint
      */
     HttpConstraint value() default @HttpConstraint;
 
@@ -84,7 +84,7 @@ public @interface ServletSecurity {
      * An array of HttpMethodContraint objects to which the security constraint
      * will be applied
      * 
-     * @return array of http method constraint
+     * @return array of connector method constraint
      */
     HttpMethodConstraint[] httpMethodConstraints() default {};
 }

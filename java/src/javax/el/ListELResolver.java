@@ -40,7 +40,7 @@ public class ListELResolver extends ELResolver {
 
     @Override
     public Object getValue(ELContext context, Object base, Object property)
-            throws NullPointerException, PropertyNotFoundException, ELException {
+            throws NullPointerException, ELException {
         if (context == null) {
             throw new NullPointerException();
         }
@@ -60,7 +60,7 @@ public class ListELResolver extends ELResolver {
 
     @Override
     public Class<?> getType(ELContext context, Object base, Object property)
-            throws NullPointerException, PropertyNotFoundException, ELException {
+            throws NullPointerException, ELException {
         if (context == null) {
             throw new NullPointerException();
         }
@@ -82,7 +82,6 @@ public class ListELResolver extends ELResolver {
     @Override
     public void setValue(ELContext context, Object base, Object property,
             Object value) throws NullPointerException,
-            PropertyNotFoundException, PropertyNotWritableException,
             ELException {
         if (context == null) {
             throw new NullPointerException();
@@ -95,8 +94,8 @@ public class ListELResolver extends ELResolver {
 
             if (this.readOnly) {
                 throw new PropertyNotWritableException(Util.message(context,
-                        "resolverNotWriteable", new Object[] { base.getClass()
-                                .getName() }));
+                        "resolverNotWriteable", base.getClass()
+                                .getName()));
             }
 
             int idx = coerce(property);
@@ -112,7 +111,7 @@ public class ListELResolver extends ELResolver {
 
     @Override
     public boolean isReadOnly(ELContext context, Object base, Object property)
-            throws NullPointerException, PropertyNotFoundException, ELException {
+            throws NullPointerException, ELException {
         if (context == null) {
             throw new NullPointerException();
         }

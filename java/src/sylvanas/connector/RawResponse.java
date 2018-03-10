@@ -1,4 +1,4 @@
-package sylvanas.http.connector;
+package sylvanas.connector;
 
 import java.io.IOException;
 import java.io.OutputStream;
@@ -25,7 +25,7 @@ public class RawResponse {
 
     public void doWrite() throws IOException{
 
-        String raw = rawRequest.getRawRequest();
+        String raw = rawRequest.getRaw();
         OutputStream out = socket.getOutputStream();
 
         raw = "<h1>" + raw + "</h1>";

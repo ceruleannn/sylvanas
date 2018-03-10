@@ -27,5 +27,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 
 public @interface WebServiceRefs {
-    public WebServiceRef[] value();
+    WebServiceRef[] value();
 }

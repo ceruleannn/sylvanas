@@ -34,7 +34,7 @@ import javax.servlet.ServletInputStream;
 public class HttpUtils {
 
     private static final String LSTRING_FILE =
-        "javax.servlet.http.LocalStrings";
+        "javax.servlet.connector.LocalStrings";
     private static ResourceBundle lStrings =
         ResourceBundle.getBundle(LSTRING_FILE);
         
@@ -264,10 +264,10 @@ public class HttpUtils {
         int port = req.getServerPort ();
         String urlPath = req.getRequestURI();
         
-        url.append (scheme);                // http, https
+        url.append (scheme);                // connector, https
         url.append ("://");
         url.append (req.getServerName ());
-        if ((scheme.equals ("http") && port != 80)
+        if ((scheme.equals ("connector") && port != 80)
                 || (scheme.equals ("https") && port != 443)) {
             url.append (':');
             url.append (req.getServerPort ());

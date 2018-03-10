@@ -1,4 +1,4 @@
-package sylvanas.http.connector;
+package sylvanas.connector.http;
 
 import sylvanas.container.Container;
 
@@ -16,7 +16,7 @@ public class HttpConnector implements Runnable{
 
     //TODO: ServerSocketFactory
 
-    private String protocol = "http";
+    private String protocol = "connector";
     private int port = 8080;
     private String ip = "127.0.0.1";
     private boolean stopped = false;

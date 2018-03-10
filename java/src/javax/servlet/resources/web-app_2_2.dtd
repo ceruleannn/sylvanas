@@ -311,7 +311,7 @@ collection
 <!ELEMENT web-resource-name (#PCDATA)>
 
 <!--
-The http-method contains an HTTP method (GET | POST |...)
+The connector-method contains an HTTP method (GET | POST |...)
 -->
 
 <!ELEMENT http-method (#PCDATA)>

@@ -2,11 +2,10 @@ package sylvanas.bootstrap;
 
 import sylvanas.container.Container;
 import sylvanas.container.Host;
-import sylvanas.http.connector.HttpConnector;
+import sylvanas.connector.http.HttpConnector;
 
 /**
- * @Date:
- * @Modified:
+ * Sylvanas 1.0
  *
  *
  *
@@ -19,3 +18,8 @@ public class Server {
         connector.start();
     }
 }
+
+// TODO
+// 1.DIGESTER MAPPER
+// 2.DEPLOYER RESOURCE
+// 3.LIFESTYLE
