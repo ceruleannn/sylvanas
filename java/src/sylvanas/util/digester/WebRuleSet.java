@@ -20,6 +20,7 @@ package sylvanas.util.digester;
 
 import org.apache.commons.digester.*;
 import org.xml.sax.Attributes;
+import sylvanas.util.IntrospectionUtils;
 
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -957,8 +958,8 @@ final class CallMethodMultiRule extends CallMethodRule {
                 // for non-stringy param types
                 if(parameters[i] == null || (parameters[i] instanceof String 
                         && !String.class.isAssignableFrom(paramTypes[i]))) {
-                    //TODO paramValues[i] =
-                    //    IntrospectionUtils.convert((String) parameters[i], paramTypes[i]);
+                    paramValues[i] =
+                        IntrospectionUtils.convert((String) parameters[i], paramTypes[i]);
                 } else {
                     paramValues[i] = parameters[i];
                 }
@@ -988,7 +989,7 @@ final class CallMethodMultiRule extends CallMethodRule {
         
         if (multiParams == null) {
             paramValues[multiParamIndex] = null;
-            //TODO IntrospectionUtils.callMethodN(target, methodName, paramValues,paramTypes);
+            IntrospectionUtils.callMethodN(target, methodName, paramValues,paramTypes);
             return;
         }
         
@@ -996,12 +997,12 @@ final class CallMethodMultiRule extends CallMethodRule {
             Object param = multiParams.get(j);
             if(param == null || (param instanceof String 
                     && !String.class.isAssignableFrom(paramTypes[multiParamIndex]))) {
-                //TODO paramValues[multiParamIndex] =
-                //TODO  IntrospectionUtils.convert((String) param, paramTypes[multiParamIndex]);
+                paramValues[multiParamIndex] =
+                IntrospectionUtils.convert((String) param, paramTypes[multiParamIndex]);
             } else {
                 paramValues[multiParamIndex] = param;
             }
-            //TODO IntrospectionUtils.callMethodN(target, methodName, paramValues,paramTypes);
+            IntrospectionUtils.callMethodN(target, methodName, paramValues,paramTypes);
         }
         
     }
