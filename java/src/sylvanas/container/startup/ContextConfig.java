@@ -2,9 +2,9 @@ package sylvanas.container.startup;
 
 import org.apache.commons.digester.Digester;
 import org.xml.sax.SAXException;
-import sylvanas.util.digester.WebRuleSet;
-import sylvanas.util.digester.WebXml;
-import sylvanas.util.resource.Resource;
+import sylvanas.component.digester.WebRuleSet;
+import sylvanas.component.digester.WebXml;
+import sylvanas.component.resource.Resource;
 
 import java.io.FileInputStream;
 import java.io.IOException;

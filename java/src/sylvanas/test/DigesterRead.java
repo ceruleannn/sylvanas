@@ -2,8 +2,8 @@ package sylvanas.test;
 
 import org.apache.commons.digester.Digester;
 import org.xml.sax.InputSource;
-import sylvanas.util.digester.WebRuleSet;
-import sylvanas.util.digester.WebXml;
+import sylvanas.component.digester.WebRuleSet;
+import sylvanas.component.digester.WebXml;
 
 import java.io.FileInputStream;
 import java.util.Map;
@@ -58,16 +58,5 @@ public class DigesterRead {
             System.out.println(entry2.getValue());
         }
     }
-    public void readWebXML(){
-        if (digester==null){
 
-        }
-
-
-
-    }
-
-    public void readServerXML(){
-
-    }
 }

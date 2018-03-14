@@ -11,7 +11,13 @@ import sylvanas.connector.http.HttpConnector;
  *
  */
 public class Server {
+
     public static void main(String[] args) {
+        Server server = new Server();
+        server.start();
+    }
+
+    public void start(){
         HttpConnector connector = new HttpConnector();
         Container host = new Host();
         connector.setContainer(host);
@@ -23,3 +29,9 @@ public class Server {
 // 1.DIGESTER MAPPER
 // 2.DEPLOYER RESOURCE
 // 3.LIFESTYLE
+
+// CONTAINER CLASSLOADER
+
+// LOG / ERROR /ACCESS LOG
+// NIO / SSL
+// JSP

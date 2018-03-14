@@ -1,8 +1,8 @@
 package sylvanas.connector;
 
-import sylvanas.util.http.Cookies;
-import sylvanas.util.http.MimeHeaders;
-import sylvanas.util.http.Parameters;
+import sylvanas.component.http.Cookies;
+import sylvanas.component.http.MimeHeaders;
+import sylvanas.component.http.Parameters;
 
 /**
  * @Description:
