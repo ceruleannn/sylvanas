@@ -7,7 +7,7 @@ import java.net.URI;
 import java.net.URL;
 
 /**
- * http://
+ * http://TODO
  * @Description:
  */
 public class UrlResource extends AbstractResource{

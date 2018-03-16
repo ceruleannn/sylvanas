@@ -14,7 +14,7 @@ import java.util.concurrent.TimeUnit;
  * 1.维护 map<id,session>
  * 2.开启timer线程检查session超时
  */
-public class SessionManager {
+public class SessionHandler {
 
     private Map<String, StandardSession> sessions = new ConcurrentHashMap<String, StandardSession>();
 
@@ -23,7 +23,7 @@ public class SessionManager {
      */
     private int maxInactiveInterval = 30 * 60;
 
-    public SessionManager(){
+    public SessionHandler(){
 
     }
 
@@ -98,33 +98,26 @@ public class SessionManager {
 
 class Timer implements Runnable{
 
-    private SessionManager sessionManager = null;
+    private SessionHandler sessionHandler = null;
 
     //TODO 中断 唤醒
     private boolean isStop = false;
-    public Timer(SessionManager sessionManager){
-        this.sessionManager = sessionManager;
+    public Timer(SessionHandler sessionHandler){
+        this.sessionHandler = sessionHandler;
     }
 
     @Override
     public void run() {
         while (!isStop){
-            try {
 
-                //30秒执行一次 session超时检查
-                Thread.sleep(1000 * 30);
-
-                Iterator<StandardSession> iterator = sessionManager.getSessions().iterator();
-                while (iterator.hasNext()){
-                    StandardSession session = iterator.next();
-                    if (session.checkExpire()){
-                        sessionManager.removeSession(session);
-                    }
+            Iterator<StandardSession> iterator = sessionHandler.getSessions().iterator();
+            while (iterator.hasNext()){
+                StandardSession session = iterator.next();
+                if (session.checkExpire()){
+                    sessionHandler.removeSession(session);
                 }
-
-            } catch (InterruptedException e) {
-                e.printStackTrace();
             }
+
         }
     }
 }

@@ -35,12 +35,12 @@ public class StandardSession implements HttpSession{
 
     private boolean isNew = false;
 
-    SessionManager sessionManager = null;
+    SessionHandler sessionHandler = null;
 
     private StandardSessionFacade sessionFacade = null;
 
-    public StandardSession(SessionManager sessionManager){
-        this.sessionManager = sessionManager;
+    public StandardSession(SessionHandler sessionHandler){
+        this.sessionHandler = sessionHandler;
     }
 
 

@@ -2,11 +2,12 @@ package sylvanas.container.startup;
 
 import org.apache.commons.digester.Digester;
 import org.xml.sax.SAXException;
-import sylvanas.component.digester.WebRuleSet;
-import sylvanas.component.digester.WebXml;
+import sylvanas.component.digester.*;
+import sylvanas.component.resource.FileResource;
 import sylvanas.component.resource.Resource;
+import sylvanas.container.Context;
 
-import java.io.FileInputStream;
+import javax.servlet.SessionCookieConfig;
 import java.io.IOException;
 
 /**
@@ -51,7 +52,7 @@ public class ContextConfig {
 
         try {
             // File, inputStream, inputSource, uri,
-            digester.parse(new FileInputStream("C:\\Users\\1\\Desktop\\web.xml"));
+            digester.parse(getWebXmlSource().getInputStream());
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -60,7 +61,81 @@ public class ContextConfig {
         }
     }
 
+    public void configureContext(Context context){
+
+        // resolve display name and  is distributable
+        context.setDisplayName(webXml.getDisplayName());
+        context.setDistributable(webXml.isDistributable());
+
+        // resolve error pages
+        for (ErrorPage errorPage:webXml.getErrorPages().values()){
+            context.getErrorPageHandler().addErrorPage(errorPage);
+        }
+
+        // resolve filter
+        for (FilterDef filterDef:webXml.getFilters().values()){
+            context.getFilterHandler().addFilterDef(filterDef);
+        }
+
+        for (FilterMap filterMap:webXml.getFilterMappings()){
+            context.getFilterHandler().addFilterMap(filterMap);
+        }
+
+        // TODO resolve welcome page
+        // TODO resolve application listener
+
+        // resolve session
+
+        SessionConfig sessionConfig = webXml.getSessionConfig();
+        if (sessionConfig != null) {
+            if (sessionConfig.getSessionTimeout() != null) {
+                context.getSessionHandler().setMaxInactiveInterval(sessionConfig.getSessionTimeout());
+            }
+
+            SessionCookieConfig scc =
+                    context.getServletContext().getSessionCookieConfig();
+            scc.setName(sessionConfig.getCookieName());
+            scc.setDomain(sessionConfig.getCookieDomain());
+            scc.setPath(sessionConfig.getCookiePath());
+            scc.setComment(sessionConfig.getCookieComment());
+
+            if (sessionConfig.getCookieHttpOnly() != null) {
+                scc.setHttpOnly(sessionConfig.getCookieHttpOnly());
+            }
+            if (sessionConfig.getCookieSecure() != null) {
+                scc.setSecure(sessionConfig.getCookieSecure());
+            }
+            if (sessionConfig.getCookieMaxAge() != null) {
+                scc.setMaxAge(sessionConfig.getCookieMaxAge());
+            }
+            if (sessionConfig.getSessionTrackingModes().size() > 0) {
+                context.getServletContext().setSessionTrackingModes(
+                        sessionConfig.getSessionTrackingModes());
+            }
+        }
+
+        // resolve servlet
+
+
+
+        // resolve loginConfig, security, name resource
+
+        // resolve jsp
+        /**
+             for (JspPropertyGroup jspPropertyGroup : jspPropertyGroups) {
+             JspPropertyGroupDescriptor descriptor =
+             new ApplicationJspPropertyGroupDescriptor(jspPropertyGroup);
+             context.getJspConfigDescriptor().getJspPropertyGroups().add(
+             descriptor);
+             }
+         */
+
+
+
+    }
+
     protected Resource getWebXmlSource() {
-        return null;
+
+        return new FileResource("C:\\Users\\1\\Desktop\\web.xml");
     }
 }

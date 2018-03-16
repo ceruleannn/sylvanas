@@ -1,6 +1,6 @@
 package sylvanas.connector;
 
-import sylvanas.connector.session.SessionManager;
+import sylvanas.connector.session.SessionHandler;
 import sylvanas.connector.session.StandardSession;
 
 import javax.servlet.*;
@@ -12,7 +12,7 @@ import java.security.Principal;
 import java.util.*;
 
 /**
- * @Description:
+ *
  */
 public class Request implements HttpServletRequest {
 
@@ -438,14 +438,14 @@ public class Request implements HttpServletRequest {
         //    return null;
        // }
 
-        //SessionManager sessionManager = context.getSessionManager();
-        SessionManager sessionManager = null;
+        //SessionHandler sessionHandler = context.getSessionManager();
+        SessionHandler sessionHandler = null;
 
-        if (sessionManager==null){
+        if (sessionHandler ==null){
             return null;
         }
 
-        StandardSession session = sessionManager.getSession(rawRequest.getSessionID());
+        StandardSession session = sessionHandler.getSession(rawRequest.getSessionID());
         if ((session != null) && !session.isValid())
             session = null;
 
@@ -458,8 +458,8 @@ public class Request implements HttpServletRequest {
             return null;
         }
 
-        session = sessionManager.createSession();
-        sessionManager.addSession(session);
+        session = sessionHandler.createSession();
+        sessionHandler.addSession(session);
 
 
         //TODO : RESPONSE ADD COOKIE FOR SESSION
