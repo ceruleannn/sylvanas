@@ -17,4 +17,12 @@ public interface Container {
 
     Container getNextContainer();
 
+    void addChild(String path, Container container);
+
+    void findChild(String path);
+
+    void removeChild(String path);
+
+    Container map(String uri);
+
 }

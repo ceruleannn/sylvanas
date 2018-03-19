@@ -46,6 +46,7 @@ public class HttpProcessor implements Runnable{
 
             } // the key point to read a complete arrival socket stream with bio but without block
             while (br.ready());
+            br.close();
             in.close();
 
             String raw = sb.toString();

@@ -11,4 +11,11 @@ public class StringUtils {
         }
         return false;
     }
+
+    public static String cleanPath(String string){
+        if (string.startsWith("/")){
+            string = string.substring(1);
+        }
+        return string;
+    }
 }

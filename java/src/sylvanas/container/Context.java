@@ -33,6 +33,12 @@ public class Context extends ContainerBase{
     protected SessionHandler sessionHandler = null;
 
     /**
+     *  context configure.xml path property
+     *  default value is the project name
+     */
+    private String path = null;
+
+    /**
      * The init Parameter(s) for Servlet context, mostly from web.xml ?
      *
      * <context-param>
@@ -43,7 +49,7 @@ public class Context extends ContainerBase{
      * @see ServletContext#getInitParameter(String)
      * @see ServletContext#getInitParameterNames()
      */
-    protected Map<String, String> contextParameters = new HashMap<>();
+    protected Map<String, String> initParameters = new HashMap<>();
 
     public Context(){
         super();
@@ -55,6 +61,15 @@ public class Context extends ContainerBase{
         // digester.read web.XML
         // Wrapper Servlet = new Servlet();
         // mapper.add(uri, Servlet)
+    }
+
+    public Wrapper createWrapper(){
+        Wrapper wrapper = new Wrapper();
+
+        //TODO LISTENER
+
+
+        return wrapper;
     }
 
     public void setDisplayName(String displayName){
@@ -73,7 +88,7 @@ public class Context extends ContainerBase{
     public void addParameter(String name, String value){
 
         Assert.notNull(name, value);
-        contextParameters.put(name, value);
+        initParameters.put(name, value);
         // ignore duplicate
         // fireContainerEvent("addParameter", name)?
     }
@@ -81,6 +96,12 @@ public class Context extends ContainerBase{
     @Override
     public boolean doHandle(Request request, Response response) {
         return false;
+    }
+
+
+    @Override
+    public Container map(String uri) {
+        return null;
     }
 
     public ErrorPageHandler getErrorPageHandler() {

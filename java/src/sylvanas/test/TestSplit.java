@@ -19,7 +19,7 @@ public class TestSplit {
         list.add("aaa");
         list.add("ccc");
         list.add("123");
-
+        list.remove("12");
         String[] o = new String[10];
         String[] ss = list.toArray(o);
 

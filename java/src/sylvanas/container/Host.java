@@ -17,9 +17,20 @@ public class Host extends ContainerBase{
     public void init(){
         mapper = new Mapper();
 
+
+
         // digester.read deploy
         // Context context = new Context()
         // mapper.add(projectName, context)
+    }
+
+    @Override
+    public Container map(String uri){
+        return null;
+    }
+
+    public void createContext(){
+
     }
 
     @Override

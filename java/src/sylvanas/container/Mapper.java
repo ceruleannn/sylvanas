@@ -1,7 +1,7 @@
 package sylvanas.container;
 
-import java.util.Comparator;
-import java.util.TreeMap;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @Description:
@@ -13,32 +13,15 @@ import java.util.TreeMap;
  */
 public class Mapper {
 
-    protected TreeMap<String, Container> map = new TreeMap<>(new Comparator<String>() {
-        @Override
-        public int compare(String s1, String s2) {
-            return s1.compareTo(s2);
-        }
-    });
+    private List<Wrapper> exactWrappers = new ArrayList<>();
+    private List<Wrapper> wildcardWrappers = new ArrayList<>();
+    private List<Wrapper> extensionWrappers = new ArrayList<>();
+    private Wrapper defaultWrapper ;
+
 
     public Mapper(){
 
     }
 
-    /**
-     * if has duplicate keys then replace the older one
-     * 若有重复的 key 键 , 则替换旧值
-     * @param name 匹配串
-     * @param container 容器
-     */
-    public void add(String name, Container container){
-        map.put(name, container);
-    }
 
-    public void get(String name){
-        map.get(name);
-    }
-
-    public void remove(String name){
-        map.remove(name);
-    }
 }

@@ -6,9 +6,11 @@ import sylvanas.component.digester.*;
 import sylvanas.component.resource.FileResource;
 import sylvanas.component.resource.Resource;
 import sylvanas.container.Context;
+import sylvanas.container.Wrapper;
 
 import javax.servlet.SessionCookieConfig;
 import java.io.IOException;
+import java.util.Map;
 
 /**
  * @Description:
@@ -117,6 +119,44 @@ public class ContextConfig {
         // resolve servlet
 
 
+        for (ServletDef servlet : webXml.getServlets().values()) {
+            Wrapper wrapper = context.createWrapper();
+            // Description is ignored
+            // Display name is ignored
+            // Icons are ignored
+
+            // jsp-file gets passed to the JSP Servlet as an init-param
+
+            if (servlet.getLoadOnStartup() != null) {
+                wrapper.setLoadOnStartup(servlet.getLoadOnStartup());
+            }
+
+            String  servletName = servlet.getServletName();
+            wrapper.setName(servletName);
+
+            Map<String,String> params = servlet.getParameterMap();
+            for (Map.Entry<String, String> entry : params.entrySet()) {
+                wrapper.addInitParameter(entry.getKey(), entry.getValue());
+            }
+
+//            Set<SecurityRoleRef> roleRefs = servlet.getSecurityRoleRefs();
+//            for (SecurityRoleRef roleRef : roleRefs) {
+//                wrapper.addSecurityReference(
+//                        roleRef.getName(), roleRef.getLink());
+//            }
+
+            wrapper.setRunAs(servlet.getRunAs());
+            wrapper.setServletClass(servlet.getServletClass());
+
+
+            for (Map.Entry<String, String> entry : webXml.getServletMappings().entrySet()) {
+                //context.addServletMapping(entry.getKey(), entry.getValue());
+                
+            }
+
+        }
+
+        // one servlet for n mapping
 
         // resolve loginConfig, security, name resource
 
