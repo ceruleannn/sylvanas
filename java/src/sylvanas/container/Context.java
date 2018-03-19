@@ -20,7 +20,7 @@ public class Context extends ContainerBase{
 
     protected ServletContext servletContext = null;
 
-    protected Mapper mapper = null;
+    protected ContextMapper mapper = null;
 
     protected String displayName = null;
 
@@ -31,6 +31,10 @@ public class Context extends ContainerBase{
     protected FilterHandler filterHandler = null;
 
     protected SessionHandler sessionHandler = null;
+
+    private Map<String , String> servletMapping = new HashMap<>();
+
+
 
     /**
      *  context configure.xml path property
@@ -56,11 +60,12 @@ public class Context extends ContainerBase{
     }
 
     public void init(){
-        mapper = new Mapper();
+
 
         // digester.read web.XML
-        // Wrapper Servlet = new Servlet();
         // mapper.add(uri, Servlet)
+
+        mapper = new ContextMapper(getChildren(),servletMapping);
     }
 
     public Wrapper createWrapper(){
@@ -93,15 +98,16 @@ public class Context extends ContainerBase{
         // fireContainerEvent("addParameter", name)?
     }
 
-    @Override
-    public boolean doHandle(Request request, Response response) {
-        return false;
+    public void addServletMapping(String displayName, String value){
+
+        Assert.notNull(displayName,value);
+        servletMapping.put(displayName,value);
     }
 
 
     @Override
-    public Container map(String uri) {
-        return null;
+    public boolean doHandle(Request request, Response response) {
+        return false;
     }
 
     public ErrorPageHandler getErrorPageHandler() {
@@ -119,4 +125,6 @@ public class Context extends ContainerBase{
     public ServletContext getServletContext() {
         return servletContext;
     }
+
+
 }

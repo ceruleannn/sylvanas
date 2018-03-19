@@ -8,25 +8,20 @@ import sylvanas.connector.Response;
  */
 public class Host extends ContainerBase{
 
-    protected Mapper mapper = null;
+    protected HostMapper mapper = null;
 
     public Host(){
         super();
     }
 
     public void init(){
-        mapper = new Mapper();
+        mapper = new HostMapper();
 
 
 
         // digester.read deploy
         // Context context = new Context()
         // mapper.add(projectName, context)
-    }
-
-    @Override
-    public Container map(String uri){
-        return null;
     }
 
     public void createContext(){

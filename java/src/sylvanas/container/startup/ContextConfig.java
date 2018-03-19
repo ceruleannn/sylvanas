@@ -148,10 +148,11 @@ public class ContextConfig {
             wrapper.setRunAs(servlet.getRunAs());
             wrapper.setServletClass(servlet.getServletClass());
 
+            context.addChild(wrapper);
 
             for (Map.Entry<String, String> entry : webXml.getServletMappings().entrySet()) {
-                //context.addServletMapping(entry.getKey(), entry.getValue());
-                
+                context.addServletMapping(entry.getKey(), entry.getValue());
+
             }
 
         }

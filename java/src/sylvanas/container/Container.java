@@ -3,6 +3,8 @@ package sylvanas.container;
 import sylvanas.connector.Request;
 import sylvanas.connector.Response;
 
+import java.util.List;
+
 /**
  * @Description:
  */
@@ -17,12 +19,14 @@ public interface Container {
 
     Container getNextContainer();
 
-    void addChild(String path, Container container);
+    void addChild(Container container);
 
-    void findChild(String path);
+    void removeChild(Container container);
 
-    void removeChild(String path);
+    void setParent(Container container);
 
-    Container map(String uri);
+    Container getParent();
+
+    List<Container> getChildren();
 
 }

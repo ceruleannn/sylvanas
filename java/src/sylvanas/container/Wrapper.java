@@ -29,6 +29,11 @@ import java.util.Map;
  */
 public class Wrapper extends ContainerBase {
 
+    /**
+     * url mapping
+     */
+    private String path;
+
     private int loadOnStartup;
 
     private String name;
@@ -50,26 +55,6 @@ public class Wrapper extends ContainerBase {
     public boolean doHandle(Request request, Response response) {
 
         return false;
-    }
-
-    @Override
-    public void addChild(String path, Container container) {
-        throw new IllegalArgumentException("");
-    }
-
-    @Override
-    public void findChild(String path) {
-        throw new IllegalArgumentException("");
-    }
-
-    @Override
-    public void removeChild(String path) {
-        throw new IllegalArgumentException("");
-    }
-
-    @Override
-    public Container map(String uri){
-        throw new IllegalArgumentException("");
     }
 
     public int getLoadOnStartup() {
@@ -111,5 +96,13 @@ public class Wrapper extends ContainerBase {
 
     public void setServletClass(String servletClass) {
         this.servletClass = servletClass;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
     }
 }
