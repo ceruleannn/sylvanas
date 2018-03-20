@@ -29,4 +29,8 @@ public interface Container {
 
     List<Container> getChildren();
 
+    String getName();
+
+    void setName(String name);
+
 }

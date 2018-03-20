@@ -30,15 +30,28 @@ public class ContextMapper {
 
     public ContextMapper(List<Container> children, Map<String,String> mappings){
 
-        init();
+        init( children,mappings);
     }
 
     /**
      * 初始化方法;
      * 根据 wrappers 和 mappings 创建mapper
      */
-    public void init(){
+    public void init(List<Container> children, Map<String,String> mappings){
+        for (Map.Entry<String, String> entry : mappings.entrySet()) {
+            String name = entry.getKey();
+            String url = entry.getValue();
+            for (Container child : children) {
+                if (!(child instanceof Wrapper)){
+                    throw new IllegalArgumentException("can not add not wrapper to context mapper");
+                }
+                if (child.getName().equals(name)){
+                    addWrapper((Wrapper)child,url);
+                    break;
+                }
+            }
 
+        }
     }
 
     /**

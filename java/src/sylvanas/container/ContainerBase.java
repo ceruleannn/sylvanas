@@ -23,6 +23,13 @@ public abstract class ContainerBase implements Container {
 
     protected Container parent = null;
 
+    /**
+     * name for context means its project name
+     * name for wrapper means its servlet name
+     *
+     */
+    protected String name = null;
+
     @Override
     public final void doChain(Request request, Response response){
 
@@ -88,4 +95,13 @@ public abstract class ContainerBase implements Container {
         return parent;
     }
 
+    @Override
+    public String getName() {
+        return name;
+    }
+
+    @Override
+    public void setName(String name) {
+        this.name = name;
+    }
 }
