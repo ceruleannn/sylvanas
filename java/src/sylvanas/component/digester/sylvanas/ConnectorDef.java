@@ -1,4 +1,4 @@
-package sylvanas.test;
+package sylvanas.component.digester.sylvanas;
 
 /**
  *

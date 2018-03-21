@@ -25,5 +25,8 @@ public class TestSplit {
 
         System.out.println(o);
         System.out.println(ss);
+
+        List[] l = new List[10];
+        System.out.println(l.length);
     }
 }
