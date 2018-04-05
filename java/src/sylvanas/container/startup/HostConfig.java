@@ -1,8 +1,14 @@
 package sylvanas.container.startup;
 
 import org.apache.commons.digester.Digester;
+import org.xml.sax.SAXException;
 import sylvanas.component.digester.sylvanas.SylvanasXML;
 import sylvanas.component.resource.Resource;
+import sylvanas.container.Context;
+import sylvanas.container.Host;
+
+import java.io.File;
+import java.io.IOException;
 
 /**
  <Sylvanas>
@@ -31,12 +37,54 @@ import sylvanas.component.resource.Resource;
  */
 public class HostConfig {
 
+    private Host host;
+
     private SylvanasXML xml = new SylvanasXML();
 
+    private String appBase = "C:\\Users\\1\\Desktop\\webapps";
 
+    private HostConfig(Host host){
+        this.host = host;
+    }
+
+    public void config(){
+        File file = new File(appBase);
+        File[] projects = file.listFiles(File::isDirectory);
+
+        if (projects == null) {
+           return;
+        }
+
+        for (File project : projects) {
+            deployDirectories(project);
+        }
+    }
+
+    public void deployDirectories(File dir){
+        Context context = createContext();
+        context.setDocBase(dir);
+        context.setPath(dir.getName());
+    }
+
+
+    public Context createContext(){
+        return new Context();
+    }
 
     public void parseXML(Resource resource){
 
+        Digester digester = createDigester();
+        try {
+
+            digester.parse(resource.getInputStream());
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (SAXException e) {
+            e.printStackTrace();
+        }
+
+        digester.push(this);
     }
 
     public Digester createDigester(){

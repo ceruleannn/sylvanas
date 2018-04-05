@@ -17,6 +17,8 @@ import java.util.Map;
  */
 public class ContextConfig {
 
+    private Context context;
+
     /**
      * 解析器
      */
@@ -32,8 +34,8 @@ public class ContextConfig {
      */
     private WebRuleSet webRuleSet = new WebRuleSet(false);
 
-    public ContextConfig(){
-
+    public ContextConfig(Context context){
+        this.context = context;
     }
 
     /**
@@ -63,7 +65,7 @@ public class ContextConfig {
         }
     }
 
-    public void configureContext(Context context){
+    public void configureContext(){
 
         // resolve display name and  is distributable
         context.setDisplayName(webXml.getDisplayName());

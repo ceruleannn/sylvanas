@@ -8,6 +8,7 @@ import sylvanas.connector.Response;
 import sylvanas.connector.session.SessionHandler;
 
 import javax.servlet.ServletContext;
+import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -31,6 +32,8 @@ public class Context extends ContainerBase{
     protected FilterHandler filterHandler = null;
 
     protected SessionHandler sessionHandler = null;
+
+    private File docBase;
 
     private Map<String , String> servletMapping = new HashMap<>();
 
@@ -126,5 +129,19 @@ public class Context extends ContainerBase{
         return servletContext;
     }
 
+    public File getDocBase() {
+        return docBase;
+    }
 
+    public void setDocBase(File docBase) {
+        this.docBase = docBase;
+    }
+
+    public String getPath() {
+        return path;
+    }
+
+    public void setPath(String path) {
+        this.path = path;
+    }
 }
