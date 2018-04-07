@@ -27,19 +27,19 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE, ElementType.METHOD, ElementType.FIELD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Resource {
-    enum AuthenticationType {
+    public enum AuthenticationType {
         CONTAINER,
         APPLICATION
     }
-    String name() default "";
+    public String name() default "";
     @SuppressWarnings("rawtypes") // Can't use Class<?> because API needs to match specification
-    Class type() default Object.class;
-    AuthenticationType authenticationType() default AuthenticationType.CONTAINER;
-    boolean shareable() default true;
-    String description() default "";
-    String mappedName() default "";
+    public Class type() default Object.class;
+    public AuthenticationType authenticationType() default AuthenticationType.CONTAINER;
+    public boolean shareable() default true;
+    public String description() default "";
+    public String mappedName() default "";
     /**
      * @since Common Annotations 1.1
      */
-    String lookup() default "";
+    public String lookup() default "";
 }

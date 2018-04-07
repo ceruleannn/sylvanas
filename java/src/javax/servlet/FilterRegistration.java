@@ -33,14 +33,14 @@ public interface FilterRegistration extends Registration {
      * @throws IllegalArgumentException
      * @throws IllegalStateException
      */
-    void addMappingForServletNames(
+    public void addMappingForServletNames(
             EnumSet<DispatcherType> dispatcherTypes,
             boolean isMatchAfter, String... servletNames);
     /**
      * 
      * @return TODO
      */
-    Collection<String> getServletNameMappings();
+    public Collection<String> getServletNameMappings();
     
     /**
      * 
@@ -50,7 +50,7 @@ public interface FilterRegistration extends Registration {
      * @throws IllegalArgumentException
      * @throws IllegalStateException
      */
-    void addMappingForUrlPatterns(
+    public void addMappingForUrlPatterns(
             EnumSet<DispatcherType> dispatcherTypes,
             boolean isMatchAfter, String... urlPatterns);
 
@@ -58,9 +58,9 @@ public interface FilterRegistration extends Registration {
      * 
      * @return TODO
      */
-    Collection<String> getUrlPatternMappings();
+    public Collection<String> getUrlPatternMappings();
     
-    interface Dynamic
+    public static interface Dynamic
     extends FilterRegistration, Registration.Dynamic {
         // No additional methods
     }

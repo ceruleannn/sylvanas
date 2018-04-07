@@ -26,10 +26,10 @@ import java.util.Map;
  */
 public interface HandshakeRequest {
 
-    String SEC_WEBSOCKET_KEY = "Sec-WebSocket-Key";
-    String SEC_WEBSOCKET_PROTOCOL = "Sec-WebSocket-Protocol";
-    String SEC_WEBSOCKET_VERSION = "Sec-WebSocket-Version";
-    String SEC_WEBSOCKET_EXTENSIONS= "Sec-WebSocket-Extensions";
+    static final String SEC_WEBSOCKET_KEY = "Sec-WebSocket-Key";
+    static final String SEC_WEBSOCKET_PROTOCOL = "Sec-WebSocket-Protocol";
+    static final String SEC_WEBSOCKET_VERSION = "Sec-WebSocket-Version";
+    static final String SEC_WEBSOCKET_EXTENSIONS= "Sec-WebSocket-Extensions";
 
     Map<String,List<String>> getHeaders();
 
@@ -42,7 +42,7 @@ public interface HandshakeRequest {
     /**
      * Get the HTTP Session object associated with this request. Object is used
      * to avoid a direct dependency on the Servlet API.
-     * @return The javax.servlet.connector.HttpSession object associated with this
+     * @return The javax.servlet.http.HttpSession object associated with this
      *         request, if any.
      */
     Object getHttpSession();

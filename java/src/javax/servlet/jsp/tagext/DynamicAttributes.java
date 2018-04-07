@@ -45,7 +45,7 @@ public interface DynamicAttributes {
      *     signal that it does not accept the given attribute.  The 
      *     container must not call doStartTag() or doTag() for this tag.
      */
-    void setDynamicAttribute(
+    public void setDynamicAttribute(
             String uri, String localName, Object value)
         throws JspException;
     

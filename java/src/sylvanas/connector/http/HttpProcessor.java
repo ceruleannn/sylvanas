@@ -4,7 +4,10 @@ import sylvanas.connector.Adapter;
 import sylvanas.connector.RawRequest;
 import sylvanas.connector.RawResponse;
 
-import java.io.*;
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.net.Socket;
 
 /**
@@ -35,7 +38,6 @@ public class HttpProcessor implements Runnable{
             BufferedReader br = new BufferedReader(new InputStreamReader(in));
             StringBuilder sb = new StringBuilder();
 
-
             //TODO 判断缓冲区是否超过而不是使用大缓冲区
 
             char[] buf = new char[1024*8];
@@ -46,22 +48,27 @@ public class HttpProcessor implements Runnable{
 
             } // the key point to read a complete arrival socket stream with bio but without block
             while (br.ready());
-            br.close();
-            in.close();
+
+            //TODO 不能在这里close会导致socket close
+//            br.close();
+//            in.close();
 
             String raw = sb.toString();
+
+            if (raw.length()==0){
+                return;
+            }
 
             RawRequest rawRequest = new RawRequest(raw);
             RawResponse rawResponse = new RawResponse();
             rawResponse.setSocket(socket);
             rawResponse.setRawRequest(rawRequest);
+            //System.out.println("主机收到信息：\n" + raw);
+
 
             Adapter adapter = new Adapter(connector);
             adapter.service(rawRequest, rawResponse);
 
-            rawResponse.doWrite();
-
-            //System.out.println("主机收到信息：\n" + raw);
         } catch (IOException e) {
             e.printStackTrace();
         }

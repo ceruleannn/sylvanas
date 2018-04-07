@@ -21,15 +21,15 @@ package javax.servlet;
  * @since Servlet 3.0
  */
 public interface AsyncContext {
-    String ASYNC_REQUEST_URI =
+    public static final String ASYNC_REQUEST_URI =
         "javax.servlet.async.request_uri";
-    String ASYNC_CONTEXT_PATH  =
+    public static final String ASYNC_CONTEXT_PATH  =
         "javax.servlet.async.context_path";
-    String ASYNC_PATH_INFO =
+    public static final String ASYNC_PATH_INFO =
         "javax.servlet.async.path_info";
-    String ASYNC_SERVLET_PATH =
+    public static final String ASYNC_SERVLET_PATH =
         "javax.servlet.async.servlet_path";
-    String ASYNC_QUERY_STRING =
+    public static final String ASYNC_QUERY_STRING =
         "javax.servlet.async.query_string";
     
     ServletRequest getRequest();

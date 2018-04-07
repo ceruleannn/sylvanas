@@ -34,11 +34,11 @@ public interface ServletRequestListener extends EventListener {
      * The request is about to go out of scope of the web application.
      * @param sre Information about the request
      */
-    void requestDestroyed(ServletRequestEvent sre);
+    public void requestDestroyed(ServletRequestEvent sre);
 
     /**
      * The request is about to come into scope of the web application.
      * @param sre Information about the request
      */
-    void requestInitialized(ServletRequestEvent sre);
+    public void requestInitialized(ServletRequestEvent sre);
 }

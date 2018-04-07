@@ -33,7 +33,7 @@ public class ResourceBundleELResolver extends ELResolver {
 
     @Override
     public Object getValue(ELContext context, Object base, Object property)
-            throws NullPointerException,
+            throws NullPointerException, PropertyNotFoundException,
             ELException {
 
         if (context == null) {
@@ -58,7 +58,7 @@ public class ResourceBundleELResolver extends ELResolver {
 
     @Override
     public Class<?> getType(ELContext context, Object base, Object property)
-            throws NullPointerException, ELException {
+            throws NullPointerException, PropertyNotFoundException, ELException {
         if (context == null) {
             throw new NullPointerException();
         }
@@ -73,6 +73,7 @@ public class ResourceBundleELResolver extends ELResolver {
     @Override
     public void setValue(ELContext context, Object base, Object property,
             Object value) throws NullPointerException,
+            PropertyNotFoundException, PropertyNotWritableException,
             ELException {
         if (context == null) {
             throw new NullPointerException();
@@ -81,14 +82,14 @@ public class ResourceBundleELResolver extends ELResolver {
         if (base instanceof ResourceBundle) {
             context.setPropertyResolved(true);
             throw new PropertyNotWritableException(Util.message(context,
-                    "resolverNotWriteable", base.getClass()
-                            .getName()));
+                    "resolverNotWriteable", new Object[] { base.getClass()
+                            .getName() }));
         }
     }
 
     @Override
     public boolean isReadOnly(ELContext context, Object base, Object property)
-            throws NullPointerException, ELException {
+            throws NullPointerException, PropertyNotFoundException, ELException {
         if (context == null) {
             throw new NullPointerException();
         }

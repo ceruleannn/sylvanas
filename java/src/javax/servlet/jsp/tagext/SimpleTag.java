@@ -93,8 +93,8 @@ public interface SimpleTag extends JspTag {
      *     threw a SkipPageException.
      * @throws java.io.IOException If there was an error writing to the
      *     output stream.
-     */
-    void doTag()
+     */ 
+    public void doTag() 
         throws javax.servlet.jsp.JspException, java.io.IOException;
     
     /**
@@ -105,14 +105,14 @@ public interface SimpleTag extends JspTag {
      *
      * @param parent the tag that encloses this tag
      */
-    void setParent(JspTag parent);
+    public void setParent(JspTag parent);
     
     /**
      * Returns the parent of this tag, for collaboration purposes.
      *
      * @return the parent of this tag
-     */
-    JspTag getParent();
+     */ 
+    public JspTag getParent();
     
     /**
      * Called by the container to provide this tag handler with
@@ -122,7 +122,7 @@ public interface SimpleTag extends JspTag {
      * @param pc the page context for this invocation
      * @see Tag#setPageContext
      */
-    void setJspContext(JspContext pc);
+    public void setJspContext(JspContext pc);
                 
     /** 
      * Provides the body of this tag as a JspFragment object, able to be 
@@ -133,8 +133,8 @@ public interface SimpleTag extends JspTag {
      * empty in the page, this method is not called at all.
      * 
      * @param jspBody The fragment encapsulating the body of this tag.
-     */
-    void setJspBody(JspFragment jspBody);
+     */ 
+    public void setJspBody(JspFragment jspBody);
 
     
 }

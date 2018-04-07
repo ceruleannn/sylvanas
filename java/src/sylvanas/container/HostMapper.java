@@ -21,8 +21,17 @@ public class HostMapper{
 
     public void addContext(Context context, String path){
 
-
         contextMap.put(path,context);
+    }
+
+    //TODO 偷懒写法
+    public Context map(String uri){
+        for (Map.Entry<String, Context> stringContextEntry : contextMap.entrySet()) {
+            if (uri.startsWith(stringContextEntry.getKey())){
+                return stringContextEntry.getValue();
+            }
+        }
+        return null;
     }
 
 }

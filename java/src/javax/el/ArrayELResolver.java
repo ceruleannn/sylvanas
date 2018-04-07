@@ -35,7 +35,7 @@ public class ArrayELResolver extends ELResolver {
 
     @Override
     public Object getValue(ELContext context, Object base, Object property)
-            throws NullPointerException, ELException {
+            throws NullPointerException, PropertyNotFoundException, ELException {
         if (context == null) {
             throw new NullPointerException();
         }
@@ -54,7 +54,7 @@ public class ArrayELResolver extends ELResolver {
 
     @Override
     public Class<?> getType(ELContext context, Object base, Object property)
-            throws NullPointerException, ELException {
+            throws NullPointerException, PropertyNotFoundException, ELException {
         if (context == null) {
             throw new NullPointerException();
         }
@@ -76,6 +76,7 @@ public class ArrayELResolver extends ELResolver {
     @Override
     public void setValue(ELContext context, Object base, Object property,
             Object value) throws NullPointerException,
+            PropertyNotFoundException, PropertyNotWritableException,
             ELException {
         if (context == null) {
             throw new NullPointerException();
@@ -86,8 +87,8 @@ public class ArrayELResolver extends ELResolver {
 
             if (this.readOnly) {
                 throw new PropertyNotWritableException(Util.message(context,
-                        "resolverNotWriteable", base.getClass()
-                                .getName()));
+                        "resolverNotWriteable", new Object[] { base.getClass()
+                                .getName() }));
             }
 
             int idx = coerce(property);
@@ -96,8 +97,8 @@ public class ArrayELResolver extends ELResolver {
                     base.getClass().getComponentType())) {
                 throw new ClassCastException(Util.message(context,
                         "objectNotAssignable",
-                        value.getClass().getName(),
-                        base.getClass().getComponentType().getName()));
+                        new Object[] {value.getClass().getName(),
+                        base.getClass().getComponentType().getName()}));
             }
             Array.set(base, idx, value);
         }
@@ -105,7 +106,7 @@ public class ArrayELResolver extends ELResolver {
 
     @Override
     public boolean isReadOnly(ELContext context, Object base, Object property)
-            throws NullPointerException, ELException {
+            throws NullPointerException, PropertyNotFoundException, ELException {
         if (context == null) {
             throw new NullPointerException();
         }

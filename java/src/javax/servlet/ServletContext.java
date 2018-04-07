@@ -52,12 +52,12 @@ import javax.servlet.descriptor.JspConfigDescriptor;
  */
 public interface ServletContext {
 
-    String TEMPDIR = "javax.servlet.context.tempdir";
+    public static final String TEMPDIR = "javax.servlet.context.tempdir";
 
     /**
      * @since Servlet 3.0
      */
-    String ORDERED_LIBS = "javax.servlet.context.orderedLibs";
+    public static final String ORDERED_LIBS = "javax.servlet.context.orderedLibs";
 
     /**
      * Returns a <code>ServletContext</code> object that corresponds to a
@@ -80,9 +80,9 @@ public interface ServletContext {
      *         to restrict this access.
      * @see RequestDispatcher
      */
-    ServletContext getContext(String uripath);
+    public ServletContext getContext(String uripath);
 
-    String getContextPath();
+    public String getContextPath();
 
     /**
      * Returns the major version of the Java Servlet API that this servlet
@@ -91,7 +91,7 @@ public interface ServletContext {
      * 
      * @return 3
      */
-    int getMajorVersion();
+    public int getMajorVersion();
 
     /**
      * Returns the minor version of the Servlet API that this servlet container
@@ -100,7 +100,7 @@ public interface ServletContext {
      * 
      * @return 0
      */
-    int getMinorVersion();
+    public int getMinorVersion();
 
     /**
      * @return TODO
@@ -114,7 +114,7 @@ public interface ServletContext {
      *
      * @since Servlet 3.0 TODO SERVLET3 - Add comments
      */
-    int getEffectiveMajorVersion();
+    public int getEffectiveMajorVersion();
 
     /**
      * @return TODO
@@ -127,7 +127,7 @@ public interface ServletContext {
      *    use this method.
      * @since Servlet 3.0 TODO SERVLET3 - Add comments
      */
-    int getEffectiveMinorVersion();
+    public int getEffectiveMinorVersion();
 
     /**
      * Returns the MIME type of the specified file, or <code>null</code> if the
@@ -140,7 +140,7 @@ public interface ServletContext {
      *            a <code>String</code> specifying the name of a file
      * @return a <code>String</code> specifying the file's MIME type
      */
-    String getMimeType(String file);
+    public String getMimeType(String file);
 
     /**
      * Returns a directory-like listing of all the paths to resources within the
@@ -171,7 +171,7 @@ public interface ServletContext {
      *         supplied path.
      * @since Servlet 2.3
      */
-    Set<String> getResourcePaths(String path);
+    public Set<String> getResourcePaths(String path);
 
     /**
      * Returns a URL to the resource that is mapped to a specified path. The
@@ -208,7 +208,7 @@ public interface ServletContext {
      * @exception MalformedURLException
      *                if the pathname is not given in the correct form
      */
-    URL getResource(String path) throws MalformedURLException;
+    public URL getResource(String path) throws MalformedURLException;
 
     /**
      * Returns the resource located at the named path as an
@@ -236,7 +236,7 @@ public interface ServletContext {
      * @return the <code>InputStream</code> returned to the servlet, or
      *         <code>null</code> if no resource exists at the specified path
      */
-    InputStream getResourceAsStream(String path);
+    public InputStream getResourceAsStream(String path);
 
     /**
      * Returns a {@link RequestDispatcher} object that acts as a wrapper for the
@@ -259,7 +259,7 @@ public interface ServletContext {
      * @see RequestDispatcher
      * @see ServletContext#getContext
      */
-    RequestDispatcher getRequestDispatcher(String path);
+    public RequestDispatcher getRequestDispatcher(String path);
 
     /**
      * Returns a {@link RequestDispatcher} object that acts as a wrapper for the
@@ -283,7 +283,7 @@ public interface ServletContext {
      * @see ServletContext#getContext
      * @see ServletConfig#getServletName
      */
-    RequestDispatcher getNamedDispatcher(String name);
+    public RequestDispatcher getNamedDispatcher(String name);
 
     /**
      * @deprecated As of Java Servlet API 2.1, with no direct replacement.
@@ -301,7 +301,7 @@ public interface ServletContext {
      */
     @SuppressWarnings("dep-ann")
     // Spec API does not use @Deprecated
-    Servlet getServlet(String name) throws ServletException;
+    public Servlet getServlet(String name) throws ServletException;
 
     /**
      * @deprecated As of Java Servlet API 2.0, with no replacement.
@@ -315,7 +315,7 @@ public interface ServletContext {
      */
     @SuppressWarnings("dep-ann")
     // Spec API does not use @Deprecated
-    Enumeration<Servlet> getServlets();
+    public Enumeration<Servlet> getServlets();
 
     /**
      * @deprecated As of Java Servlet API 2.1, with no replacement.
@@ -329,7 +329,7 @@ public interface ServletContext {
      */
     @SuppressWarnings("dep-ann")
     // Spec API does not use @Deprecated
-    Enumeration<String> getServletNames();
+    public Enumeration<String> getServletNames();
 
     /**
      * Writes the specified message to a servlet log file, usually an event log.
@@ -340,7 +340,7 @@ public interface ServletContext {
      *            a <code>String</code> specifying the message to be written to
      *            the log file
      */
-    void log(String msg);
+    public void log(String msg);
 
     /**
      * @deprecated As of Java Servlet API 2.1, use
@@ -352,7 +352,7 @@ public interface ServletContext {
      */
     @SuppressWarnings("dep-ann")
     // Spec API does not use @Deprecated
-    void log(Exception exception, String msg);
+    public void log(Exception exception, String msg);
 
     /**
      * Writes an explanatory message and a stack trace for a given
@@ -365,7 +365,7 @@ public interface ServletContext {
      * @param throwable
      *            the <code>Throwable</code> error or exception
      */
-    void log(String message, Throwable throwable);
+    public void log(String message, Throwable throwable);
 
     /**
      * Returns a <code>String</code> containing the real path for a given
@@ -386,7 +386,7 @@ public interface ServletContext {
      * @return a <code>String</code> specifying the real path, or null if the
      *         translation cannot be performed
      */
-    String getRealPath(String path);
+    public String getRealPath(String path);
 
     /**
      * Returns the name and version of the servlet container on which the
@@ -404,7 +404,7 @@ public interface ServletContext {
      * @return a <code>String</code> containing at least the servlet container
      *         name and version number
      */
-    String getServerInfo();
+    public String getServerInfo();
 
     /**
      * Returns a <code>String</code> containing the value of the named
@@ -422,7 +422,7 @@ public interface ServletContext {
      *         parameter
      * @see ServletConfig#getInitParameter
      */
-    String getInitParameter(String name);
+    public String getInitParameter(String name);
 
     /**
      * Returns the names of the context's initialization parameters as an
@@ -434,7 +434,7 @@ public interface ServletContext {
      * @see ServletConfig#getInitParameter
      */
 
-    Enumeration<String> getInitParameterNames();
+    public Enumeration<String> getInitParameterNames();
 
     /**
      * @param name
@@ -450,7 +450,7 @@ public interface ServletContext {
      *    use this method.
      * @since Servlet 3.0 TODO SERVLET3 - Add comments
      */
-    boolean setInitParameter(String name, String value);
+    public boolean setInitParameter(String name, String value);
 
     /**
      * Returns the servlet container attribute with the given name, or
@@ -471,7 +471,7 @@ public interface ServletContext {
      *         <code>null</code> if no attribute exists matching the given name
      * @see ServletContext#getAttributeNames
      */
-    Object getAttribute(String name);
+    public Object getAttribute(String name);
 
     /**
      * Returns an <code>Enumeration</code> containing the attribute names
@@ -481,7 +481,7 @@ public interface ServletContext {
      * @return an <code>Enumeration</code> of attribute names
      * @see #getAttribute
      */
-    Enumeration<String> getAttributeNames();
+    public Enumeration<String> getAttributeNames();
 
     /**
      * Binds an object to a given attribute name in this servlet context. If the
@@ -503,7 +503,7 @@ public interface ServletContext {
      * @param object
      *            an <code>Object</code> representing the attribute to be bound
      */
-    void setAttribute(String name, Object object);
+    public void setAttribute(String name, Object object);
 
     /**
      * Removes the attribute with the given name from the servlet context. After
@@ -517,7 +517,7 @@ public interface ServletContext {
      *            a <code>String</code> specifying the name of the attribute to
      *            be removed
      */
-    void removeAttribute(String name);
+    public void removeAttribute(String name);
 
     /**
      * Returns the name of this web application corresponding to this
@@ -528,7 +528,7 @@ public interface ServletContext {
      *         declared in the deployment descriptor.
      * @since Servlet 2.3
      */
-    String getServletContextName();
+    public String getServletContextName();
 
     /**
      * @param servletName
@@ -545,8 +545,8 @@ public interface ServletContext {
      *    use this method.
      * @since Servlet 3.0 TODO SERVLET3 - Add comments
      */
-    ServletRegistration.Dynamic addServlet(String servletName,
-                                           String className);
+    public ServletRegistration.Dynamic addServlet(String servletName,
+                                                  String className);
 
     /**
      * @param servletName
@@ -563,8 +563,8 @@ public interface ServletContext {
      *    use this method.
      * @since Servlet 3.0 TODO SERVLET3 - Add comments
      */
-    ServletRegistration.Dynamic addServlet(String servletName,
-                                           Servlet servlet);
+    public ServletRegistration.Dynamic addServlet(String servletName,
+                                                  Servlet servlet);
 
     /**
      * @param servletName
@@ -581,8 +581,8 @@ public interface ServletContext {
      *    use this method.
      * @since Servlet 3.0 TODO SERVLET3 - Add comments
      */
-    ServletRegistration.Dynamic addServlet(String servletName,
-                                           Class<? extends Servlet> servletClass);
+    public ServletRegistration.Dynamic addServlet(String servletName,
+                                                  Class<? extends Servlet> servletClass);
 
     /**
      * @param c
@@ -597,7 +597,7 @@ public interface ServletContext {
      *    use this method.
      * @since Servlet 3.0 TODO SERVLET3 - Add comments
      */
-    <T extends Servlet> T createServlet(Class<T> c)
+    public <T extends Servlet> T createServlet(Class<T> c)
             throws ServletException;
 
     /**
@@ -619,7 +619,7 @@ public interface ServletContext {
      *
      * @since Servlet 3.0
      */
-    ServletRegistration getServletRegistration(String servletName);
+    public ServletRegistration getServletRegistration(String servletName);
 
     /**
      * @return TODO
@@ -632,7 +632,7 @@ public interface ServletContext {
      *    use this method.
      * @since Servlet 3.0 TODO SERVLET3 - Add comments
      */
-    Map<String, ? extends ServletRegistration> getServletRegistrations();
+    public Map<String, ? extends ServletRegistration> getServletRegistrations();
 
     /**
      * @param filterName
@@ -649,8 +649,8 @@ public interface ServletContext {
      *             If the context has already been initialised
      * @since Servlet 3.0 TODO SERVLET3 - Add comments
      */
-    FilterRegistration.Dynamic addFilter(String filterName,
-                                         String className);
+    public FilterRegistration.Dynamic addFilter(String filterName,
+                                                String className);
 
     /**
      * @param filterName
@@ -667,7 +667,7 @@ public interface ServletContext {
      *             If the context has already been initialised
      * @since Servlet 3.0 TODO SERVLET3 - Add comments
      */
-    FilterRegistration.Dynamic addFilter(String filterName, Filter filter);
+    public FilterRegistration.Dynamic addFilter(String filterName, Filter filter);
 
     /**
      * @param filterName
@@ -684,8 +684,8 @@ public interface ServletContext {
      *             If the context has already been initialised
      * @since Servlet 3.0 TODO SERVLET3 - Add comments
      */
-    FilterRegistration.Dynamic addFilter(String filterName,
-                                         Class<? extends Filter> filterClass);
+    public FilterRegistration.Dynamic addFilter(String filterName,
+                                                Class<? extends Filter> filterClass);
 
     /**
      * @param c
@@ -700,7 +700,7 @@ public interface ServletContext {
      * @throws ServletException
      * @since Servlet 3.0 TODO SERVLET3 - Add comments
      */
-    <T extends Filter> T createFilter(Class<T> c)
+    public <T extends Filter> T createFilter(Class<T> c)
             throws ServletException;
 
     /**
@@ -715,7 +715,7 @@ public interface ServletContext {
      *    use this method.
      * @since Servlet 3.0 TODO SERVLET3 - Add comments
      */
-    FilterRegistration getFilterRegistration(String filterName);
+    public FilterRegistration getFilterRegistration(String filterName);
 
     /**
      * @return TODO
@@ -728,7 +728,7 @@ public interface ServletContext {
      *    use this method.
      * @since Servlet 3.0 TODO SERVLET3 - Add comments
      */
-    Map<String, ? extends FilterRegistration> getFilterRegistrations();
+    public Map<String, ? extends FilterRegistration> getFilterRegistrations();
 
     /**
      * @return TODO
@@ -741,7 +741,7 @@ public interface ServletContext {
      *    use this method.
      * @since Servlet 3.0 TODO SERVLET3 - Add comments
      */
-    SessionCookieConfig getSessionCookieConfig();
+    public SessionCookieConfig getSessionCookieConfig();
 
     /**
      * @param sessionTrackingModes
@@ -760,7 +760,7 @@ public interface ServletContext {
      *    use this method.
      * @since Servlet 3.0 TODO SERVLET3 - Add comments
      */
-    void setSessionTrackingModes(
+    public void setSessionTrackingModes(
             Set<SessionTrackingMode> sessionTrackingModes)
             throws IllegalStateException, IllegalArgumentException;
 
@@ -775,7 +775,7 @@ public interface ServletContext {
      *    use this method.
      * @since Servlet 3.0 TODO SERVLET3 - Add comments
      */
-    Set<SessionTrackingMode> getDefaultSessionTrackingModes();
+    public Set<SessionTrackingMode> getDefaultSessionTrackingModes();
 
     /**
      * @return TODO
@@ -788,7 +788,7 @@ public interface ServletContext {
      *    use this method.
      * @since Servlet 3.0 TODO SERVLET3 - Add comments
      */
-    Set<SessionTrackingMode> getEffectiveSessionTrackingModes();
+    public Set<SessionTrackingMode> getEffectiveSessionTrackingModes();
 
     /**
      * @param className
@@ -801,7 +801,7 @@ public interface ServletContext {
      *    use this method.
      * @since Servlet 3.0 TODO SERVLET3 - Add comments
      */
-    void addListener(String className);
+    public void addListener(String className);
 
     /**
      * @param <T>
@@ -815,7 +815,7 @@ public interface ServletContext {
      *    use this method.
      * @since Servlet 3.0 TODO SERVLET3 - Add comments
      */
-    <T extends EventListener> void addListener(T t);
+    public <T extends EventListener> void addListener(T t);
 
     /**
      * @param listenerClass
@@ -828,7 +828,7 @@ public interface ServletContext {
      *    use this method.
      * @since Servlet 3.0 TODO SERVLET3 - Add comments
      */
-    void addListener(Class<? extends EventListener> listenerClass);
+    public void addListener(Class<? extends EventListener> listenerClass);
 
     /**
      * @param <T>
@@ -844,7 +844,7 @@ public interface ServletContext {
      *    use this method.
      * @since Servlet 3.0 TODO SERVLET3 - Add comments
      */
-    <T extends EventListener> T createListener(Class<T> c)
+    public <T extends EventListener> T createListener(Class<T> c)
             throws ServletException;
 
     /**
@@ -860,7 +860,7 @@ public interface ServletContext {
      * @throws IllegalStateException
      * @since Servlet 3.0 TODO SERVLET3 - Add comments
      */
-    void declareRoles(String... roleNames);
+    public void declareRoles(String... roleNames);
 
     /**
      * @return TODO
@@ -874,7 +874,7 @@ public interface ServletContext {
      * @throws SecurityException
      * @since Servlet 3.0 TODO SERVLET3 - Add comments
      */
-    ClassLoader getClassLoader();
+    public ClassLoader getClassLoader();
 
     /**
      * @return TODO
@@ -887,5 +887,5 @@ public interface ServletContext {
      *    use this method.
      * @since Servlet 3.0 TODO SERVLET3 - Add comments
      */
-    JspConfigDescriptor getJspConfigDescriptor();
+    public JspConfigDescriptor getJspConfigDescriptor();
 }

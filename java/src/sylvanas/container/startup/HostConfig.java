@@ -6,6 +6,7 @@ import sylvanas.component.digester.sylvanas.SylvanasXML;
 import sylvanas.component.resource.Resource;
 import sylvanas.container.Context;
 import sylvanas.container.Host;
+import sylvanas.util.Constants;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,13 +42,19 @@ public class HostConfig {
 
     private SylvanasXML xml = new SylvanasXML();
 
-    private String appBase = "C:\\Users\\1\\Desktop\\webapps";
+    private String appBase = Constants.APP_BASE;
 
-    private HostConfig(Host host){
+    public HostConfig(Host host){
+
         this.host = host;
+        config();
     }
 
+
     public void config(){
+
+        //TODO: parseXML();
+
         File file = new File(appBase);
         File[] projects = file.listFiles(File::isDirectory);
 
@@ -63,7 +70,14 @@ public class HostConfig {
     public void deployDirectories(File dir){
         Context context = createContext();
         context.setDocBase(dir);
-        context.setPath(dir.getName());
+        context.setPath("/"+dir.getName());
+        context.setName(dir.getName());
+
+        System.out.println("INFO: app deployed: " + context.getDocBase());
+
+        context.init();
+
+        host.getMapper().addContext(context,context.getPath());
     }
 
 

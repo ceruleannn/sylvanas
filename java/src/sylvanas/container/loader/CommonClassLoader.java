@@ -14,4 +14,11 @@ public class CommonClassLoader extends URLClassLoader {
         super(urls, parent);
         System.class.getClassLoader();
     }
+
+    @Override
+    public Class<?> loadClass(String name) throws ClassNotFoundException {
+        System.out.println("common load");
+        return loadClass(name, false);
+
+    }
 }

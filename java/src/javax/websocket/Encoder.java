@@ -23,9 +23,9 @@ import java.nio.ByteBuffer;
 
 public interface Encoder {
 
-    void init(EndpointConfig endpointConfig);
+    abstract void init(EndpointConfig endpointConfig);
 
-    void destroy();
+    abstract void destroy();
 
     interface Text<T> extends Encoder {
 

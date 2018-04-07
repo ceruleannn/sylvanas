@@ -89,7 +89,7 @@ public abstract class HttpServlet extends GenericServlet {
     private static final String HEADER_LASTMOD = "Last-Modified";
 
     private static final String LSTRING_FILE =
-        "javax.servlet.connector.LocalStrings";
+        "javax.servlet.http.LocalStrings";
     private static ResourceBundle lStrings =
         ResourceBundle.getBundle(LSTRING_FILE);
 
@@ -167,7 +167,7 @@ public abstract class HttpServlet extends GenericServlet {
      * @see javax.servlet.ServletResponse#setContentType
      */
     protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-        throws IOException
+        throws ServletException, IOException
     {
         String protocol = req.getProtocol();
         String msg = lStrings.getString("http.method_get_not_supported");
@@ -307,7 +307,7 @@ public abstract class HttpServlet extends GenericServlet {
      * @see javax.servlet.ServletResponse#setContentType
      */
     protected void doPost(HttpServletRequest req, HttpServletResponse resp)
-        throws IOException {
+        throws ServletException, IOException {
 
         String protocol = req.getProtocol();
         String msg = lStrings.getString("http.method_post_not_supported");
@@ -362,7 +362,7 @@ public abstract class HttpServlet extends GenericServlet {
      *                                  cannot be handled
      */
     protected void doPut(HttpServletRequest req, HttpServletResponse resp)
-        throws IOException {
+        throws ServletException, IOException {
 
         String protocol = req.getProtocol();
         String msg = lStrings.getString("http.method_put_not_supported");
@@ -410,7 +410,7 @@ public abstract class HttpServlet extends GenericServlet {
      */
     protected void doDelete(HttpServletRequest req,
                             HttpServletResponse resp)
-        throws IOException {
+        throws ServletException, IOException {
 
         String protocol = req.getProtocol();
         String msg = lStrings.getString("http.method_delete_not_supported");
@@ -478,7 +478,8 @@ public abstract class HttpServlet extends GenericServlet {
      *                                  OPTIONS cannot be handled
      */
     protected void doOptions(HttpServletRequest req,
-            HttpServletResponse resp) {
+            HttpServletResponse resp)
+        throws ServletException, IOException {
 
         Method[] methods = getAllDeclaredMethods(this.getClass());
 
@@ -555,7 +556,7 @@ public abstract class HttpServlet extends GenericServlet {
      *                                  TRACE cannot be handled
      */
     protected void doTrace(HttpServletRequest req, HttpServletResponse resp)
-        throws IOException
+        throws ServletException, IOException
     {
 
         int responseLength;
@@ -576,7 +577,7 @@ public abstract class HttpServlet extends GenericServlet {
 
         responseLength = buffer.length();
 
-        resp.setContentType("message/connector");
+        resp.setContentType("message/http");
         resp.setContentLength(responseLength);
         ServletOutputStream out = resp.getOutputStream();
         out.print(buffer.toString());
@@ -800,7 +801,7 @@ class NoBodyResponse extends HttpServletResponseWrapper {
     }
 
     @Override
-    public ServletOutputStream getOutputStream() {
+    public ServletOutputStream getOutputStream() throws IOException {
         return noBody;
     }
 
@@ -826,7 +827,7 @@ class NoBodyResponse extends HttpServletResponseWrapper {
 class NoBodyOutputStream extends ServletOutputStream {
 
     private static final String LSTRING_FILE =
-        "javax.servlet.connector.LocalStrings";
+        "javax.servlet.http.LocalStrings";
     private static ResourceBundle lStrings =
         ResourceBundle.getBundle(LSTRING_FILE);
 
@@ -848,7 +849,7 @@ class NoBodyOutputStream extends ServletOutputStream {
     }
 
     @Override
-    public void write(byte buf[], int offset, int len) {
+    public void write(byte buf[], int offset, int len) throws IOException {
         if (buf == null) {
             throw new NullPointerException(
                     lStrings.getString("err.io.nullArray"));

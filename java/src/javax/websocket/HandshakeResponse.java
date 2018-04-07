@@ -24,7 +24,7 @@ public interface HandshakeResponse {
     /**
      * Name of the WebSocket accept HTTP header.
      */
-    String SEC_WEBSOCKET_ACCEPT = "Sec-WebSocket-Accept";
+    public static final String SEC_WEBSOCKET_ACCEPT = "Sec-WebSocket-Accept";
 
     Map<String,List<String>> getHeaders();
 }

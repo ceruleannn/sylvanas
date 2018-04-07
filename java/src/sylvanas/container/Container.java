@@ -11,7 +11,7 @@ import java.util.List;
 public interface Container {
 
 
-    boolean doHandle(Request request, Response response);
+    String doHandle(Request request, Response response);
 
     void doChain(Request request, Response response);
 

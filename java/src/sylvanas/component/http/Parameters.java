@@ -11,7 +11,7 @@ import java.util.*;
  */
 public final class Parameters {
 
-    private final LinkedHashMap<String,ArrayList<String>> paramMap =
+    private final LinkedHashMap<String,String[]> paramMap =
             new LinkedHashMap<>();
 
     private boolean isParametersParsed = false;
@@ -49,11 +49,11 @@ public final class Parameters {
 
         isParametersParsed = true;
 
-        printParameters();
+        //printParameters();
     }
 
     /**
-     * @Description: key=v1&oo=11 从此格式字符串中提取请求参数
+     * : key=v1&oo=11 从此格式字符串中提取请求参数
      *
      */
     public void parseParam(String str){
@@ -94,26 +94,34 @@ public final class Parameters {
         }
 
         if (paramMap.containsKey(key)){
-            ArrayList<String> list = paramMap.get(key);
-            list.add(value);
+
+            //TODO 更有效率的数组复制 不用每加一个就创建新数组
+
+            String[] arr  = paramMap.get(key);
+            String[] newarr = new String[2];
+            System.arraycopy(arr,0,newarr,0,arr.length);
+            newarr[newarr.length-1] = value;
+            paramMap.put(key,newarr);
+
         }else {
-            ArrayList<String> newList = new ArrayList<>(1);
-            newList.add(value);
-            paramMap.put(key,newList);
+            String[] s = new String[1];
+
+            s[s.length-1] = value;
+            paramMap.put(key,s);
         }
     }
 
     //----------data access
     public String[] getParameterValues(String name) {
-        if (isParametersParsed){
+        if (isParametersParsed) {
 
         }
 
-        ArrayList<String> values = paramMap.get(name);
+        String[] values = paramMap.get(name);
         if (values == null) {
             return null;
         }
-        return values.toArray(new String[values.size()]);
+        return values;
     }
 
     public Enumeration<String> getParameterNames() {
@@ -129,18 +137,18 @@ public final class Parameters {
 
         }
 
-        ArrayList<String> values = paramMap.get(name);
+        String[] values = paramMap.get(name);
         if (values != null) {
-            if(values.size() == 0) {
+            if(values.length == 0) {
                 return "";
             }
-            return values.get(0);
+            return values[0];
         } else {
             return null;
         }
     }
 
-    public LinkedHashMap<String,ArrayList<String>> getParameterMap(){
+    public LinkedHashMap<String,String[]> getParameterMap(){
         if (isParametersParsed){
 
         }
@@ -151,9 +159,9 @@ public final class Parameters {
     public void printParameters(){
 
         System.out.println("------Parameters------");
-        Map<String, ArrayList<String>> map = getParameterMap();
+        Map<String, String[]> map = getParameterMap();
 
-        for (Map.Entry<String, ArrayList<String>> entry: map.entrySet()){
+        for (Map.Entry<String,String[]> entry: map.entrySet()){
             System.out.print(entry.getKey()+" # ");
             for (String s : entry.getValue()) {
                 System.out.print(s+" ");

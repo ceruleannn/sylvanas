@@ -50,7 +50,7 @@ public interface ServerEndpointConfig extends EndpointConfig {
     Configurator getConfigurator();
 
 
-    final class Builder {
+    public final class Builder {
 
         public static Builder create(
                 Class<?> endpointClass, String path) {
@@ -137,7 +137,7 @@ public interface ServerEndpointConfig extends EndpointConfig {
     }
 
 
-    class Configurator {
+    public class Configurator {
 
         private static volatile Configurator defaultImpl = null;
         private static final Object defaultImplLock = new Object();
@@ -206,7 +206,8 @@ public interface ServerEndpointConfig extends EndpointConfig {
             fetchContainerDefaultConfigurator().modifyHandshake(sec, request, response);
         }
 
-        public <T extends Object> T getEndpointInstance(Class<T> clazz) {
+        public <T extends Object> T getEndpointInstance(Class<T> clazz)
+                throws InstantiationException {
             return fetchContainerDefaultConfigurator().getEndpointInstance(
                     clazz);
         }

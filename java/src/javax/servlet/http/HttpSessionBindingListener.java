@@ -40,7 +40,7 @@ public interface HttpSessionBindingListener extends EventListener {
      *            the event that identifies the session
      * @see #valueUnbound
      */
-    void valueBound(HttpSessionBindingEvent event);
+    public void valueBound(HttpSessionBindingEvent event);
 
     /**
      * Notifies the object that it is being unbound from a session and
@@ -50,5 +50,5 @@ public interface HttpSessionBindingListener extends EventListener {
      *            the event that identifies the session
      * @see #valueBound
      */
-    void valueUnbound(HttpSessionBindingEvent event);
+    public void valueUnbound(HttpSessionBindingEvent event);
 }

@@ -47,5 +47,5 @@ public interface VariableResolver {
      *             if a failure occurred while trying to resolve the given
      *             variable
      */
-    Object resolveVariable(String pName) throws ELException;
+    public Object resolveVariable(String pName) throws ELException;
 }

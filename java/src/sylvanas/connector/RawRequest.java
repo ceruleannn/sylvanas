@@ -42,9 +42,14 @@ public class RawRequest {
 
 
     /**
-     *  Request Path / 请求路径
+     *  Request Path / 请求路径 include 请求参数
      */
     private String query = null;
+
+    /**
+     *  Request Path / 请求路径 exclude 请求参数
+     */
+    private String uri = null;
 
 
     /**
@@ -92,7 +97,7 @@ public class RawRequest {
         parseRequestLine();
         parseHeaders();
         parseParameters();
-        parseCookies();
+        //TODO parseCookies();
     }
 
     private void parseDepart(){
@@ -115,6 +120,14 @@ public class RawRequest {
 
         method = result[0];
         query = result[1];
+
+        int index = query.indexOf('?');
+        if (index>0){
+            uri = query.substring(0,index);
+        }
+        else
+            uri = query;
+
         protocol = result[2];
 
     }
@@ -131,6 +144,7 @@ public class RawRequest {
                 .equalsIgnoreCase(mimeHeaders.getHeader("Content-Type"));
         parameters = new Parameters(isParseBody,query,rawBody);
         parameters.parse();
+
     }
 
     private void parseCookies(){
@@ -184,5 +198,9 @@ public class RawRequest {
 
     public void setSessionID(String sessionID) {
         this.sessionID = sessionID;
+    }
+
+    public String getUri() {
+        return uri;
     }
 }

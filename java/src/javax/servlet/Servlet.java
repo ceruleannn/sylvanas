@@ -30,7 +30,7 @@ import java.io.IOException;
  * <p>
  * To implement this interface, you can write a generic servlet that extends
  * <code>javax.servlet.GenericServlet</code> or an HTTP servlet that extends
- * <code>javax.servlet.connector.HttpServlet</code>.
+ * <code>javax.servlet.http.HttpServlet</code>.
  * 
  * <p>
  * This interface defines methods to initialize a servlet, to service requests,
@@ -85,7 +85,7 @@ public interface Servlet {
      * @see UnavailableException
      * @see #getServletConfig
      */
-    void init(ServletConfig config) throws ServletException;
+    public void init(ServletConfig config) throws ServletException;
 
     /**
      * 
@@ -104,7 +104,7 @@ public interface Servlet {
      * 
      * @see #init
      */
-    ServletConfig getServletConfig();
+    public ServletConfig getServletConfig();
 
     /**
      * Called by the servlet container to allow the servlet to respond to a
@@ -145,7 +145,7 @@ public interface Servlet {
      * @exception IOException
      *                if an input or output exception occurs
      */
-    void service(ServletRequest req, ServletResponse res)
+    public void service(ServletRequest req, ServletResponse res)
             throws ServletException, IOException;
 
     /**
@@ -158,7 +158,7 @@ public interface Servlet {
      * 
      * @return a <code>String</code> containing servlet information
      */
-    String getServletInfo();
+    public String getServletInfo();
 
     /**
      * Called by the servlet container to indicate to a servlet that the servlet
@@ -174,5 +174,5 @@ public interface Servlet {
      * sure that any persistent state is synchronized with the servlet's current
      * state in memory.
      */
-    void destroy();
+    public void destroy();
 }

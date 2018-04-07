@@ -40,7 +40,7 @@ public interface HttpServletResponse extends ServletResponse {
      * @param cookie
      *            the Cookie to return to the client
      */
-    void addCookie(Cookie cookie);
+    public void addCookie(Cookie cookie);
 
     /**
      * Returns a boolean indicating whether the named response header has
@@ -51,7 +51,7 @@ public interface HttpServletResponse extends ServletResponse {
      * @return <code>true</code> if the named response header has already been
      *         set; <code>false</code> otherwise
      */
-    boolean containsHeader(String name);
+    public boolean containsHeader(String name);
 
     /**
      * Encodes the specified URL by including the session ID in it, or, if
@@ -69,7 +69,7 @@ public interface HttpServletResponse extends ServletResponse {
      * @return the encoded URL if encoding is needed; the unchanged URL
      *         otherwise.
      */
-    String encodeURL(String url);
+    public String encodeURL(String url);
 
     /**
      * Encodes the specified URL for use in the <code>sendRedirect</code> method
@@ -91,7 +91,7 @@ public interface HttpServletResponse extends ServletResponse {
      * @see #sendRedirect
      * @see #encodeUrl
      */
-    String encodeRedirectURL(String url);
+    public String encodeRedirectURL(String url);
 
     /**
      * @param url
@@ -102,7 +102,7 @@ public interface HttpServletResponse extends ServletResponse {
      */
     @SuppressWarnings("dep-ann")
     // Spec API does not use @Deprecated
-    String encodeUrl(String url);
+    public String encodeUrl(String url);
 
     /**
      * @param url
@@ -113,7 +113,7 @@ public interface HttpServletResponse extends ServletResponse {
      */
     @SuppressWarnings("dep-ann")
     // Spec API does not use @Deprecated
-    String encodeRedirectUrl(String url);
+    public String encodeRedirectUrl(String url);
 
     /**
      * Sends an error response to the client using the specified status code and
@@ -137,7 +137,7 @@ public interface HttpServletResponse extends ServletResponse {
      * @exception IllegalStateException
      *                If the response was committed
      */
-    void sendError(int sc, String msg) throws IOException;
+    public void sendError(int sc, String msg) throws IOException;
 
     /**
      * Sends an error response to the client using the specified status code and
@@ -151,7 +151,7 @@ public interface HttpServletResponse extends ServletResponse {
      * @exception IllegalStateException
      *                If the response was committed before this method call
      */
-    void sendError(int sc) throws IOException;
+    public void sendError(int sc) throws IOException;
 
     /**
      * Sends a temporary redirect response to the client using the specified
@@ -174,7 +174,7 @@ public interface HttpServletResponse extends ServletResponse {
      *                If the response was committed or if a partial URL is given
      *                and cannot be converted into a valid URL
      */
-    void sendRedirect(String location) throws IOException;
+    public void sendRedirect(String location) throws IOException;
 
     /**
      * Sets a response header with the given name and date-value. The date is
@@ -190,7 +190,7 @@ public interface HttpServletResponse extends ServletResponse {
      * @see #containsHeader
      * @see #addDateHeader
      */
-    void setDateHeader(String name, long date);
+    public void setDateHeader(String name, long date);
 
     /**
      * Adds a response header with the given name and date-value. The date is
@@ -203,7 +203,7 @@ public interface HttpServletResponse extends ServletResponse {
      *            the additional date value
      * @see #setDateHeader
      */
-    void addDateHeader(String name, long date);
+    public void addDateHeader(String name, long date);
 
     /**
      * Sets a response header with the given name and value. If the header had
@@ -220,7 +220,7 @@ public interface HttpServletResponse extends ServletResponse {
      * @see #containsHeader
      * @see #addHeader
      */
-    void setHeader(String name, String value);
+    public void setHeader(String name, String value);
 
     /**
      * Adds a response header with the given name and value. This method allows
@@ -234,7 +234,7 @@ public interface HttpServletResponse extends ServletResponse {
      *            (http://www.ietf.org/rfc/rfc2047.txt)
      * @see #setHeader
      */
-    void addHeader(String name, String value);
+    public void addHeader(String name, String value);
 
     /**
      * Sets a response header with the given name and integer value. If the
@@ -249,7 +249,7 @@ public interface HttpServletResponse extends ServletResponse {
      * @see #containsHeader
      * @see #addIntHeader
      */
-    void setIntHeader(String name, int value);
+    public void setIntHeader(String name, int value);
 
     /**
      * Adds a response header with the given name and integer value. This method
@@ -261,7 +261,7 @@ public interface HttpServletResponse extends ServletResponse {
      *            the assigned integer value
      * @see #setIntHeader
      */
-    void addIntHeader(String name, int value);
+    public void addIntHeader(String name, int value);
 
     /**
      * Sets the status code for this response. This method is used to set the
@@ -277,7 +277,7 @@ public interface HttpServletResponse extends ServletResponse {
      *            the status code
      * @see #sendError
      */
-    void setStatus(int sc);
+    public void setStatus(int sc);
 
     /**
      * Sets the status code and message for this response.
@@ -293,14 +293,14 @@ public interface HttpServletResponse extends ServletResponse {
      */
     @SuppressWarnings("dep-ann")
     // Spec API does not use @Deprecated
-    void setStatus(int sc, String sm);
+    public void setStatus(int sc, String sm);
 
     /**
      * Return the HTTP status code associated with this Response.
      *
      * @since Servlet 3.0
      */
-    int getStatus();
+    public int getStatus();
 
     /**
      * Return the value for the specified header, or <code>null</code> if this
@@ -312,7 +312,7 @@ public interface HttpServletResponse extends ServletResponse {
      *
      * @since Servlet 3.0
      */
-    String getHeader(String name);
+    public String getHeader(String name);
 
     /**
      * Return a Collection of all the header values associated with the
@@ -322,14 +322,14 @@ public interface HttpServletResponse extends ServletResponse {
      *
      * @since Servlet 3.0
      */
-    Collection<String> getHeaders(String name);
+    public Collection<String> getHeaders(String name);
 
     /**
      * Return an Iterable of all the header names set for this response.
      *
      * @since Servlet 3.0
      */
-    Collection<String> getHeaderNames();
+    public Collection<String> getHeaderNames();
 
     /*
      * Server status codes; see RFC 2068.
@@ -338,67 +338,67 @@ public interface HttpServletResponse extends ServletResponse {
     /**
      * Status code (100) indicating the client can continue.
      */
-    int SC_CONTINUE = 100;
+    public static final int SC_CONTINUE = 100;
 
     /**
      * Status code (101) indicating the server is switching protocols according
      * to Upgrade header.
      */
-    int SC_SWITCHING_PROTOCOLS = 101;
+    public static final int SC_SWITCHING_PROTOCOLS = 101;
 
     /**
      * Status code (200) indicating the request succeeded normally.
      */
-    int SC_OK = 200;
+    public static final int SC_OK = 200;
 
     /**
      * Status code (201) indicating the request succeeded and created a new
      * resource on the server.
      */
-    int SC_CREATED = 201;
+    public static final int SC_CREATED = 201;
 
     /**
      * Status code (202) indicating that a request was accepted for processing,
      * but was not completed.
      */
-    int SC_ACCEPTED = 202;
+    public static final int SC_ACCEPTED = 202;
 
     /**
      * Status code (203) indicating that the meta information presented by the
      * client did not originate from the server.
      */
-    int SC_NON_AUTHORITATIVE_INFORMATION = 203;
+    public static final int SC_NON_AUTHORITATIVE_INFORMATION = 203;
 
     /**
      * Status code (204) indicating that the request succeeded but that there
      * was no new information to return.
      */
-    int SC_NO_CONTENT = 204;
+    public static final int SC_NO_CONTENT = 204;
 
     /**
      * Status code (205) indicating that the agent <em>SHOULD</em> reset the
      * document view which caused the request to be sent.
      */
-    int SC_RESET_CONTENT = 205;
+    public static final int SC_RESET_CONTENT = 205;
 
     /**
      * Status code (206) indicating that the server has fulfilled the partial
      * GET request for the resource.
      */
-    int SC_PARTIAL_CONTENT = 206;
+    public static final int SC_PARTIAL_CONTENT = 206;
 
     /**
      * Status code (300) indicating that the requested resource corresponds to
      * any one of a set of representations, each with its own specific location.
      */
-    int SC_MULTIPLE_CHOICES = 300;
+    public static final int SC_MULTIPLE_CHOICES = 300;
 
     /**
      * Status code (301) indicating that the resource has permanently moved to a
      * new location, and that future references should use a new URI with their
      * requests.
      */
-    int SC_MOVED_PERMANENTLY = 301;
+    public static final int SC_MOVED_PERMANENTLY = 301;
 
     /**
      * Status code (302) indicating that the resource has temporarily moved to
@@ -406,7 +406,7 @@ public interface HttpServletResponse extends ServletResponse {
      * original URI to access the resource. This definition is being retained
      * for backwards compatibility. SC_FOUND is now the preferred definition.
      */
-    int SC_MOVED_TEMPORARILY = 302;
+    public static final int SC_MOVED_TEMPORARILY = 302;
 
     /**
      * Status code (302) indicating that the resource reside temporarily under a
@@ -415,69 +415,69 @@ public interface HttpServletResponse extends ServletResponse {
      * requests.(HTTP/1.1) To represent the status code (302), it is recommended
      * to use this variable.
      */
-    int SC_FOUND = 302;
+    public static final int SC_FOUND = 302;
 
     /**
      * Status code (303) indicating that the response to the request can be
      * found under a different URI.
      */
-    int SC_SEE_OTHER = 303;
+    public static final int SC_SEE_OTHER = 303;
 
     /**
      * Status code (304) indicating that a conditional GET operation found that
      * the resource was available and not modified.
      */
-    int SC_NOT_MODIFIED = 304;
+    public static final int SC_NOT_MODIFIED = 304;
 
     /**
      * Status code (305) indicating that the requested resource <em>MUST</em> be
      * accessed through the proxy given by the <code><em>Location</em></code>
      * field.
      */
-    int SC_USE_PROXY = 305;
+    public static final int SC_USE_PROXY = 305;
 
     /**
      * Status code (307) indicating that the requested resource resides
      * temporarily under a different URI. The temporary URI <em>SHOULD</em> be
      * given by the <code><em>Location</em></code> field in the response.
      */
-    int SC_TEMPORARY_REDIRECT = 307;
+    public static final int SC_TEMPORARY_REDIRECT = 307;
 
     /**
      * Status code (400) indicating the request sent by the client was
      * syntactically incorrect.
      */
-    int SC_BAD_REQUEST = 400;
+    public static final int SC_BAD_REQUEST = 400;
 
     /**
      * Status code (401) indicating that the request requires HTTP
      * authentication.
      */
-    int SC_UNAUTHORIZED = 401;
+    public static final int SC_UNAUTHORIZED = 401;
 
     /**
      * Status code (402) reserved for future use.
      */
-    int SC_PAYMENT_REQUIRED = 402;
+    public static final int SC_PAYMENT_REQUIRED = 402;
 
     /**
      * Status code (403) indicating the server understood the request but
      * refused to fulfill it.
      */
-    int SC_FORBIDDEN = 403;
+    public static final int SC_FORBIDDEN = 403;
 
     /**
      * Status code (404) indicating that the requested resource is not
      * available.
      */
-    int SC_NOT_FOUND = 404;
+    public static final int SC_NOT_FOUND = 404;
 
     /**
      * Status code (405) indicating that the method specified in the
      * <code><em>Request-Line</em></code> is not allowed for the resource
      * identified by the <code><em>Request-URI</em></code>.
      */
-    int SC_METHOD_NOT_ALLOWED = 405;
+    public static final int SC_METHOD_NOT_ALLOWED = 405;
 
     /**
      * Status code (406) indicating that the resource identified by the request
@@ -485,113 +485,113 @@ public interface HttpServletResponse extends ServletResponse {
      * characteristics not acceptable according to the accept headers sent in
      * the request.
      */
-    int SC_NOT_ACCEPTABLE = 406;
+    public static final int SC_NOT_ACCEPTABLE = 406;
 
     /**
      * Status code (407) indicating that the client <em>MUST</em> first
      * authenticate itself with the proxy.
      */
-    int SC_PROXY_AUTHENTICATION_REQUIRED = 407;
+    public static final int SC_PROXY_AUTHENTICATION_REQUIRED = 407;
 
     /**
      * Status code (408) indicating that the client did not produce a request
      * within the time that the server was prepared to wait.
      */
-    int SC_REQUEST_TIMEOUT = 408;
+    public static final int SC_REQUEST_TIMEOUT = 408;
 
     /**
      * Status code (409) indicating that the request could not be completed due
      * to a conflict with the current state of the resource.
      */
-    int SC_CONFLICT = 409;
+    public static final int SC_CONFLICT = 409;
 
     /**
      * Status code (410) indicating that the resource is no longer available at
      * the server and no forwarding address is known. This condition
      * <em>SHOULD</em> be considered permanent.
      */
-    int SC_GONE = 410;
+    public static final int SC_GONE = 410;
 
     /**
      * Status code (411) indicating that the request cannot be handled without a
      * defined <code><em>Content-Length</em></code>.
      */
-    int SC_LENGTH_REQUIRED = 411;
+    public static final int SC_LENGTH_REQUIRED = 411;
 
     /**
      * Status code (412) indicating that the precondition given in one or more
      * of the request-header fields evaluated to false when it was tested on the
      * server.
      */
-    int SC_PRECONDITION_FAILED = 412;
+    public static final int SC_PRECONDITION_FAILED = 412;
 
     /**
      * Status code (413) indicating that the server is refusing to process the
      * request because the request entity is larger than the server is willing
      * or able to process.
      */
-    int SC_REQUEST_ENTITY_TOO_LARGE = 413;
+    public static final int SC_REQUEST_ENTITY_TOO_LARGE = 413;
 
     /**
      * Status code (414) indicating that the server is refusing to service the
      * request because the <code><em>Request-URI</em></code> is longer than the
      * server is willing to interpret.
      */
-    int SC_REQUEST_URI_TOO_LONG = 414;
+    public static final int SC_REQUEST_URI_TOO_LONG = 414;
 
     /**
      * Status code (415) indicating that the server is refusing to service the
      * request because the entity of the request is in a format not supported by
      * the requested resource for the requested method.
      */
-    int SC_UNSUPPORTED_MEDIA_TYPE = 415;
+    public static final int SC_UNSUPPORTED_MEDIA_TYPE = 415;
 
     /**
      * Status code (416) indicating that the server cannot serve the requested
      * byte range.
      */
-    int SC_REQUESTED_RANGE_NOT_SATISFIABLE = 416;
+    public static final int SC_REQUESTED_RANGE_NOT_SATISFIABLE = 416;
 
     /**
      * Status code (417) indicating that the server could not meet the
      * expectation given in the Expect request header.
      */
-    int SC_EXPECTATION_FAILED = 417;
+    public static final int SC_EXPECTATION_FAILED = 417;
 
     /**
      * Status code (500) indicating an error inside the HTTP server which
      * prevented it from fulfilling the request.
      */
-    int SC_INTERNAL_SERVER_ERROR = 500;
+    public static final int SC_INTERNAL_SERVER_ERROR = 500;
 
     /**
      * Status code (501) indicating the HTTP server does not support the
      * functionality needed to fulfill the request.
      */
-    int SC_NOT_IMPLEMENTED = 501;
+    public static final int SC_NOT_IMPLEMENTED = 501;
 
     /**
      * Status code (502) indicating that the HTTP server received an invalid
      * response from a server it consulted when acting as a proxy or gateway.
      */
-    int SC_BAD_GATEWAY = 502;
+    public static final int SC_BAD_GATEWAY = 502;
 
     /**
      * Status code (503) indicating that the HTTP server is temporarily
      * overloaded, and unable to handle the request.
      */
-    int SC_SERVICE_UNAVAILABLE = 503;
+    public static final int SC_SERVICE_UNAVAILABLE = 503;
 
     /**
      * Status code (504) indicating that the server did not receive a timely
      * response from the upstream server while acting as a gateway or proxy.
      */
-    int SC_GATEWAY_TIMEOUT = 504;
+    public static final int SC_GATEWAY_TIMEOUT = 504;
 
     /**
      * Status code (505) indicating that the server does not support or refuses
      * to support the HTTP protocol version that was used in the request
      * message.
      */
-    int SC_HTTP_VERSION_NOT_SUPPORTED = 505;
+    public static final int SC_HTTP_VERSION_NOT_SUPPORTED = 505;
 }

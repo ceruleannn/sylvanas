@@ -4,6 +4,9 @@ import sylvanas.component.exception.Assert;
 import sylvanas.connector.Request;
 import sylvanas.connector.Response;
 
+import javax.servlet.Servlet;
+import javax.servlet.ServletException;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -26,7 +29,12 @@ import java.util.Map;
         </init-param>
         <load-on-startup>1</load-on-startup>
      </servlet>
+
+     TODO:SINGLE THREAD MODEL AND SERVLET POOL
+
  */
+
+
 public class Wrapper extends ContainerBase {
 
     /**
@@ -44,17 +52,61 @@ public class Wrapper extends ContainerBase {
 
     private String servletClass;
 
-    public Wrapper(){
+    private Servlet instance;
 
+    private Context context;
+
+
+    public Wrapper(Context context){
         super();
+        this.context = context;
     }
 
+    public void init(){
+        loadServlet();
+    }
 
+    /**
+     * 初始化方法
+     */
+    private void loadServlet(){
 
+        Object obj =  context.getInstanceManager().newInstance(servletClass);
+
+        if (obj==null){
+            return;
+        }
+
+        if (obj instanceof Servlet){
+            instance = (Servlet)obj;
+        }
+        else{
+            throw new RuntimeException("instance is not a servlet");
+        }
+    }
+
+    /**
+     * 运行方法
+     * @param request
+     * @param response
+     * @return
+     */
     @Override
-    public boolean doHandle(Request request, Response response) {
+    public String doHandle(Request request, Response response) {
 
-        return false;
+        if (instance==null){
+            return "404";
+        }
+
+        try {
+            instance.service(request,response);
+        } catch (ServletException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return "";
     }
 
     public int getLoadOnStartup() {

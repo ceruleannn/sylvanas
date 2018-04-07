@@ -36,20 +36,20 @@ public interface ServletRequestAttributeListener extends EventListener {
      * servlet request. Called after the attribute is added.
      * @param srae Information about the new request attribute
      */
-    void attributeAdded(ServletRequestAttributeEvent srae);
+    public void attributeAdded(ServletRequestAttributeEvent srae);
 
     /**
      * Notification that an existing attribute has been removed from the
      * servlet request. Called after the attribute is removed.
      * @param srae Information about the removed request attribute
      */
-    void attributeRemoved(ServletRequestAttributeEvent srae);
+    public void attributeRemoved(ServletRequestAttributeEvent srae);
 
     /**
      * Notification that an attribute was replaced on the
      * servlet request. Called after the attribute is replaced.
      * @param srae Information about the replaced request attribute
      */
-    void attributeReplaced(ServletRequestAttributeEvent srae);
+    public void attributeReplaced(ServletRequestAttributeEvent srae);
 }
 

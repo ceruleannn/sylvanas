@@ -56,7 +56,7 @@ public interface Filter {
      * 1.Throws a ServletException <br>
      * 2.Does not return within a time period defined by the web container
      */
-    void init(FilterConfig filterConfig) throws ServletException;
+    public void init(FilterConfig filterConfig) throws ServletException;
 
     /**
      * The <code>doFilter</code> method of the Filter is called by the container
@@ -79,8 +79,8 @@ public interface Filter {
      * 5. Directly set headers on the response after invocation of the next
      * entity in the filter chain.
      **/
-    void doFilter(ServletRequest request, ServletResponse response,
-                  FilterChain chain) throws IOException, ServletException;
+    public void doFilter(ServletRequest request, ServletResponse response,
+                         FilterChain chain) throws IOException, ServletException;
 
     /**
      * Called by the web container to indicate to a filter that it is being
@@ -95,6 +95,6 @@ public interface Filter {
      * sure that any persistent state is synchronized with the filter's current
      * state in memory.
      */
-    void destroy();
+    public void destroy();
 
 }

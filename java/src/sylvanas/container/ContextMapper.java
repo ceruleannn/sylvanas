@@ -39,13 +39,17 @@ public class ContextMapper {
      */
     public void init(List<Container> children, Map<String,String> mappings){
         for (Map.Entry<String, String> entry : mappings.entrySet()) {
-            String name = entry.getKey();
-            String url = entry.getValue();
+            String url = entry.getKey();
+            String mapName = entry.getValue();
             for (Container child : children) {
                 if (!(child instanceof Wrapper)){
                     throw new IllegalArgumentException("can not add not wrapper to context mapper");
                 }
-                if (child.getName().equals(name)){
+
+                if (child.getName().equals(mapName)){
+
+                    System.out.println("INFO: mapping add: "+ child.getName()+" - "+url);
+
                     addWrapper((Wrapper)child,url);
                     break;
                 }
@@ -62,7 +66,7 @@ public class ContextMapper {
 
         urlPattern = urlPattern.trim();
 
-        if(checkURLPattern(urlPattern)){
+        if(!checkURLPattern(urlPattern)){
             throw new IllegalArgumentException("invalid urlPattern");
         }
 

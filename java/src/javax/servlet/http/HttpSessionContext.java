@@ -39,7 +39,7 @@ public interface HttpSessionContext {
      */
     @SuppressWarnings("dep-ann")
     // Spec API does not use @Deprecated
-    HttpSession getSession(String sessionId);
+    public HttpSession getSession(String sessionId);
 
     /**
      * @deprecated As of Java Servlet API 2.1 with no replacement. This method
@@ -48,5 +48,5 @@ public interface HttpSessionContext {
      */
     @SuppressWarnings("dep-ann")
     // Spec API does not use @Deprecated
-    Enumeration<String> getIds();
+    public Enumeration<String> getIds();
 }

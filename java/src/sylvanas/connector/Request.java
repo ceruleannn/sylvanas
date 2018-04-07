@@ -104,7 +104,7 @@ public class Request implements HttpServletRequest {
      */
     @Override
     public String getHeader(String name) {
-        return null;
+        return rawRequest.getMimeHeaders().getHeader(name);
     }
 
     /**
@@ -127,7 +127,7 @@ public class Request implements HttpServletRequest {
      */
     @Override
     public Enumeration<String> getHeaders(String name) {
-        return null;
+        return rawRequest.getMimeHeaders().getHeaders(name);
     }
 
     /**
@@ -144,7 +144,8 @@ public class Request implements HttpServletRequest {
      */
     @Override
     public Enumeration<String> getHeaderNames() {
-        return null;
+
+        return rawRequest.getMimeHeaders().getHeaderNames();
     }
 
     /**
@@ -338,7 +339,7 @@ public class Request implements HttpServletRequest {
      */
     @Override
     public String getRequestURI() {
-        return null;
+        return rawRequest.getUri();
     }
 
     /**
@@ -798,7 +799,7 @@ public class Request implements HttpServletRequest {
      */
     @Override
     public Map<String, String[]> getParameterMap() {
-        return null;
+        return rawRequest.getParameters().getParameterMap();
     }
 
     /**

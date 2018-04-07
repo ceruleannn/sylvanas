@@ -55,7 +55,7 @@ public class Cookie implements Cloneable, Serializable {
 
     private static final long serialVersionUID = 1L;
 
-    private static final String LSTRING_FILE = "javax.servlet.connector.LocalStrings";
+    private static final String LSTRING_FILE = "javax.servlet.http.LocalStrings";
     private static ResourceBundle lStrings = ResourceBundle.getBundle(LSTRING_FILE);
 
     //
@@ -392,7 +392,7 @@ public class Cookie implements Cloneable, Serializable {
                         "false")).booleanValue();
 
         String fwdSlashIsSeparator = System.getProperty(
-                "org.apache.tomcat.util.connector.ServerCookie.FWD_SLASH_IS_SEPARATOR");
+                "org.apache.tomcat.util.http.ServerCookie.FWD_SLASH_IS_SEPARATOR");
         if (fwdSlashIsSeparator == null) {
             FWD_SLASH_IS_SEPARATOR = STRICT_SERVLET_COMPLIANCE;
         } else {
@@ -407,7 +407,7 @@ public class Cookie implements Cloneable, Serializable {
         }
 
         String strictNaming = System.getProperty(
-                "org.apache.tomcat.util.connector.ServerCookie.STRICT_NAMING");
+                "org.apache.tomcat.util.http.ServerCookie.STRICT_NAMING");
         if (strictNaming == null) {
             STRICT_NAMING = STRICT_SERVLET_COMPLIANCE;
         } else {

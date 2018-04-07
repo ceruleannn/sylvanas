@@ -7,8 +7,8 @@ import sylvanas.component.resource.FileResource;
 import sylvanas.component.resource.Resource;
 import sylvanas.container.Context;
 import sylvanas.container.Wrapper;
+import sylvanas.util.Constants;
 
-import javax.servlet.SessionCookieConfig;
 import java.io.IOException;
 import java.util.Map;
 
@@ -16,6 +16,8 @@ import java.util.Map;
  * @Description:
  */
 public class ContextConfig {
+
+    private Resource XMLResource;
 
     private Context context;
 
@@ -36,6 +38,7 @@ public class ContextConfig {
 
     public ContextConfig(Context context){
         this.context = context;
+        XMLResource = new FileResource(context.getDocBase()+Constants.WEB_XML_PATH);
     }
 
     /**
@@ -44,9 +47,11 @@ public class ContextConfig {
      */
     public void webConfig(){
 
+        parseWebXml();
+        configureContext();
     }
 
-    public void parseWebXml(){
+    private void parseWebXml(){
 
         digester.push(webXml);
 
@@ -56,7 +61,12 @@ public class ContextConfig {
 
         try {
             // File, inputStream, inputSource, uri,
-            digester.parse(getWebXmlSource().getInputStream());
+
+            if (XMLResource!=null&&XMLResource.exists())
+                digester.parse(XMLResource.getInputStream());
+            else {
+                throw new RuntimeException("can not deploy web.xml for" + context.getName());
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
@@ -72,9 +82,9 @@ public class ContextConfig {
         context.setDistributable(webXml.isDistributable());
 
         // resolve error pages
-        for (ErrorPage errorPage:webXml.getErrorPages().values()){
-            context.getErrorPageHandler().addErrorPage(errorPage);
-        }
+//        for (ErrorPage errorPage:webXml.getErrorPages().values()){
+//            context.getErrorPageHandler().addErrorPage(errorPage);
+//        }
 
         // resolve filter
         for (FilterDef filterDef:webXml.getFilters().values()){
@@ -90,36 +100,35 @@ public class ContextConfig {
 
         // resolve session
 
-        SessionConfig sessionConfig = webXml.getSessionConfig();
-        if (sessionConfig != null) {
-            if (sessionConfig.getSessionTimeout() != null) {
-                context.getSessionHandler().setMaxInactiveInterval(sessionConfig.getSessionTimeout());
-            }
-
-            SessionCookieConfig scc =
-                    context.getServletContext().getSessionCookieConfig();
-            scc.setName(sessionConfig.getCookieName());
-            scc.setDomain(sessionConfig.getCookieDomain());
-            scc.setPath(sessionConfig.getCookiePath());
-            scc.setComment(sessionConfig.getCookieComment());
-
-            if (sessionConfig.getCookieHttpOnly() != null) {
-                scc.setHttpOnly(sessionConfig.getCookieHttpOnly());
-            }
-            if (sessionConfig.getCookieSecure() != null) {
-                scc.setSecure(sessionConfig.getCookieSecure());
-            }
-            if (sessionConfig.getCookieMaxAge() != null) {
-                scc.setMaxAge(sessionConfig.getCookieMaxAge());
-            }
-            if (sessionConfig.getSessionTrackingModes().size() > 0) {
-                context.getServletContext().setSessionTrackingModes(
-                        sessionConfig.getSessionTrackingModes());
-            }
-        }
+//        SessionConfig sessionConfig = webXml.getSessionConfig();
+//        if (sessionConfig != null) {
+//            if (sessionConfig.getSessionTimeout() != null) {
+//                context.getSessionHandler().setMaxInactiveInterval(sessionConfig.getSessionTimeout());
+//            }
+//
+//            SessionCookieConfig scc =
+//                    context.getServletContext().getSessionCookieConfig();
+//            scc.setName(sessionConfig.getCookieName());
+//            scc.setDomain(sessionConfig.getCookieDomain());
+//            scc.setPath(sessionConfig.getCookiePath());
+//            scc.setComment(sessionConfig.getCookieComment());
+//
+//            if (sessionConfig.getCookieHttpOnly() != null) {
+//                scc.setHttpOnly(sessionConfig.getCookieHttpOnly());
+//            }
+//            if (sessionConfig.getCookieSecure() != null) {
+//                scc.setSecure(sessionConfig.getCookieSecure());
+//            }
+//            if (sessionConfig.getCookieMaxAge() != null) {
+//                scc.setMaxAge(sessionConfig.getCookieMaxAge());
+//            }
+//            if (sessionConfig.getSessionTrackingModes().size() > 0) {
+//                context.getServletContext().setSessionTrackingModes(
+//                        sessionConfig.getSessionTrackingModes());
+//            }
+//        }
 
         // resolve servlet
-
 
         for (ServletDef servlet : webXml.getServlets().values()) {
             Wrapper wrapper = context.createWrapper();
@@ -157,6 +166,9 @@ public class ContextConfig {
 
             }
 
+            // get servlet class form class loader
+            wrapper.init();
+
         }
 
         // one servlet for n mapping
@@ -177,8 +189,4 @@ public class ContextConfig {
 
     }
 
-    protected Resource getWebXmlSource() {
-
-        return new FileResource("C:\\Users\\1\\Desktop\\web.xml");
-    }
 }

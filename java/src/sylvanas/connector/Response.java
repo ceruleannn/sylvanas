@@ -3,6 +3,7 @@ package sylvanas.connector;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Collection;
 import java.util.Locale;
@@ -16,8 +17,16 @@ public class Response implements HttpServletResponse{
 
     private Request request = null;
 
+    private PrintWriter printWriter;
+
     public Response(RawResponse rawResponse){
        this.rawResponse = rawResponse;
+
+        try {
+            printWriter = new PrintWriter(rawResponse.getOutputStream());
+        } catch (IOException e) {
+            throw new RuntimeException("can not get out put stream");
+        }
     }
 
 
@@ -138,12 +147,17 @@ public class Response implements HttpServletResponse{
 
     @Override
     public ServletOutputStream getOutputStream() {
-        return null;
+        try {
+            return (ServletOutputStream) this.rawResponse.getOutputStream();
+        } catch (IOException e) {
+            throw new RuntimeException("out put stream");
+        }
     }
 
     @Override
     public PrintWriter getWriter() {
-        return null;
+
+        return printWriter;
     }
 
     @Override

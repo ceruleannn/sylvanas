@@ -39,7 +39,7 @@ public interface JspApplicationContext {
      * 
      * @param listener The listener to add
      */
-    void addELContextListener(ELContextListener listener);
+    public void addELContextListener(ELContextListener listener);
 
     /**
      * <p>
@@ -65,7 +65,7 @@ public interface JspApplicationContext {
      *             if called after the application's
      *             <code>ServletContextListeners</code> have been initialized.
      */
-    void addELResolver(ELResolver resolver) throws IllegalStateException;
+    public void addELResolver(ELResolver resolver) throws IllegalStateException;
 
     /**
      * <p>
@@ -75,6 +75,6 @@ public interface JspApplicationContext {
      * 
      * @return an <code>ExpressionFactory</code> implementation
      */
-    ExpressionFactory getExpressionFactory();
+    public ExpressionFactory getExpressionFactory();
 
 }

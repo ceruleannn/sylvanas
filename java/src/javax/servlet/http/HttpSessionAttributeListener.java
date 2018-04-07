@@ -30,17 +30,17 @@ public interface HttpSessionAttributeListener extends EventListener {
      * Notification that an attribute has been added to a session. Called after
      * the attribute is added.
      */
-    void attributeAdded(HttpSessionBindingEvent se);
+    public void attributeAdded(HttpSessionBindingEvent se);
 
     /**
      * Notification that an attribute has been removed from a session. Called
      * after the attribute is removed.
      */
-    void attributeRemoved(HttpSessionBindingEvent se);
+    public void attributeRemoved(HttpSessionBindingEvent se);
 
     /**
      * Notification that an attribute has been replaced in a session. Called
      * after the attribute is replaced.
      */
-    void attributeReplaced(HttpSessionBindingEvent se);
+    public void attributeReplaced(HttpSessionBindingEvent se);
 }

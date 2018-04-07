@@ -67,7 +67,7 @@ public class SimpleTagSupport implements SimpleTag {
      * @see SimpleTag#doTag()
      */ 
     @Override
-    public void doTag() {
+    public void doTag() throws JspException, IOException {
         // NOOP by default
     }
     

@@ -29,7 +29,7 @@ import java.lang.annotation.Target;
     ElementType.PACKAGE, ElementType.PARAMETER, ElementType.TYPE})
 @Retention(RetentionPolicy.SOURCE)
 public @interface Generated {
-    String[] value();
-    String date() default "";
-    String comments() default "";
+    public String[] value();
+    public String date() default "";
+    public String comments() default "";
 }

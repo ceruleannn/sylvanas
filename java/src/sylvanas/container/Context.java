@@ -2,10 +2,13 @@ package sylvanas.container;
 
 import sylvanas.component.context.ErrorPageHandler;
 import sylvanas.component.context.FilterHandler;
+import sylvanas.component.context.InstanceManager;
 import sylvanas.component.exception.Assert;
 import sylvanas.connector.Request;
 import sylvanas.connector.Response;
 import sylvanas.connector.session.SessionHandler;
+import sylvanas.container.loader.WebAppLoader;
+import sylvanas.container.startup.ContextConfig;
 
 import javax.servlet.ServletContext;
 import java.io.File;
@@ -18,6 +21,10 @@ import java.util.Map;
  * @author piao
  */
 public class Context extends ContainerBase{
+
+    private String XMLPath;
+
+    private ContextConfig contextConfig;
 
     protected ServletContext servletContext = null;
 
@@ -35,7 +42,12 @@ public class Context extends ContainerBase{
 
     private File docBase;
 
+    //  key url  value name
     private Map<String , String> servletMapping = new HashMap<>();
+
+    protected WebAppLoader webAppLoader;
+
+    protected InstanceManager instanceManager;
 
 
 
@@ -59,20 +71,31 @@ public class Context extends ContainerBase{
     protected Map<String, String> initParameters = new HashMap<>();
 
     public Context(){
-        super();
+
+
     }
 
     public void init(){
 
-
+        filterHandler = new FilterHandler();
+//        ServletContext servletContext = new ServletContext() {
+//        }s
         // digester.read web.XML
         // mapper.add(uri, Servlet)
+        webAppLoader = new WebAppLoader(this);
+        instanceManager = new InstanceManager(webAppLoader.getClassLoader());
+
+        contextConfig = new ContextConfig(this);
+        contextConfig.webConfig();
+
 
         mapper = new ContextMapper(getChildren(),servletMapping);
+
+
     }
 
     public Wrapper createWrapper(){
-        Wrapper wrapper = new Wrapper();
+        Wrapper wrapper = new Wrapper(this);
 
         //TODO LISTENER
 
@@ -101,16 +124,25 @@ public class Context extends ContainerBase{
         // fireContainerEvent("addParameter", name)?
     }
 
-    public void addServletMapping(String displayName, String value){
+    public void addServletMapping(String url, String name){
 
-        Assert.notNull(displayName,value);
-        servletMapping.put(displayName,value);
+        Assert.notNull(url,name);
+        servletMapping.put(url,name);
     }
 
 
     @Override
-    public boolean doHandle(Request request, Response response) {
-        return false;
+    public String doHandle(Request request, Response response) {
+
+      //  System.out.println("context mapped "+ getDocBase());
+
+        String uri = request.getRequestURI();
+        Wrapper wrapper = mapper.map(uri.substring(path.length(),uri.length()));
+
+        addNextContainer(wrapper);
+
+       // System.out.println("wrapper mapped "+ uri.substring(path.length(),uri.length()));
+        return null;
     }
 
     public ErrorPageHandler getErrorPageHandler() {
@@ -143,5 +175,17 @@ public class Context extends ContainerBase{
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public ContextMapper getMapper() {
+        return mapper;
+    }
+
+    public WebAppLoader getWebAppLoader() {
+        return webAppLoader;
+    }
+
+    public InstanceManager getInstanceManager() {
+        return instanceManager;
     }
 }

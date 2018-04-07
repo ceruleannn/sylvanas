@@ -33,17 +33,17 @@ public interface ServletRegistration extends Registration {
      * @throws IllegalStateException if the associated ServletContext has
      *                                  already been initialised
      */
-    Set<String> addMapping(String... urlPatterns);
+    public Set<String> addMapping(String... urlPatterns);
     
-    Collection<String> getMappings();
+    public Collection<String> getMappings();
     
-    String getRunAsRole();
+    public String getRunAsRole();
     
-    interface Dynamic
+    public static interface Dynamic
     extends ServletRegistration, Registration.Dynamic {
-        void setLoadOnStartup(int loadOnStartup);
-        void setMultipartConfig(MultipartConfigElement multipartConfig);
-        void setRunAsRole(String roleName);
-        Set<String> setServletSecurity(ServletSecurityElement constraint);
+        public void setLoadOnStartup(int loadOnStartup);
+        public void setMultipartConfig(MultipartConfigElement multipartConfig);
+        public void setRunAsRole(String roleName);
+        public Set<String> setServletSecurity(ServletSecurityElement constraint);
     }
 }

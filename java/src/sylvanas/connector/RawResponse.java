@@ -11,6 +11,7 @@ public class RawResponse {
 
     private Socket socket = null;
     private RawRequest rawRequest = null;
+    private OutputStream outputStream ;
 
 
     private static final String HTML = "HTTP/1.1 200 OK\r\n"
@@ -49,4 +50,9 @@ public class RawResponse {
     public void setRawRequest(RawRequest rawRequest) {
         this.rawRequest = rawRequest;
     }
+
+    public OutputStream getOutputStream() throws IOException{
+        return socket.getOutputStream();
+    }
+
 }

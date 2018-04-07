@@ -23,6 +23,6 @@ package javax.el;
  */
 public interface ELContextListener extends java.util.EventListener {
     
-    void contextCreated(ELContextEvent event);
+    public void contextCreated(ELContextEvent event);
 
 }

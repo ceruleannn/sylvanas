@@ -39,7 +39,7 @@ public abstract class MethodExpression extends Expression {
      * @throws ELException
      *              Wraps any exception throw whilst resolving the property
      */
-    public abstract MethodInfo getMethodInfo(ELContext context) throws NullPointerException, ELException;
+    public abstract MethodInfo getMethodInfo(ELContext context) throws NullPointerException, PropertyNotFoundException, MethodNotFoundException, ELException;
     
     /**
      * @param context The EL context for this evaluation
@@ -58,7 +58,7 @@ public abstract class MethodExpression extends Expression {
      *              Wraps any exception throw whilst resolving the property or
      *              coercion of the result to the expected return type fails
      */
-    public abstract Object invoke(ELContext context, Object[] params) throws NullPointerException, ELException;
+    public abstract Object invoke(ELContext context, Object[] params) throws NullPointerException, PropertyNotFoundException, MethodNotFoundException, ELException;
     
     /**
      * @since EL 2.2

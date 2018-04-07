@@ -33,7 +33,9 @@ public abstract class ContainerBase implements Container {
     @Override
     public final void doChain(Request request, Response response){
 
-        if (!doHandle(request,response)){
+        if (doHandle(request,response)!=null){
+
+            //TODO ERROR MESSAGE PROCESS
             return;
         }
 
@@ -50,7 +52,7 @@ public abstract class ContainerBase implements Container {
      * @return  do next or not
      */
     @Override
-    public abstract boolean doHandle(Request request, Response response);
+    public abstract String doHandle(Request request, Response response);
 
     @Override
     public void addChild(Container container) {

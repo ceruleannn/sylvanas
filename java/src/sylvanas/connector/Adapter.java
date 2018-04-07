@@ -41,11 +41,13 @@ public class Adapter {
 
         // TODO: LEAVE THIS WORK TO LIFECYCLE OR INSTANCE MANAGER ?
 
-        Container host = new Host();
-        Container context = new Context();
-        Container servlet = new Wrapper();
+
+        Host host = new Host();
+        Context context = new Context();
+        Wrapper wrapper = new Wrapper(context);
+
         host.addNextContainer(context);
-        context.addNextContainer(servlet);
+        context.addNextContainer(wrapper);
 
         return host;
     }

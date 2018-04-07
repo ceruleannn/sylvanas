@@ -40,7 +40,7 @@ public abstract class ValueExpression extends Expression {
      *              Wraps any exception throw whilst resolving a property or
      *              variable
      */
-    public abstract Class<?> getType(ELContext context) throws NullPointerException, ELException;
+    public abstract Class<?> getType(ELContext context) throws NullPointerException, PropertyNotFoundException, ELException;
     
     /**
      * @param context The EL context for this evaluation
@@ -57,7 +57,7 @@ public abstract class ValueExpression extends Expression {
      *              Wraps any exception throw whilst resolving a property or
      *              variable
      */
-    public abstract boolean isReadOnly(ELContext context) throws NullPointerException, ELException;
+    public abstract boolean isReadOnly(ELContext context) throws NullPointerException, PropertyNotFoundException, ELException;
     
     /**
      * @param context The EL context for this evaluation
@@ -76,7 +76,7 @@ public abstract class ValueExpression extends Expression {
      *              Wraps any exception throw whilst resolving a property or
      *              variable
      */
-    public abstract void setValue(ELContext context, Object value) throws NullPointerException, ELException;
+    public abstract void setValue(ELContext context, Object value) throws NullPointerException, PropertyNotFoundException, PropertyNotWritableException, ELException;
     
     /**
      * @param context The EL context for this evaluation
@@ -92,7 +92,7 @@ public abstract class ValueExpression extends Expression {
      *              Wraps any exception throw whilst resolving a property or
      *              variable
      */
-    public abstract Object getValue(ELContext context) throws NullPointerException, ELException;
+    public abstract Object getValue(ELContext context) throws NullPointerException, PropertyNotFoundException, ELException;
 
     /**
      * @param context The EL context for this evaluation
