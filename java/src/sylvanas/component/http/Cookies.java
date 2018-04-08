@@ -82,4 +82,45 @@ public final class Cookies {
         System.out.println();
         System.out.println("----------------------");
     }
+
+
+    public static String toHeaderString(Cookie cookie) {
+
+        StringBuilder sb = new StringBuilder();
+        sb.append(cookie.getName());
+        sb.append("=");
+        sb.append(cookie.getValue());
+
+        if (cookie.getDomain()!=null) {
+            sb.append("; Domain=");
+            sb.append(cookie.getDomain());
+        }
+
+        // Max-Age=secs ... or use old "Expires" format
+        int maxAge = cookie.getMaxAge();
+        if (maxAge >= 0) {
+
+            sb.append ("; Max-Age=");
+            sb.append (maxAge);
+
+        }
+
+        // Path=path
+        if (cookie.getPath()!=null) {
+            sb.append ("; Path=");
+            sb.append(cookie.getPath());
+        }
+
+        // Secure
+        if (cookie.getSecure()) {
+            sb.append ("; Secure");
+        }
+
+        // HttpOnly
+        if (cookie.isHttpOnly()) {
+            sb.append("; HttpOnly");
+        }
+
+        return sb.toString();
+    }
 }

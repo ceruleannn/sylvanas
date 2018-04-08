@@ -1,17 +1,27 @@
 package sylvanas.connector;
 
+import sylvanas.component.http.OutputBuffer;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
 
 /**
- * @Description:
+ * response for socket
  */
 public class RawResponse {
 
+    private Response response;
+
     private Socket socket = null;
+
     private RawRequest rawRequest = null;
+
     private OutputStream outputStream ;
+
+    private OutputBuffer outputBuffer;
+
+    private boolean commited = false;
 
 
     private static final String HTML = "HTTP/1.1 200 OK\r\n"
@@ -19,20 +29,14 @@ public class RawResponse {
             + "Content-Length: %d\r\n" + "\r\n"
             + "%s";
 
-    public RawResponse(){
+    public RawResponse(Socket socket){
+        this.socket = socket;
 
-    }
-
-
-    public void doWrite() throws IOException{
-
-        String raw = rawRequest.getRaw();
-        OutputStream out = socket.getOutputStream();
-
-        raw = "<h1>" + raw + "</h1>";
-        out.write(String.format(HTML, raw.length(), raw).getBytes());
-        out.flush();
-        out.close();
+        try {
+            this.outputStream = socket.getOutputStream();
+        } catch (IOException e) {
+            throw new RuntimeException("get out put stream failed");
+        }
     }
 
     public Socket getSocket() {
@@ -51,8 +55,33 @@ public class RawResponse {
         this.rawRequest = rawRequest;
     }
 
-    public OutputStream getOutputStream() throws IOException{
-        return socket.getOutputStream();
+    public OutputStream getOutputStream(){
+        return outputStream;
     }
 
+    public void doWrite ()throws IOException{
+        if (commited){
+            return;
+        }
+
+        if (socket.isClosed()){
+            return;
+        }
+
+        if (outputBuffer==null){
+            return;
+        }
+
+        commited = true;
+        outputBuffer.doWrite();
+    }
+
+    public Response getResponse() {
+        return response;
+    }
+
+    public void setResponse(Response response) {
+        this.response = response;
+        this.outputBuffer = response.getOutputBuffer();
+    }
 }

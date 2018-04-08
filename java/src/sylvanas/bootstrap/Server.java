@@ -38,4 +38,4 @@ public class Server {
 
 // LOG / ERROR /ACCESS LOG //EXCEPTION ERROR PAGE
 // NIO / SSL
-// JSP
+// RESPONCE / DEFAULT SERVLET / JSP

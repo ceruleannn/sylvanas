@@ -1,10 +1,10 @@
 package sylvanas.connector;
 
-import sylvanas.container.Container;
-import sylvanas.container.Context;
-import sylvanas.container.Host;
-import sylvanas.container.Wrapper;
-import sylvanas.connector.http.*;
+import sylvanas.connector.http.HttpConnector;
+import sylvanas.util.JavaUtils;
+
+import java.io.IOException;
+import java.net.Socket;
 
 /**
  * @Description:
@@ -15,41 +15,42 @@ import sylvanas.connector.http.*;
  *  2. 创建 Response
  *  3. 连接 Request 和 Response
  *  4. 解析 MimeHeaders, cookie, parameters, sessionID
- *  4. 传入 Container
+ *  5. 传入 Container
+ *  6. 最终返回
  */
 public class Adapter {
 
-    HttpConnector connector = null;
+    private HttpConnector connector = null;
 
     public Adapter(HttpConnector connector){
         this.connector = connector;
     }
 
-    public void service(RawRequest rawRequest, RawResponse rawResponse){
+    public void service(Socket socket, String raw){
+
+        RawRequest rawRequest = new RawRequest(raw);
+        RawResponse rawResponse = new RawResponse(socket);
+
         Request request = new Request(rawRequest);
         Response response = new Response(rawResponse);
 
-        request.parse();
-
         request.setResponse(response);
         response.setRequest(request);
+        rawResponse.setResponse(response);
+        rawResponse.setRawRequest(rawRequest);
+
+        request.parse();
 
         connector.getContainer().doChain(request, response);
-    }
 
-    public Container getChain(){
+        try {
+            rawResponse.doWrite();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }finally {
+            JavaUtils.closeQuietly(socket);
+        }
 
-        // TODO: LEAVE THIS WORK TO LIFECYCLE OR INSTANCE MANAGER ?
-
-
-        Host host = new Host();
-        Context context = new Context();
-        Wrapper wrapper = new Wrapper(context);
-
-        host.addNextContainer(context);
-        context.addNextContainer(wrapper);
-
-        return host;
     }
 
 }

@@ -1,8 +1,6 @@
 package sylvanas.connector.http;
 
 import sylvanas.connector.Adapter;
-import sylvanas.connector.RawRequest;
-import sylvanas.connector.RawResponse;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -59,15 +57,10 @@ public class HttpProcessor implements Runnable{
                 return;
             }
 
-            RawRequest rawRequest = new RawRequest(raw);
-            RawResponse rawResponse = new RawResponse();
-            rawResponse.setSocket(socket);
-            rawResponse.setRawRequest(rawRequest);
             //System.out.println("主机收到信息：\n" + raw);
 
-
             Adapter adapter = new Adapter(connector);
-            adapter.service(rawRequest, rawResponse);
+            adapter.service(socket,raw);
 
         } catch (IOException e) {
             e.printStackTrace();

@@ -18,6 +18,11 @@ public final class MimeHeaders {
         parseHeaders();
     }
 
+    public MimeHeaders(){
+
+    }
+
+
     public void parseHeaders(){
 
         if (rawHeaders==null){
