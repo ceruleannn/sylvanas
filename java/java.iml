@@ -39,5 +39,6 @@
     <orderEntry type="library" name="commons-beanutils-1.9.3" level="project" />
     <orderEntry type="library" name="commons-collections4-4.1" level="project" />
     <orderEntry type="library" name="commons-beanutils-1.8.3" level="project" />
+    <orderEntry type="library" name="commons-io-2.6" level="project" />
   </component>
 </module>

@@ -1,6 +1,7 @@
 package sylvanas.container.startup;
 
 import org.apache.commons.digester.Digester;
+import org.apache.commons.io.FileUtils;
 import org.xml.sax.SAXException;
 import sylvanas.component.digester.sylvanas.SylvanasXML;
 import sylvanas.component.resource.Resource;
@@ -55,6 +56,10 @@ public class HostConfig {
 
         //TODO: parseXML();
 
+        File syl = new File("D:/mymy/fly/Sylvanas");
+        String name = syl.getName();
+        deployOutsideDir(name,new File(syl,"WebRoot"));
+
         File file = new File(appBase);
         File[] projects = file.listFiles(File::isDirectory);
 
@@ -65,7 +70,17 @@ public class HostConfig {
         for (File project : projects) {
             deployDirectories(project);
         }
+
     }
+
+    public void deployOutsideDir(String projectName, File dir){
+        try {
+            FileUtils.copyDirectory(dir,new File(Constants.APP_BASE+projectName),true);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
 
     public void deployDirectories(File dir){
         Context context = createContext();

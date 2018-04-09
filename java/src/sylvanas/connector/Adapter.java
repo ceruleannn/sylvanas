@@ -1,7 +1,7 @@
 package sylvanas.connector;
 
+import org.apache.commons.io.IOUtils;
 import sylvanas.connector.http.HttpConnector;
-import sylvanas.util.JavaUtils;
 
 import java.io.IOException;
 import java.net.Socket;
@@ -48,7 +48,7 @@ public class Adapter {
         } catch (IOException e) {
             e.printStackTrace();
         }finally {
-            JavaUtils.closeQuietly(socket);
+            IOUtils.closeQuietly(socket);
         }
 
     }

@@ -1,5 +1,7 @@
 package sylvanas.util;
 
+import java.io.UnsupportedEncodingException;
+
 /**
  * @Description:
  */
@@ -19,5 +21,12 @@ public class StringUtils {
         return string;
     }
 
+    public static byte[] getBytes(String src){
+        try {
+            return src.getBytes(Constants.DEFAULT_ENCODING);
+        } catch (UnsupportedEncodingException e) {
+            throw new RuntimeException("un sport exception");
+        }
+    }
 
 }

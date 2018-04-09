@@ -60,7 +60,12 @@ public class RawResponse {
     }
 
     public void doWrite ()throws IOException{
-        if (commited){
+
+        if (outputBuffer==null){
+            return;
+        }
+
+        if (outputBuffer.isCommited()){
             return;
         }
 
@@ -68,11 +73,7 @@ public class RawResponse {
             return;
         }
 
-        if (outputBuffer==null){
-            return;
-        }
-
-        commited = true;
+        outputBuffer.setCommited(true);
         outputBuffer.doWrite();
     }
 

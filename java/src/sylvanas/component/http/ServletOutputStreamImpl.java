@@ -50,7 +50,7 @@ public class ServletOutputStreamImpl extends ServletOutputStream {
     @Override
     public void write(int i)
             throws IOException {
-        ob.writeByte(i);
+        ob.write(i);
     }
 
 

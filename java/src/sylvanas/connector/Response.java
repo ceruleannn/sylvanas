@@ -216,21 +216,29 @@ public class Response implements HttpServletResponse{
     @Override
     public PrintWriter getWriter() {
 
+        if (printWriter==null){
+            printWriter = new PrintWriter(outputBuffer);
+        }
+
         return printWriter;
     }
 
     @Override
     public void setCharacterEncoding(String charset) {
+
         this.characterEncoding = charset;
+        outputBuffer.setEncode(charset);
     }
 
     @Override
     public void setContentLength(int len) {
+        headers.setHeader("Content-Length",String.valueOf(len));
         this.contentLength = len;
     }
 
     @Override
     public void setContentType(String type) {
+        headers.setHeader("Content-Type",type);
         this.contentType = type;
     }
 
@@ -307,5 +315,9 @@ public class Response implements HttpServletResponse{
 
     public MimeHeaders getMimeHeaders() {
         return headers;
+    }
+
+    public long getContentLength() {
+        return contentLength;
     }
 }
