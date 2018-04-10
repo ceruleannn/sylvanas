@@ -129,6 +129,26 @@ public class ContextConfig {
 //        }
 
         // resolve servlet
+        boolean hasDefault = false;
+
+
+        for (Map.Entry<String, String> entry : webXml.getServletMappings().entrySet()) {
+            String value = entry.getValue();
+            if (value.equals("/")){
+                hasDefault = true;
+            }
+
+            context.addServletMapping(entry.getKey(), value);
+        }
+
+        // add default servlet
+        if (!hasDefault){
+            context.addServletMapping("/", "syl_default_servlet");
+            ServletDef defaultServlet = new ServletDef();
+            defaultServlet.setServletName("syl_default_servlet");
+            defaultServlet.setServletClass("sylvanas.component.servlet.DefaultServlet");
+            webXml.addServlet(defaultServlet);
+        }
 
         for (ServletDef servlet : webXml.getServlets().values()) {
             Wrapper wrapper = context.createWrapper();
@@ -160,11 +180,6 @@ public class ContextConfig {
             wrapper.setServletClass(servlet.getServletClass());
 
             context.addChild(wrapper);
-
-            for (Map.Entry<String, String> entry : webXml.getServletMappings().entrySet()) {
-                context.addServletMapping(entry.getKey(), entry.getValue());
-
-            }
 
             // get servlet class form class loader
             wrapper.init();

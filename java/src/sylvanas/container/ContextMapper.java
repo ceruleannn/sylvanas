@@ -45,7 +45,6 @@ public class ContextMapper {
                 if (!(child instanceof Wrapper)){
                     throw new IllegalArgumentException("can not add not wrapper to context mapper");
                 }
-
                 if (child.getName().equals(mapName)){
 
                     System.out.println("INFO: mapping add: "+ child.getName()+" - "+url);

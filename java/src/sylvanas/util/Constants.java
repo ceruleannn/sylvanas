@@ -33,8 +33,7 @@ public final  class Constants {
     /**
      * Server string.
      */
-    public static final byte[] SERVER_BYTES =
-            ("Server: Sylvanas/1.0" + CRLF).getBytes();
+    public static final String SERVER_STRING = "Sylvanas/1.0";
 
 
     /**

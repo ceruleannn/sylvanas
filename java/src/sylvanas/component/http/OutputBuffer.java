@@ -146,6 +146,8 @@ public class OutputBuffer extends Writer{
             response.setContentLength(contentBuf.length);
         }
 
+        response.addHeader("Server",Constants.SERVER_STRING);
+
         //set headers
         Enumeration<String> enumeration = mimeHeaders.getHeaderNames();
         while (enumeration.hasMoreElements()) {
@@ -183,7 +185,7 @@ public class OutputBuffer extends Writer{
     private void checkLength(int length){
         int size = buf.length;
         if (pos + length + 4 > size) {
-            byte[] newBuf = new byte[size*2];
+            byte[] newBuf = new byte[size+length];
             System.arraycopy(buf,0,newBuf,0,size);
             buf = newBuf;
         }

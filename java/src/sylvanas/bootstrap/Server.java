@@ -14,8 +14,10 @@ public class Server {
 
     public static void main(String[] args) {
         long before = System.currentTimeMillis();
+
         Server server = new Server();
         server.start();
+
         long after = System.currentTimeMillis();
         System.out.println("INFO: Server start successfully in " + (after - before) + " ms");
         System.out.println();

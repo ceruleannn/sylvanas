@@ -103,7 +103,7 @@ public class Response implements HttpServletResponse{
 
     @Override
     public void sendError(int sc) {
-        sendError(status, null);
+        sendError(status, "");
     }
 
     @Override

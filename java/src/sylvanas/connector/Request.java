@@ -177,7 +177,7 @@ public class Request implements HttpServletRequest {
      */
     @Override
     public String getMethod() {
-        return null;
+        return rawRequest.getMethod();
     }
 
     /**
