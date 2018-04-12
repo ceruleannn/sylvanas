@@ -46,6 +46,8 @@ public class DefaultServlet extends HttpServlet{
                 resp.setStatus(404);
             }
         }
+
+        //req.getRequestDispatcher()
     }
 
     private void write(HttpServletResponse resp, CacheResource cache){
