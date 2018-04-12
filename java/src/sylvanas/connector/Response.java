@@ -320,4 +320,9 @@ public class Response implements HttpServletResponse{
     public long getContentLength() {
         return contentLength;
     }
+
+    public RawResponse getRawResponse() {
+        return rawResponse;
+    }
+
 }

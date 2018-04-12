@@ -28,6 +28,7 @@ public class OutputBuffer extends Writer{
 
     private OutputStream outputStream ;
 
+    // has been written to stream
     private boolean commited;
 
     private boolean isFlushed;
@@ -89,22 +90,28 @@ public class OutputBuffer extends Writer{
             outputStream.flush();
             return;
         }
-        commited = true;
         doWrite();
     }
 
     @Override
-    public void close() throws IOException{
+    public void close(){
 
-        outputStream.close();
+        try {
+            outputStream.close();
+        } catch (IOException e) {
+
+        }
     }
 
     public void doWrite() throws IOException{
 
+        if (commited){
+            return;
+        }
+        commited = true;
+
         writeHeaders();
-
         outputStream.write(buf,0,pos);
-
         outputStream.flush();
     }
 
@@ -122,7 +129,7 @@ public class OutputBuffer extends Writer{
         }
     }
 
-    private void writeHeaders(){
+    public void writeHeaders(){
 
         // copy the buf and reset it
         byte[] contentBuf = new byte[pos];
@@ -191,19 +198,15 @@ public class OutputBuffer extends Writer{
         }
     }
 
-    public boolean isCommited() {
-        return commited;
-    }
-
-    public void setCommited(boolean commited) {
-        this.commited = commited;
-    }
-
     public String getEncode() {
         return encode;
     }
 
     public void setEncode(String encode) {
         this.encode = encode;
+    }
+
+    public boolean isCommited() {
+        return commited;
     }
 }

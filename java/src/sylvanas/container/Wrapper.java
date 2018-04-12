@@ -106,7 +106,7 @@ public class Wrapper extends ContainerBase {
             e.printStackTrace();
         }
 
-        return "";
+        return null;
     }
 
     public int getLoadOnStartup() {
@@ -156,5 +156,9 @@ public class Wrapper extends ContainerBase {
 
     public void setPath(String path) {
         this.path = path;
+    }
+
+    public Servlet getInstance() {
+        return instance;
     }
 }

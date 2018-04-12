@@ -16,11 +16,15 @@ import java.util.*;
  */
 public class Request implements HttpServletRequest {
 
+    private ServletContext servletContext;
+
     private RawRequest rawRequest = null;
 
     private Response response = null;
 
     private StandardSession session = null;
+
+    private String uri;
 
     private final HashMap<String, Object> attributes = new HashMap<>();
 
@@ -339,7 +343,15 @@ public class Request implements HttpServletRequest {
      */
     @Override
     public String getRequestURI() {
-        return rawRequest.getUri();
+
+        if (uri==null){
+            return rawRequest.getUri();
+        }
+        return uri;
+    }
+
+    public void setRequestURI(String uri) {
+         this.uri = uri;
     }
 
     /**
@@ -1020,7 +1032,7 @@ public class Request implements HttpServletRequest {
      */
     @Override
     public RequestDispatcher getRequestDispatcher(String path) {
-        return null;
+        return getServletContext().getRequestDispatcher(path);
     }
 
     /**
@@ -1090,7 +1102,7 @@ public class Request implements HttpServletRequest {
      */
     @Override
     public ServletContext getServletContext() {
-        return null;
+        return servletContext;
     }
 
     /**
@@ -1161,4 +1173,14 @@ public class Request implements HttpServletRequest {
     public void setResponse(Response response) {
         this.response = response;
     }
+
+    public RawRequest getRawRequest() {
+        return rawRequest;
+    }
+
+    public void setServletContext(ServletContext servletContext) {
+        this.servletContext = servletContext;
+    }
+
+
 }

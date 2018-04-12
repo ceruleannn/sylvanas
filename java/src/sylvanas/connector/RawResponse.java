@@ -59,24 +59,6 @@ public class RawResponse {
         return outputStream;
     }
 
-    public void doWrite ()throws IOException{
-
-        if (outputBuffer==null){
-            return;
-        }
-
-        if (outputBuffer.isCommited()){
-            return;
-        }
-
-        if (socket.isClosed()){
-            return;
-        }
-
-        outputBuffer.setCommited(true);
-        outputBuffer.doWrite();
-    }
-
     public Response getResponse() {
         return response;
     }
@@ -84,5 +66,9 @@ public class RawResponse {
     public void setResponse(Response response) {
         this.response = response;
         this.outputBuffer = response.getOutputBuffer();
+    }
+
+    public OutputBuffer getOutputBuffer() {
+        return outputBuffer;
     }
 }

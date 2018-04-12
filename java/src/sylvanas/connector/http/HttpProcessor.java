@@ -52,12 +52,11 @@ public class HttpProcessor implements Runnable{
 //            in.close();
 
             String raw = sb.toString();
+            //System.out.println("主机收到信息：\n" + raw);
 
             if (raw.length()==0){
                 return;
             }
-
-            //System.out.println("主机收到信息：\n" + raw);
 
             Adapter adapter = new Adapter(connector);
             adapter.service(socket,raw);

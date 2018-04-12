@@ -48,3 +48,6 @@ public class Server {
 // NIO / SSL
 
 // DEBUG AND TO DO
+
+// 优化策略 为什么同样的静态项目 tomcat 1.6秒 syl要3秒
+// ETAG 缓存 长连接?

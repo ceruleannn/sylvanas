@@ -13,7 +13,7 @@ public interface Container {
 
     String doHandle(Request request, Response response);
 
-    void doChain(Request request, Response response);
+    String doChain(Request request, Response response);
 
     void addNextContainer(Container container);
 

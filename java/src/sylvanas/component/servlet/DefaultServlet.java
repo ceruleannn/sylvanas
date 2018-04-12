@@ -23,17 +23,15 @@ public class DefaultServlet extends HttpServlet{
     protected void service(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        System.out.println("access default");
+        //System.out.println("access default");
 
         String absolute = toAbsolute(req.getRequestURI());
 
         CacheResource cache = cacheHandler.getCache(absolute);
         if (cache!=null){
-
             // already has cache in server
             write(resp, cache);
         }else {
-
             // no cache , read disk file and add to cache
             CacheResource resource = new CacheResource();
 
@@ -54,8 +52,8 @@ public class DefaultServlet extends HttpServlet{
         byte[] content = cache.getContent();
         String name = cache.getName();
         String extension = name.substring(name.lastIndexOf(".")+1);
-        resp.setContentType(MimeTypes.getContentTypeByExtension(extension));
 
+        resp.setContentType(MimeTypes.getContentTypeByExtension(extension));
         resp.setContentLength(content.length);
 
         try {

@@ -31,18 +31,21 @@ public abstract class ContainerBase implements Container {
     protected String name = null;
 
     @Override
-    public final void doChain(Request request, Response response){
+    public final String doChain(Request request, Response response){
 
-        if (doHandle(request,response)!=null){
+        // maybe int code is better
+        String message = doHandle(request,response);
+        if (message!=null){
 
             //TODO ERROR MESSAGE PROCESS
-            return;
+            return message;
         }
 
         Container next = getNextContainer();
         if (next!=null){
             next.doChain(request, response);
         }
+        return null;
     }
 
 

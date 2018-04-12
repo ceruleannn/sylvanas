@@ -7,6 +7,7 @@ import sylvanas.component.exception.Assert;
 import sylvanas.connector.Request;
 import sylvanas.connector.Response;
 import sylvanas.connector.session.SessionHandler;
+import sylvanas.container.core.ApplicationContext;
 import sylvanas.container.loader.WebAppLoader;
 import sylvanas.container.startup.ContextConfig;
 
@@ -77,6 +78,8 @@ public class Context extends ContainerBase{
 
     public void init(){
 
+        servletContext = new ApplicationContext(this);
+
         filterHandler = new FilterHandler();
 //        ServletContext servletContext = new ServletContext() {
 //        }s
@@ -135,6 +138,8 @@ public class Context extends ContainerBase{
     public String doHandle(Request request, Response response) {
 
       //  System.out.println("context mapped "+ getDocBase());
+
+        request.setServletContext(servletContext);
 
         String uri = request.getRequestURI();
         Wrapper wrapper = mapper.map(uri.substring(path.length(),uri.length()));

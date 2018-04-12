@@ -1,13 +1,12 @@
 package sylvanas.connector;
 
-import org.apache.commons.io.IOUtils;
 import sylvanas.connector.http.HttpConnector;
 
-import java.io.IOException;
 import java.net.Socket;
 
 /**
- * @Description:
+ *  one request -  one thread - one adapter
+ *
  *  Adapter for Connector and Container
  *  连接器与容器的适配器
  *
@@ -41,16 +40,12 @@ public class Adapter {
 
         request.parse();
 
-        connector.getContainer().doChain(request, response);
+        String message = connector.getContainer().doChain(request, response);
 
-        try {
-            rawResponse.doWrite();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }finally {
-            IOUtils.closeQuietly(socket);
-        }
+        Returner returner = new Returner(message);
+        returner.doReturn(request,response);
 
     }
+
 
 }
