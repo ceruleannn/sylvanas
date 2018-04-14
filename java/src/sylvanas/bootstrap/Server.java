@@ -44,10 +44,11 @@ public class Server {
 // FILE UPLOAD
 // LIFECYCLE LISTENER
 // LOG / ERROR PAGE /ACCESS LOG /EXCEPTION HANDLER
+// 读写Syl.xml 配置容器, 容器管理Factory
 
 // NIO / SSL
 
 // DEBUG AND TO DO
 
 // 优化策略 为什么同样的静态项目 tomcat 1.6秒 syl要3秒
-// ETAG 缓存 长连接?
+// NIO? ETAG 缓存 长连接?

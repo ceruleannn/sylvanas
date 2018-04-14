@@ -24,14 +24,22 @@ public class HostMapper{
         contextMap.put(path,context);
     }
 
-    //TODO 偷懒写法
     public Context map(String uri){
+
+        int longest = 0;
+        Context re = null;
         for (Map.Entry<String, Context> stringContextEntry : contextMap.entrySet()) {
-            if (uri.startsWith(stringContextEntry.getKey())){
-                return stringContextEntry.getValue();
+            String key = stringContextEntry.getKey();
+            if (uri.startsWith(key)){
+
+                if (re==null||key.length()>longest){
+                    longest = key.length();
+                    re = stringContextEntry.getValue();
+                }
+
             }
         }
-        return null;
+        return re;
     }
 
 }

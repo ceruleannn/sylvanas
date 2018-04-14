@@ -137,8 +137,6 @@ public class Context extends ContainerBase{
     @Override
     public String doHandle(Request request, Response response) {
 
-      //  System.out.println("context mapped "+ getDocBase());
-
         request.setServletContext(servletContext);
 
         String uri = request.getRequestURI();
