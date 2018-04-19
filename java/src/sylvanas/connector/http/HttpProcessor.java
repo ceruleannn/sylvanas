@@ -28,9 +28,11 @@ public class HttpProcessor implements Runnable{
         this.connector = connector;
     }
 
+
     @Override
     public void run() {
         try {
+
             InputStream in  = socket.getInputStream();
 
             BufferedReader br = new BufferedReader(new InputStreamReader(in));

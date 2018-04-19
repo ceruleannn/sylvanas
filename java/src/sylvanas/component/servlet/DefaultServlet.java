@@ -17,6 +17,8 @@ import java.io.IOException;
  */
 public class DefaultServlet extends HttpServlet{
 
+    private static String charset = Constants.DEFAULT_ENCODING;
+
     private final CacheHandler cacheHandler = new CacheHandler();
 
     @Override
@@ -53,7 +55,10 @@ public class DefaultServlet extends HttpServlet{
         String name = cache.getName();
         String extension = name.substring(name.lastIndexOf(".")+1);
 
-        resp.setContentType(MimeTypes.getContentTypeByExtension(extension));
+        if (resp.getContentType()==null){
+            resp.setContentType(MimeTypes.getContentTypeByExtension(extension)+";charset="+charset);
+
+        }
         resp.setContentLength(content.length);
 
         try {

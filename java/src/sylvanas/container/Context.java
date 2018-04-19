@@ -4,6 +4,7 @@ import sylvanas.component.context.ErrorPageHandler;
 import sylvanas.component.context.FilterHandler;
 import sylvanas.component.context.InstanceManager;
 import sylvanas.component.exception.Assert;
+import sylvanas.component.lifecycle.LifecycleException;
 import sylvanas.connector.Request;
 import sylvanas.connector.Response;
 import sylvanas.connector.session.SessionHandler;
@@ -76,7 +77,8 @@ public class Context extends ContainerBase{
 
     }
 
-    public void init(){
+    @Override
+    protected void initInternal() throws LifecycleException {
 
         servletContext = new ApplicationContext(this);
 
@@ -95,15 +97,16 @@ public class Context extends ContainerBase{
         mapper = new ContextMapper(getChildren(),servletMapping);
 
 
+        super.initInternal();
     }
 
+
     public Wrapper createWrapper(){
-        Wrapper wrapper = new Wrapper(this);
 
         //TODO LISTENER
 
 
-        return wrapper;
+        return new Wrapper(this);
     }
 
     public void setDisplayName(String displayName){

@@ -1,5 +1,6 @@
 package sylvanas.container;
 
+import sylvanas.component.lifecycle.Lifecycle;
 import sylvanas.connector.Request;
 import sylvanas.connector.Response;
 
@@ -8,7 +9,7 @@ import java.util.List;
 /**
  * @Description:
  */
-public interface Container {
+public interface Container extends Lifecycle{
 
 
     String doHandle(Request request, Response response);

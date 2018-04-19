@@ -18,11 +18,12 @@ public class InstanceManager {
             return classLoader.loadClass(className).newInstance();
         } catch (ClassNotFoundException e) {
            e.printStackTrace();
-           return null;
         } catch (IllegalAccessException e) {
-            throw new RuntimeException(""+e);
+            e.printStackTrace();
         } catch (InstantiationException e) {
-            throw new RuntimeException(""+e);
+            e.printStackTrace();
         }
+
+        return null;
     }
 }

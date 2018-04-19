@@ -90,7 +90,8 @@ public class HostConfig {
 
         System.out.println("INFO: app deployed: " + context.getDocBase());
 
-        context.init();
+        host.addChild(context);
+        context.setParent(host);
 
         host.getMapper().addContext(context,context.getPath());
     }

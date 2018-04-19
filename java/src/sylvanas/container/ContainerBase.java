@@ -1,5 +1,8 @@
 package sylvanas.container;
 
+import sylvanas.component.lifecycle.LifecycleBase;
+import sylvanas.component.lifecycle.LifecycleException;
+import sylvanas.component.lifecycle.LifecycleState;
 import sylvanas.connector.Request;
 import sylvanas.connector.Response;
 import sylvanas.container.pipeline.Pipeline;
@@ -13,7 +16,7 @@ import java.util.List;
  * the latter for processing request
  *
  */
-public abstract class ContainerBase implements Container {
+public abstract class ContainerBase extends LifecycleBase implements Container{
 
     protected Container nextContainer = null;
 
@@ -56,6 +59,42 @@ public abstract class ContainerBase implements Container {
      */
     @Override
     public abstract String doHandle(Request request, Response response);
+
+
+    @Override
+    protected void initInternal() throws LifecycleException {
+        for (Container child : children) {
+            child.init();
+        }
+        setState(LifecycleState.INITIALIZED,null);
+    }
+
+    @Override
+    protected void startInternal() throws LifecycleException {
+        for (Container child : children) {
+            child.start();
+        }
+        setState(LifecycleState.STARTED,null);
+    }
+
+    @Override
+    protected void stopInternal() throws LifecycleException {
+        for (Container child : children) {
+            child.stop();
+        }
+        setState(LifecycleState.STOPPED,null);
+    }
+
+    @Override
+    protected void destroyInternal() throws LifecycleException {
+
+        for (Container child : children) {
+            this.removeChild(child);
+            child.destroy();
+        }
+        setState(LifecycleState.DESTROYED,null);
+    }
+
 
     @Override
     public void addChild(Container container) {

@@ -1,5 +1,7 @@
 package sylvanas.connector.http;
 
+import sylvanas.component.lifecycle.LifecycleBase;
+import sylvanas.component.lifecycle.LifecycleException;
 import sylvanas.container.Container;
 
 import java.io.IOException;
@@ -7,12 +9,8 @@ import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-/**
- * @Description:
- *
- *
- */
-public class HttpConnector implements Runnable{
+
+public class HttpConnector extends LifecycleBase implements Runnable {
 
     //TODO: ServerSocketFactory
 
@@ -23,20 +21,15 @@ public class HttpConnector implements Runnable{
     private HttpProcessorManager httpProcessorManager = null;
     private Container container = null;
 
+    private ServerSocket serverSocket = null;
+
 
     public HttpConnector(){
-        httpProcessorManager = new HttpProcessorManager(this);
+
     }
 
     @Override
     public void run() {
-
-        ServerSocket serverSocket = null;
-        try {
-            serverSocket = new ServerSocket(port, 1, InetAddress.getByName(ip));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
         while(!stopped){
             Socket socket = null;
@@ -50,9 +43,33 @@ public class HttpConnector implements Runnable{
         }
     }
 
-    public void start(){
+    @Override
+    protected void initInternal() throws LifecycleException {
+
+        try {
+            serverSocket = new ServerSocket(port, 1, InetAddress.getByName(ip));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        httpProcessorManager = new HttpProcessorManager(this);
+    }
+
+    @Override
+    protected void startInternal() throws LifecycleException {
         Thread thread = new Thread(this);
         thread.start();
+
+    }
+
+    @Override
+    protected void stopInternal() throws LifecycleException {
+        //TODO 抛出中断 结束线程
+    }
+
+    @Override
+    protected void destroyInternal() throws LifecycleException {
+
     }
 
     public Container getContainer() {

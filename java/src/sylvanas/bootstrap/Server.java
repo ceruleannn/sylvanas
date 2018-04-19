@@ -1,8 +1,9 @@
 package sylvanas.bootstrap;
 
-import sylvanas.container.Container;
-import sylvanas.container.Host;
+import sylvanas.component.lifecycle.LifecycleBase;
+import sylvanas.component.lifecycle.LifecycleException;
 import sylvanas.connector.http.HttpConnector;
+import sylvanas.container.Host;
 
 /**
  * Sylvanas 1.0
@@ -10,25 +11,54 @@ import sylvanas.connector.http.HttpConnector;
  *
  *
  */
-public class Server {
+public class Server extends LifecycleBase{
+
+    private Host host;
+    private HttpConnector connector;
+
+    @Override
+    protected void initInternal() throws LifecycleException {
+        connector = new HttpConnector();
+        host = new Host();
+        connector.setContainer(host);
+
+        host.init();
+        connector.init();
+    }
+
+    @Override
+    protected void startInternal() throws LifecycleException {
+        host.start();
+        connector.start();
+    }
+
+    @Override
+    protected void stopInternal() throws LifecycleException {
+
+    }
+
+    @Override
+    protected void destroyInternal() throws LifecycleException {
+
+
+    }
 
     public static void main(String[] args) {
         long before = System.currentTimeMillis();
 
         Server server = new Server();
-        server.start();
+        try {
+            server.init();
+            server.start();
+        } catch (LifecycleException e) {
+            e.printStackTrace();
+        }
 
         long after = System.currentTimeMillis();
         System.out.println("INFO: Server start successfully in " + (after - before) + " ms");
         System.out.println();
     }
 
-    public void start(){
-        HttpConnector connector = new HttpConnector();
-        Container host = new Host();
-        connector.setContainer(host);
-        connector.start();
-    }
 }
 
 // TODO

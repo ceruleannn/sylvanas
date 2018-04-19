@@ -38,6 +38,7 @@ public class ContextMapper {
      * 根据 wrappers 和 mappings 创建mapper
      */
     public void init(List<Container> children, Map<String,String> mappings){
+
         for (Map.Entry<String, String> entry : mappings.entrySet()) {
             String url = entry.getKey();
             String mapName = entry.getValue();
@@ -103,6 +104,8 @@ public class ContextMapper {
         Assert.notNull(requestURL);
         requestURL = requestURL.trim();
         String clean = StringUtils.cleanPath(requestURL);
+
+        // TODO: IF ACCESS THE PROJECT ROOT PATH , RETURN WELCOME FILE ?
 
         // 1.first exact match
         for (Wrapper exactWrapper : exactWrappers) {

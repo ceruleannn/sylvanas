@@ -1,6 +1,8 @@
 package sylvanas.container;
 
 import sylvanas.component.exception.Assert;
+import sylvanas.component.lifecycle.LifecycleException;
+import sylvanas.component.servlet.ContainerServlet;
 import sylvanas.connector.Request;
 import sylvanas.connector.Response;
 
@@ -62,8 +64,11 @@ public class Wrapper extends ContainerBase {
         this.context = context;
     }
 
-    public void init(){
+    @Override
+    protected void initInternal() throws LifecycleException {
+
         loadServlet();
+        super.initInternal();
     }
 
     /**
@@ -79,6 +84,11 @@ public class Wrapper extends ContainerBase {
 
         if (obj instanceof Servlet){
             instance = (Servlet)obj;
+
+            if (instance instanceof ContainerServlet&&name.startsWith("sylvanas")){
+                ((ContainerServlet)instance).setWrapper(this);
+            }
+
         }
         else{
             throw new RuntimeException("instance is not a servlet");

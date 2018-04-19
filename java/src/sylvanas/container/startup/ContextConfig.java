@@ -12,9 +12,7 @@ import sylvanas.util.Constants;
 import java.io.IOException;
 import java.util.Map;
 
-/**
- * @Description:
- */
+
 public class ContextConfig {
 
     private Resource XMLResource;
@@ -170,19 +168,14 @@ public class ContextConfig {
                 wrapper.addInitParameter(entry.getKey(), entry.getValue());
             }
 
-//            Set<SecurityRoleRef> roleRefs = servlet.getSecurityRoleRefs();
-//            for (SecurityRoleRef roleRef : roleRefs) {
-//                wrapper.addSecurityReference(
-//                        roleRef.getName(), roleRef.getLink());
-//            }
 
             wrapper.setRunAs(servlet.getRunAs());
             wrapper.setServletClass(servlet.getServletClass());
 
+            wrapper.setParent(context);
             context.addChild(wrapper);
 
             // get servlet class form class loader
-            wrapper.init();
 
         }
 
