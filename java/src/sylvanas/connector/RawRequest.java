@@ -3,6 +3,9 @@ package sylvanas.connector;
 import sylvanas.component.http.Cookies;
 import sylvanas.component.http.MimeHeaders;
 import sylvanas.component.http.Parameters;
+import sylvanas.util.Constants;
+
+import javax.servlet.http.Cookie;
 
 /**
  * @Description:
@@ -97,7 +100,7 @@ public class RawRequest {
         parseRequestLine();
         parseHeaders();
         parseParameters();
-        //TODO parseCookies();
+        parseCookies();
     }
 
     private void parseDepart(){
@@ -145,11 +148,20 @@ public class RawRequest {
         parameters = new Parameters(isParseBody,query,rawBody);
         parameters.parse();
 
+
+
     }
 
     private void parseCookies(){
 
         cookies = new Cookies(mimeHeaders, this);
+        Cookie[] arr = cookies.getCookies();
+        for (Cookie cookie : arr) {
+            if (cookie.getName().equals(Constants.SESSION_ID_NAME)){
+                sessionID = cookie.getValue();
+                break;
+            }
+        }
     }
 
     public String getRaw() {

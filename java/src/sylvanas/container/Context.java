@@ -96,6 +96,7 @@ public class Context extends ContainerBase{
 
         mapper = new ContextMapper(getChildren(),servletMapping);
 
+        sessionHandler = new SessionHandler();
 
         super.initInternal();
     }
@@ -140,7 +141,9 @@ public class Context extends ContainerBase{
     @Override
     public String doHandle(Request request, Response response) {
 
+        request.setContext(this);
         request.setServletContext(servletContext);
+
 
         String uri = request.getRequestURI();
         Wrapper wrapper = mapper.map(uri.substring(path.length(),uri.length()));

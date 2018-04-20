@@ -1,0 +1,147 @@
+<html xmlns:v-on="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Sylvanas Manager</title>
+    <meta charset="UTF-8">
+    <link href="https://libs.baidu.com/bootstrap/3.0.3/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+    <script src="https://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script src="http://cdn.staticfile.org/vue/2.2.6/vue.js"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <style type="text/css">
+
+        .center1{
+            margin:0 auto;
+        }
+        .logo1{
+            margin: 30px;
+            width: 400px;
+        }
+        .logo2{
+            margin: 30px;
+            width: 460px;
+            float: right;
+        }
+        .caption{
+            margin-top:  10px;
+            margin-bottom: 20px;
+            font-size: 40px;
+        }
+        .table thead tr th{
+            vertical-align: middle;
+            text-align: center;
+        }
+
+        .table tbody tr td{
+            vertical-align: middle;
+            text-align: center;
+        }
+        .text1{
+            margin: 0 20px;
+            width: 40%;
+        }
+
+
+    </style>
+</head>
+<body>
+<div id="app">
+<div>
+    <div style=>
+        <img class="logo1" src="ui/logo.png"/>
+        <img class="logo2" src="ui/logo2.png"/>
+    </div>
+
+</div>
+
+<div class="col-md-offset-2 col-md-8 text-center">
+<table class="table table-bordered table-hover" >
+    <caption class="caption">当前部署项目</caption>
+    <thead>
+    <tr>
+        <th>path</th>
+        <th>project name</th>
+        <th>status</th>
+        <th>sessions</th>
+        <th>commands</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr v-for="context in contexts">
+        <td width="15%">{{context.path}}</td>
+        <td width="25%"><a v-bind:href="'/'+context.projectName+'/index'" target="_blank">{{context.projectName}}</a></td>
+        <td>{{context.status}}</td>
+        <td>{{context.sessions}}</td>
+        <td v-bind:id="context.projectName">
+            <button  v-on:click="handle($event)" type="button" class="btn btn-default " value="Start">Start</button>
+            <button  v-on:click="handle($event)" type="button" class="btn btn-default " value="Stop">Stop</button>
+            <button  v-on:click="handle($event)" type="button" class="btn btn-default " value="Undeploy">Undeploy</button>
+            <button  v-on:click="handle($event)" type="button" class="btn btn-default " value="Sessions">Expire Sessions</button>
+        </td>
+    </tr>
+
+    </tbody>
+</table>
+
+</div>
+s
+<div style="margin-top: 30px" class="col-md-offset-4 col-md-4 text-center" >
+
+    <input  v-model="deployPath" class="text1" type="text" />
+    <input  v-on:click="handle($event)" type="button" class="btn btn-default " value="部署"/>
+
+</div>
+
+</div>
+</body>
+</html>
+
+<script type="text/javascript">
+    var vue = new Vue({
+        el:"#app",
+        data:{deployPath:'',contexts:[]},
+        methods:{
+            handle:function (e) {
+                var ele = e.currentTarget;
+
+                var val = ele.value;
+                var url = "http://localhost:8080/manager/html?";
+
+                if (val==="部署"){
+                    url+=('query=deploy&path='+this.deployPath);
+                }else {
+                    url+=('query='+val);
+                    url+=('&name='+ele.parentElement.id);
+                }
+
+                axios.post(url)
+                    .then(function (response) {
+                       if (response.data['code']==="200"){
+                           window.location.href = "http://localhost:8080/manager/html";
+                       }else {
+                           alert("操作失败 服务器错误");
+                       }
+
+                    })
+                    .catch(function (error) {
+                        alert("请求失败 "+error);
+                        console.log(error);
+                    });
+            }
+        },
+        mounted:function() {
+            var that = this;
+            axios.post('http://localhost:8080/manager/html?query=contexts')
+            .then(function (response) {
+                var cs = response.data;
+                for (var i=0;i<cs.length;i++){
+                    that.contexts.push(cs[i]);
+                }
+            })
+            .catch(function (error) {
+                alert(error);
+                console.log(error);
+            });
+        }
+    });
+
+</script>

@@ -85,7 +85,7 @@ public class Wrapper extends ContainerBase {
         if (obj instanceof Servlet){
             instance = (Servlet)obj;
 
-            if (instance instanceof ContainerServlet&&name.startsWith("sylvanas")){
+            if (instance instanceof ContainerServlet&&servletClass.startsWith("sylvanas")){
                 ((ContainerServlet)instance).setWrapper(this);
             }
 

@@ -1,5 +1,7 @@
 package sylvanas.container;
 
+import sylvanas.component.lifecycle.LifecycleState;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -37,6 +39,11 @@ public class HostMapper{
                     re = stringContextEntry.getValue();
                 }
 
+            }
+        }
+        if (re!=null){
+            if (!LifecycleState.STARTED.equals(re.getState())){
+                re = null;
             }
         }
         return re;

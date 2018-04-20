@@ -4,7 +4,9 @@ import org.apache.commons.digester.Digester;
 import org.apache.commons.io.FileUtils;
 import org.xml.sax.SAXException;
 import sylvanas.component.digester.sylvanas.SylvanasXML;
+import sylvanas.component.lifecycle.LifecycleException;
 import sylvanas.component.resource.Resource;
+import sylvanas.container.Container;
 import sylvanas.container.Context;
 import sylvanas.container.Host;
 import sylvanas.util.Constants;
@@ -56,10 +58,6 @@ public class HostConfig {
 
         //TODO: parseXML();
 
-        File syl = new File("D:/mymy/fly/Sylvanas");
-        String name = syl.getName();
-        deployOutsideDir(name,new File(syl,"WebRoot"));
-
         File file = new File(appBase);
         File[] projects = file.listFiles(File::isDirectory);
 
@@ -73,16 +71,35 @@ public class HostConfig {
 
     }
 
-    public void deployOutsideDir(String projectName, File dir){
-        try {
-            FileUtils.copyDirectory(dir,new File(Constants.APP_BASE+projectName),true);
-        } catch (IOException e) {
-            e.printStackTrace();
+    public void undeploy(String projectName) throws LifecycleException,IOException {
+
+        Context undeploy = null;
+        for (Container container : host.getChildren()) {
+            if (container.getName().equals(projectName)){
+                undeploy = (Context)container;
+            }
+        }
+
+        if (undeploy!=null) {
+
+            undeploy.stop();
+            host.removeChild(undeploy);
+
+            FileUtils.deleteDirectory(undeploy.getDocBase());
+
         }
     }
 
+    public void deployOutsideDir(File dir) throws LifecycleException,IOException{
 
-    public void deployDirectories(File dir){
+        FileUtils.copyDirectory(dir,new File(Constants.APP_BASE+dir.getName()),true);
+        Context context = deployDirectories(dir);
+        context.init();
+        context.start();
+    }
+
+
+    public Context deployDirectories(File dir){
         Context context = createContext();
         context.setDocBase(dir);
         context.setPath("/"+dir.getName());
@@ -94,6 +111,8 @@ public class HostConfig {
         context.setParent(host);
 
         host.getMapper().addContext(context,context.getPath());
+
+        return context;
     }
 
 

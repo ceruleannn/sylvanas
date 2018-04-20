@@ -168,7 +168,6 @@ public class ContextConfig {
                 wrapper.addInitParameter(entry.getKey(), entry.getValue());
             }
 
-
             wrapper.setRunAs(servlet.getRunAs());
             wrapper.setServletClass(servlet.getServletClass());
 

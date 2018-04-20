@@ -31,12 +31,17 @@ public abstract  class LifecycleBase implements Lifecycle{
 
     @Override
     public void init() throws LifecycleException {
+
+        if (!LifecycleState.NEW.equals(state)){
+            return;
+        }
+
         try {
             initInternal();
         } catch (Throwable t) {
            // ExceptionUtils.handleThrowable(t);
             setStateInternal(LifecycleState.FAILED, null);
-            throw new LifecycleException("lifecycleBase.initFail");
+            throw new LifecycleException("lifecycleBase.initFail "+t);
         }
         setStateInternal(LifecycleState.INITIALIZED, null);
     }

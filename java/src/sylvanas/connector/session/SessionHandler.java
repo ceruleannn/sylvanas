@@ -24,16 +24,14 @@ public class SessionHandler {
     private int maxInactiveInterval = 30 * 60;
 
     public SessionHandler(){
-
+        init();
     }
 
     public void init(){
-//        Thread thread = new Thread(new Timer(this));
-//        thread.setDaemon(true);
-//        thread.start();
 
         ScheduledExecutorService service = Executors.newSingleThreadScheduledExecutor();
-        service.scheduleAtFixedRate(new Timer(this), 10, 30, TimeUnit.SECONDS);
+        Timer timer = new Timer(this);
+        service.scheduleAtFixedRate(timer, 10, 30, TimeUnit.SECONDS);
         //TODO: LIFECYCLE END THIS TASK
     }
 
@@ -65,7 +63,10 @@ public class SessionHandler {
     }
 
     public StandardSession getSession(String id){
-        return null;
+        if (id==null){
+            return null;
+        }
+        return sessions.get(id);
     }
 
     public Collection<StandardSession> getSessions(){
@@ -86,6 +87,14 @@ public class SessionHandler {
         sessions.remove(standardSession);
     }
 
+    public void removeAllSession(){
+        Iterator iter = sessions.keySet().iterator();
+        while(iter.hasNext()){
+            iter.next();
+            iter.remove();
+        }
+    }
+
     public int getMaxInactiveInterval() {
         return maxInactiveInterval;
     }
@@ -101,23 +110,20 @@ class Timer implements Runnable{
     private SessionHandler sessionHandler = null;
 
     //TODO 中断 唤醒
-    private boolean isStop = false;
     public Timer(SessionHandler sessionHandler){
         this.sessionHandler = sessionHandler;
     }
 
     @Override
     public void run() {
-        while (!isStop){
 
-            Iterator<StandardSession> iterator = sessionHandler.getSessions().iterator();
-            while (iterator.hasNext()){
-                StandardSession session = iterator.next();
-                if (session.checkExpire()){
-                    sessionHandler.removeSession(session);
-                }
+        Iterator<StandardSession> iterator = sessionHandler.getSessions().iterator();
+        while (iterator.hasNext()){
+            StandardSession session = iterator.next();
+            if (session.checkExpire()){
+                sessionHandler.removeSession(session);
             }
-
         }
+
     }
 }

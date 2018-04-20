@@ -79,6 +79,9 @@ public class Server extends LifecycleBase{
 // NIO / SSL
 
 // DEBUG AND TO DO
+//1. 检测静态资源并更新到缓冲 defaultServlet
 
 // 优化策略 为什么同样的静态项目 tomcat 1.6秒 syl要3秒
 // NIO? ETAG 缓存 长连接?
+
+// 优化策略 stop关闭后台线程  timer等

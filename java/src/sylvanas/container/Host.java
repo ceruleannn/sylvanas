@@ -56,4 +56,8 @@ public class Host extends ContainerBase{
     protected void destroyInternal() throws LifecycleException {
         super.destroyInternal();
     }
+
+    public HostConfig getHostConfig() {
+        return hostConfig;
+    }
 }
