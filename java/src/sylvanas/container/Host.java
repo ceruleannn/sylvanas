@@ -21,8 +21,14 @@ public class Host extends ContainerBase{
     @Override
     public String doHandle(Request request, Response response) {
         Context context = mapper.map(request.getRequestURI());
-        addNextContainer(context);
-        return null;
+
+        if (context==null){
+            response.sendError(404);
+            return "404";
+        }else {
+            addNextContainer(context);
+            return null;
+        }
     }
 
     public HostMapper getMapper() {
