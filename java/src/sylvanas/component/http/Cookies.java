@@ -31,7 +31,7 @@ public final class Cookies {
         this.rawRequest = rawRequest;
 
         parseHeaders();
-        //printCookies();
+        printCookies();
     }
 
     public void parseHeaders(){
@@ -47,7 +47,7 @@ public final class Cookies {
         }
 
         String[] cookies  = rawCookies.split(";");
-        if (cookies.length<=1){ // 1 means no match ';' and return whole String
+        if (cookies.length<1){ // 1 means no match ';' and return whole String
             return;
         }
 

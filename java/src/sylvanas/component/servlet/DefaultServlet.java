@@ -25,7 +25,7 @@ public class DefaultServlet extends HttpServlet{
     protected void service(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {
 
-        System.out.println("access default");
+        //System.out.println("access default");
 
         String absolute = toAbsolute(req.getRequestURI());
 
