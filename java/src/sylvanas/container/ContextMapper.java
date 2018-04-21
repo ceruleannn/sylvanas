@@ -48,7 +48,7 @@ public class ContextMapper {
                 }
                 if (child.getName().equals(mapName)){
 
-                    System.out.println("INFO: mapping add: "+ child.getName()+" - "+url);
+                    //System.out.println("INFO: mapping add: "+ child.getName()+" - "+url);
 
                     addWrapper((Wrapper)child,url);
                     break;

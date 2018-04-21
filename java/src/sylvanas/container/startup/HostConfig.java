@@ -92,8 +92,9 @@ public class HostConfig {
 
     public void deployOutsideDir(File dir) throws LifecycleException,IOException{
 
-        FileUtils.copyDirectory(dir,new File(Constants.APP_BASE+dir.getName()),true);
-        Context context = deployDirectories(dir);
+        File appDir = new File(Constants.APP_BASE+dir.getName());
+        FileUtils.copyDirectory(dir,appDir,true);
+        Context context = deployDirectories(appDir);
         context.init();
         context.start();
     }

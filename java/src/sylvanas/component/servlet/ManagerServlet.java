@@ -8,6 +8,8 @@ import sylvanas.container.Container;
 import sylvanas.container.Context;
 import sylvanas.container.Host;
 import sylvanas.container.Wrapper;
+import sylvanas.util.Constants;
+import sylvanas.util.EnvUtils;
 
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -16,10 +18,11 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.lang.management.ManagementFactory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ManagerServlet extends HttpServlet implements ContainerServlet{
+public class ManagerServlet extends HttpServlet implements ContainerServlet {
 
     private Host host;
 
@@ -43,21 +46,19 @@ public class ManagerServlet extends HttpServlet implements ContainerServlet{
             // 返回完整页面
             resp.setContentType("text/html;charset=UTF-8");
             req.getRequestDispatcher("/manager.html").forward(req,resp);
-
         }
-        else if("contexts".equals(query)){
-
+        else if ("contexts".equals(query)) {
             // 返回部署信息
             List<ContextsDefinition> contexts = new ArrayList<>();
             for (Container container : host.getChildren()) {
-                Context context = (Context)container;
+                Context context = (Context) container;
                 ContextsDefinition definition = new ContextsDefinition();
                 definition.setPath(context.getPath());
                 definition.setProjectName(context.getName());
 
-                if (context.getState().equals(LifecycleState.STARTED)){
+                if (context.getState().equals(LifecycleState.STARTED)) {
                     definition.setStatus("Running");
-                }else {
+                } else {
                     definition.setStatus("Stopped");
                 }
                 definition.setSessions(context.getSessionHandler().getSessions().size());
@@ -66,66 +67,73 @@ public class ManagerServlet extends HttpServlet implements ContainerServlet{
 
             write(resp,JSON.toJSONString(contexts));
 
-        }
-        else if("system".equals(query)){
+        } else if ("system".equals(query)) {
             // 返回系统信息
-        }
-        else if("deploy".equals(query)){
+
+            write(resp, JSON.toJSONString(new SystemDefinition()));
+        } else if ("deploy".equals(query)) {
             String path = req.getParameter("path");
             if (path!=null){
                 try {
                     host.getHostConfig().deployOutsideDir(new File(path));
-                } catch (LifecycleException |IOException e) {
+                } catch (LifecycleException | IOException e) {
                     resp.sendError(501);
                 }
             }
-            write(resp,200);
-        }
-        else{
+            write(resp, 200);
+        } else {
             String name = req.getParameter("name");
 
-            if(name==null){
+            if (name == null) {
                 resp.sendError(404);
             }
 
             try {
-                for (Container container : host.getChildren()) {
 
-                    if (!container.getName().equals(name)){
-                        continue;
-                    }
-
-                    LifecycleState state = container.getState();
-                    if("Start".equals(query)){
-                        if (LifecycleState.STOPPED.equals(state)){
-                            container.start();
-                        }
-                    }
-                    else if("Stop".equals(query)){
-                        if (LifecycleState.STARTED.equals(state)){
-                            container.stop();
-                        }
-                    }
-                    else if("Undeploy".equals(query)){
-                        container.stop();
-                        host.getHostConfig().undeploy(name);
-
-                    }
-                    else if("Sessions".equals(query)){
-                        Context context = (Context)container;
-                        context.getSessionHandler().removeAllSession();
+                Container container = null;
+                for (Container ele : host.getChildren()) {
+                    if (ele.getName().equals(name)) {
+                        container = ele;
+                        break;
                     }
                 }
+
+                if (container == null) {
+                    write(resp, 404);
+                    return;
+                }
+
+                LifecycleState state = container.getState();
+                if ("Start".equals(query)) {
+                    if (LifecycleState.STOPPED.equals(state)) {
+                        container.start();
+                    }
+                }
+                else if ("Stop".equals(query)) {
+                    if (LifecycleState.STARTED.equals(state)) {
+                        container.stop();
+                    }
+                }
+                else if ("Undeploy".equals(query)) {
+                    container.stop();
+                    host.getHostConfig().undeploy(name);
+
+                }
+                else if ("Sessions".equals(query)) {
+                    Context context = (Context) container;
+                    context.getSessionHandler().removeAllSession();
+                }
+
             } catch (LifecycleException | IOException e) {
                 resp.sendError(500);
             }
-            write(resp,200);
+            write(resp, 200);
         }
 
 
     }
 
-    private void write(HttpServletResponse response,String json){
+    private void write(HttpServletResponse response, String json) {
         response.setContentType("application/json;charset=UTF-8");
         try {
             PrintWriter writer = response.getWriter();
@@ -139,8 +147,8 @@ public class ManagerServlet extends HttpServlet implements ContainerServlet{
         }
     }
 
-    private void write(HttpServletResponse response,int code){
-        write(response,"{\"code\":\""+code+"\"}");
+    private void write(HttpServletResponse response, int code) {
+        write(response, "{\"code\":\"" + code + "\"}");
     }
 
     @Override
@@ -162,18 +170,18 @@ public class ManagerServlet extends HttpServlet implements ContainerServlet{
 }
 
 
-class ContextsDefinition{
+class ContextsDefinition {
 
     private String path;
     private String projectName;
     private String status;
     private int sessions;
 
-    public ContextsDefinition(){
+    public ContextsDefinition() {
 
     }
 
-    public ContextsDefinition(String path,String projectName,String status, int sessions){
+    public ContextsDefinition(String path, String projectName, String status, int sessions) {
         this.path = path;
         this.projectName = projectName;
         this.status = status;
@@ -213,9 +221,56 @@ class ContextsDefinition{
     }
 }
 
-class SystemDefinition{
+class SystemDefinition {
 
+    private String serverVersion = Constants.SYLVANAS_VERSION;
+    private String version = System.getProperty("java.version");
+    private String vendor = System.getProperty("java.vendor");
 
+    private String osName = System.getProperty("os.name");
+    private String osVersion = System.getProperty("os.arch");
+    private String osArch = System.getProperty("os.version");
+
+    private String host = System.getenv("COMPUTERNAME");
+    private String ip = EnvUtils.getRealIp();
+
+    private int thread = ManagementFactory.getThreadMXBean().getThreadCount();
+
+    public String getServerVersion() {
+        return serverVersion;
+    }
+
+    public String getVersion() {
+        return version;
+    }
+
+    public String getVendor() {
+        return vendor;
+    }
+
+    public String getOsName() {
+        return osName;
+    }
+
+    public String getOsVersion() {
+        return osVersion;
+    }
+
+    public String getOsArch() {
+        return osArch;
+    }
+
+    public String getHost() {
+        return host;
+    }
+
+    public String getIp() {
+        return ip;
+    }
+
+    public int getThread() {
+        return thread;
+    }
 }
 
 

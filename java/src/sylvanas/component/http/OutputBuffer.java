@@ -153,7 +153,7 @@ public class OutputBuffer extends Writer{
             response.setContentLength(contentBuf.length);
         }
 
-        response.addHeader("Server",Constants.SERVER_STRING);
+        response.addHeader("Server",Constants.SYLVANAS_VERSION);
 
         //set headers
         Enumeration<String> enumeration = mimeHeaders.getHeaderNames();

@@ -21,6 +21,9 @@ public final  class Constants {
 
     public static final String SESSION_ID_NAME = "Ssessionid";
 
+    public static final String SYLVANAS_VERSION = "Sylvanas/1.0";
+
+
 
     /**
      * CRLF.
@@ -35,7 +38,6 @@ public final  class Constants {
     /**
      * Server string.
      */
-    public static final String SERVER_STRING = "Sylvanas/1.0";
 
 
     /**
