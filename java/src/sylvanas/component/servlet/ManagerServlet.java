@@ -4,6 +4,7 @@ package sylvanas.component.servlet;
 import com.alibaba.fastjson.JSON;
 import sylvanas.component.lifecycle.LifecycleException;
 import sylvanas.component.lifecycle.LifecycleState;
+import sylvanas.component.server.PerformanceMonitor;
 import sylvanas.container.Container;
 import sylvanas.container.Context;
 import sylvanas.container.Host;
@@ -19,6 +20,7 @@ import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.management.ManagementFactory;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,11 +36,43 @@ public class ManagerServlet extends HttpServlet implements ContainerServlet {
 
     }
 
+    static {
+        //获取存放dll文件的绝对路径（假设将dll文件放在系统根目录下的WEB-INF文件夹中）
+        String path = Constants.APP_BASE+"manager"+Constants.LIB_PATH;
+        //将此目录添加到系统环境变量中
+        addDirToPath(path);
+        //加载相应的dll文件，注意要将'\'替换为'/'
+        System.load(path.replaceAll("\\\\","/")+"sigar-amd64-winnt.dll");
+    }
+
+    private static void addDirToPath(String s){
+        try {
+            //获取系统path变量对象
+            Field field=ClassLoader.class.getDeclaredField("sys_paths");
+            //设置此变量对象可访问
+            field.setAccessible(true);
+            //获取此变量对象的值
+            String[] path=(String[])field.get(null);
+            //创建字符串数组，在原来的数组长度上增加一个，用于存放增加的目录
+            String[] tem=new String[path.length+1];
+            //将原来的path变量复制到tem中
+            System.arraycopy(path,0,tem,0,path.length);
+            //将增加的目录存入新的变量数组中
+            tem[path.length]=s;
+            //将增加目录后的数组赋给path变量对象
+            field.set(null,tem);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     // /manager/html?query=contexts
     @Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
         req.getSession();
+
+
 
         String query = req.getParameter("query");
         if (query==null){
@@ -77,10 +111,29 @@ public class ManagerServlet extends HttpServlet implements ContainerServlet {
                 try {
                     host.getHostConfig().deployOutsideDir(new File(path));
                 } catch (LifecycleException | IOException e) {
-                    resp.sendError(501);
+                    e.printStackTrace();
+                    resp.sendError(503);
                 }
             }
             write(resp, 200);
+        } else if("cpu".equals(query)){
+
+            try {
+
+                int cpuint = PerformanceMonitor.getCpu();
+                int memint = PerformanceMonitor.getMem();
+                int thread = ManagementFactory.getThreadMXBean().getThreadCount();
+
+                String json = "{\"cpu\":"+cpuint+",\"mem\":"+memint+",\"thread\":"+thread+"}";
+                write(resp,json);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                resp.sendError(502);
+            }
+
+
+
         } else {
             String name = req.getParameter("name");
 
@@ -125,6 +178,7 @@ public class ManagerServlet extends HttpServlet implements ContainerServlet {
                 }
 
             } catch (LifecycleException | IOException e) {
+                e.printStackTrace();
                 resp.sendError(500);
             }
             write(resp, 200);
@@ -138,6 +192,7 @@ public class ManagerServlet extends HttpServlet implements ContainerServlet {
         try {
             PrintWriter writer = response.getWriter();
             writer.print(json);
+
         } catch (IOException e) {
             try {
                 response.sendError(500);
@@ -234,7 +289,6 @@ class SystemDefinition {
     private String host = System.getenv("COMPUTERNAME");
     private String ip = EnvUtils.getRealIp();
 
-    private int thread = ManagementFactory.getThreadMXBean().getThreadCount();
 
     public String getServerVersion() {
         return serverVersion;
@@ -268,9 +322,6 @@ class SystemDefinition {
         return ip;
     }
 
-    public int getThread() {
-        return thread;
-    }
 }
 
 

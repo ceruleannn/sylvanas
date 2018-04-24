@@ -31,7 +31,7 @@ public final class Cookies {
         this.rawRequest = rawRequest;
 
         parseHeaders();
-        printCookies();
+        //printCookies();
     }
 
     public void parseHeaders(){

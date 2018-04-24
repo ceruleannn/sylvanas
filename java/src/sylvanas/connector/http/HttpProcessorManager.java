@@ -3,6 +3,7 @@ package sylvanas.connector.http;
 import java.net.Socket;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @Description:
@@ -14,8 +15,8 @@ public class HttpProcessorManager {
     //TODO: Limit latch 流量控制
 
     private ThreadPoolExecutor executor = null;
-    private int maxSize = 100;
-    private int coreSize = 30;
+    private int maxSize = 200;
+    private int coreSize = 10;
 
     private HttpConnector connector = null;
 
@@ -25,9 +26,11 @@ public class HttpProcessorManager {
         executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
         executor.setMaximumPoolSize(maxSize);
         executor.setCorePoolSize(coreSize);
+        executor.setKeepAliveTime(10, TimeUnit.SECONDS);
     }
 
     public void processSocket(Socket socket){
+
         getExecutor().execute(new HttpProcessor(connector, socket));
     }
 

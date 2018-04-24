@@ -2,25 +2,29 @@ package sylvanas.bootstrap;
 
 import sylvanas.component.lifecycle.LifecycleBase;
 import sylvanas.component.lifecycle.LifecycleException;
+import sylvanas.component.server.PerformanceMonitor;
 import sylvanas.connector.http.HttpConnector;
 import sylvanas.container.Host;
 
 /**
  * Sylvanas 1.0
  *
- *
- *
+ * @author piao
+ * 2018.02 - 2018.05
  */
 public class Server extends LifecycleBase{
 
     private Host host;
     private HttpConnector connector;
+    private PerformanceMonitor monitor;
 
     @Override
     protected void initInternal() throws LifecycleException {
         connector = new HttpConnector();
         host = new Host();
         connector.setContainer(host);
+
+        monitor = new PerformanceMonitor();
 
         host.init();
         connector.init();
@@ -30,6 +34,7 @@ public class Server extends LifecycleBase{
     protected void startInternal() throws LifecycleException {
         host.start();
         connector.start();
+        monitor.start();
     }
 
     @Override
@@ -57,9 +62,13 @@ public class Server extends LifecycleBase{
         long after = System.currentTimeMillis();
         System.out.println("INFO: Server start successfully in " + (after - before) + " ms");
         System.out.println();
+
     }
 
+
 }
+
+
 
 // TODO
 // 1.DIGESTER (WEB,SERVER) MAPPER

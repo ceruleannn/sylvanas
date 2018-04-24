@@ -116,7 +116,7 @@ class Timer implements Runnable{
 
     @Override
     public void run() {
-
+        
         Iterator<StandardSession> iterator = sessionHandler.getSessions().iterator();
         while (iterator.hasNext()){
             StandardSession session = iterator.next();
@@ -124,6 +124,5 @@ class Timer implements Runnable{
                 sessionHandler.removeSession(session);
             }
         }
-
     }
 }

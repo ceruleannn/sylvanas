@@ -6,7 +6,13 @@
     <script src="https://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
     <script src="https://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
     <script src="http://cdn.staticfile.org/vue/2.2.6/vue.js"></script>
-    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+    <script src="ui/highcharts.js"></script>
+    <script src="ui/exporting.js"></script>
+    <script src="ui/export-data.js"></script>
+
+
     <style type="text/css">
 
         .center1{
@@ -46,7 +52,7 @@
 <body>
 <div id="app">
 <div>
-    <div style=>
+    <div >
         <img class="logo1" src="ui/logo.png"/>
         <img class="logo2" src="ui/logo2.png"/>
     </div>
@@ -90,7 +96,16 @@
     <input  v-on:click="handle($event)" type="button" class="btn btn-default " value="部署"/>
 </div>
 
-    <div class="col-md-offset-2 col-md-8 text-center">
+<div class="col-md-offset-2 col-md-8 " style="display:inline;margin-top: 30px">
+
+    <div class=" col-md-4 " id="container" style="height: 250px"></div>
+    <div class=" col-md-4 " id="container2" style="height: 250px"></div>
+    <div class=" col-md-4 " id="container3" style="height: 250px"></div>
+
+</div>
+
+
+    <div class="col-md-offset-2 col-md-8 text-center" style="margin-bottom: 80px;margin-top: 70px">
         <table class="table table-bordered table-hover" >
             <caption class="caption">Server Information</caption>
             <thead>
@@ -103,7 +118,6 @@
                 <th>OS Architecture	</th>
                 <th>IP Address</th>
                 <th>Hostname</th>
-                <th>Threads Live</th>
             </tr>
             </thead>
             <tbody>
@@ -114,9 +128,8 @@
                 <td>{{sys.osName}}</td>
                 <td>{{sys.osVersion}}</td>
                 <td>{{sys.osArch}}</td>
-                <td>{{sys.host}}</td>
                 <td>{{sys.ip}}</td>
-                <td>{{sys.thread}}</td>
+                <td>{{sys.host}}</td>
             </tr>
 
             </tbody>
@@ -137,7 +150,7 @@
                 var ele = e.currentTarget;
 
                 var val = ele.value;
-                var url = "http://localhost:8080/manager/html?";
+                var url = "/manager/html?";
 
                 if (val==="部署"){
                     url+=('query=deploy&path='+this.deployPath);
@@ -149,7 +162,7 @@
                 axios.post(url)
                     .then(function (response) {
                        if (response.data['code']==="200"){
-                           window.location.href = "http://localhost:8080/manager/html";
+                           window.location.href = "/manager/html";
                        }else {
                            alert("操作失败 服务器错误");
                        }
@@ -186,4 +199,228 @@
         }
     });
 
+</script>
+
+
+<script type="text/javascript">
+
+    var chart = null;
+    var chart2 = null;
+    var chart3 = null;
+
+    Highcharts.setOptions({
+        global: {
+            useUTC: false
+        }
+    });
+
+    chart = Highcharts.chart('container', {
+        chart: {
+            type: 'spline',
+            animation: Highcharts.svg, // don't animate in old IE
+            marginRight: 10
+
+        },
+        title: {
+            text: 'CPU Usage'
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 150
+        },
+        yAxis: {
+            title: {
+                text: 'CPU Usage'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }],
+            min: 0,
+            max: 100
+        },
+        tooltip: {
+            enabled: false
+        },
+        legend: {
+            enabled: false
+        },
+        exporting: {
+            enabled: false
+        },
+        series: [{
+            name: 'CPU Usage',
+            marker: {
+                enabled: false
+
+            },
+            data: (function () {
+                // generate an array of random data
+                var data = [],
+                    time = (new Date()).getTime(),
+                    i;
+
+                for (i = -1; i <= 0; i += 1) {
+                    data.push({
+                        x: time + i * 1000,
+                        y: 0
+                    });
+                }
+                return data;
+            }())
+        }],
+        credits: {
+            enabled: false
+        }
+    });
+
+    chart2 = Highcharts.chart('container2', {
+        chart: {
+            type: 'spline',
+            animation: Highcharts.svg, // don't animate in old IE
+            marginRight: 10
+
+        },
+        title: {
+            text: 'MEMORY'
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 150
+        },
+        yAxis: {
+            title: {
+                text: 'MEMORY (KB)'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }],
+            max:200000,
+            min:0
+        },
+        tooltip: {
+            enabled: false
+        },
+        legend: {
+            enabled: false
+        },
+        exporting: {
+            enabled: false
+        },
+        series: [{
+            name: 'MEMORY',
+            marker: {
+                enabled: false
+
+            },
+            data: (function () {
+                // generate an array of random data
+                var data = [],
+                    time = (new Date()).getTime(),
+                    i;
+
+                for (i = -1; i <= 0; i += 1) {
+                    data.push({
+                        x: time + i * 1000,
+                        y: 0
+                    });
+                }
+                return data;
+            }())
+        }],
+        credits: {
+            enabled: false
+        }
+    });
+
+    chart3 = Highcharts.chart('container3', {
+        chart: {
+            type: 'spline',
+            animation: Highcharts.svg, // don't animate in old IE
+            marginRight: 10
+
+        },
+        title: {
+            text: 'THREAD'
+        },
+        xAxis: {
+            type: 'datetime',
+            tickPixelInterval: 150
+        },
+        yAxis: {
+            title: {
+                text: 'ALIVE THREAD'
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }],
+            
+        },
+        tooltip: {
+            enabled: false
+        },
+        legend: {
+            enabled: false
+        },
+        exporting: {
+            enabled: false
+        },
+        series: [{
+            name: 'THREAD',
+            marker: {
+                enabled: false
+
+            },
+            data: (function () {
+                // generate an array of random data
+                var data = [],
+                    time = (new Date()).getTime(),
+                    i;
+
+                for (i = -1; i <= 0; i += 1) {
+                    data.push({
+                        x: time + i * 1000,
+                        y: 0
+                    });
+                }
+                return data;
+            }())
+        }],
+        credits: {
+            enabled: false
+        }
+    });
+
+    function requestData() {
+
+        var series = chart.series[0];
+        var series2 = chart2.series[0];
+        var series3 = chart3.series[0];
+
+        var shift = series.data.length > 10;
+        var shift2 = series2.data.length > 10;
+        var shift3 = series3.data.length > 10;
+
+
+        $.ajax({
+            url: '/manager/html?query=cpu',
+            dataType: 'json',
+            success: function(ry) {
+                var x = (new Date()).getTime(); // current time
+                series.addPoint([x, ry["cpu"]], true, shift);
+                series2.addPoint([x, ry["mem"]], true, shift2);
+                series3.addPoint([x, ry["thread"]], true, shift3);
+                setTimeout(requestData, 1000);
+            }
+        });
+    }
+
+    $(document).ready(function () {
+        requestData();
+    })
 </script>

@@ -21,6 +21,8 @@ public class DefaultServlet extends HttpServlet{
 
     private final CacheHandler cacheHandler = new CacheHandler();
 
+
+
     @Override
     protected void service(HttpServletRequest req, HttpServletResponse resp)
             throws ServletException, IOException {

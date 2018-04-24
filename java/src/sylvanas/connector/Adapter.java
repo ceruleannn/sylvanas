@@ -27,6 +27,12 @@ public class Adapter {
 
     public void service(Socket socket, String raw){
 
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         RawRequest rawRequest = new RawRequest(raw);
         RawResponse rawResponse = new RawResponse(socket);
 
