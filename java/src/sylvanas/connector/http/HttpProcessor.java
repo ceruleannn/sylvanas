@@ -9,7 +9,7 @@ import java.io.InputStreamReader;
 import java.net.Socket;
 
 /**
- * @Description: 对每个请求创建一个独立的HttpProcessor, 并将其委派至Manager中调用executor在
+ * 对每个请求创建一个独立的HttpProcessor, 并将其委派至Manager中调用executor在
  * 新线程中启用
  * <p>
  * 以字符串形式采集http请求 ,并调用适配器
@@ -18,10 +18,10 @@ public class HttpProcessor implements Runnable {
 
 
     private Socket socket = null;
-    private HttpConnector connector = null;
+    private Connector connector = null;
 
 
-    public HttpProcessor(HttpConnector connector, Socket socket) {
+    public HttpProcessor(Connector connector, Socket socket) {
         if (socket == null) throw new NullPointerException();
         this.socket = socket;
         this.connector = connector;
@@ -30,7 +30,6 @@ public class HttpProcessor implements Runnable {
 
     @Override
     public void run() {
-
 
         try (
             InputStream in = socket.getInputStream();
@@ -49,8 +48,6 @@ public class HttpProcessor implements Runnable {
             } // the key point to read a complete arrival socket stream with bio but without block
             while (br.ready());
 
-            //TODO 不能在这里close会导致socket close
-
             String raw = sb.toString();
             //System.out.println("主机收到信息：\n" + raw);
 
@@ -59,7 +56,7 @@ public class HttpProcessor implements Runnable {
             }
 
             Adapter adapter = new Adapter(connector);
-            adapter.service(socket, raw);
+            adapter.handle(socket, raw);
 
 
         } catch (IOException e) {

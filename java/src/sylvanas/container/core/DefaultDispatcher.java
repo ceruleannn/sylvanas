@@ -1,4 +1,4 @@
-package sylvanas.component.context;
+package sylvanas.container.core;
 
 import sylvanas.connector.Request;
 import sylvanas.container.Context;

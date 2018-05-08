@@ -1,5 +1,6 @@
 package sylvanas.connector;
 
+import sylvanas.bootstrap.Server;
 import sylvanas.component.exception.Assert;
 import sylvanas.component.http.Cookies;
 import sylvanas.component.http.MimeHeaders;
@@ -57,7 +58,11 @@ public class Response implements HttpServletResponse{
     public Response(RawResponse rawResponse){
        this.rawResponse = rawResponse;
 
-       outputBuffer = new OutputBuffer(this,rawResponse.getOutputStream());
+       if (rawResponse.getIOmode()== Server.BIO_MODE){
+           outputBuffer = new OutputBuffer(this,rawResponse.getOutputStream());
+       }else{
+           outputBuffer = new OutputBuffer(this,rawResponse.getSocketChannel());
+       }
     }
 
 

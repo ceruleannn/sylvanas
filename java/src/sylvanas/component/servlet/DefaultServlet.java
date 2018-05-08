@@ -39,6 +39,7 @@ public class DefaultServlet extends HttpServlet{
             // no cache , read disk file and add to cache
             CacheResource resource = new CacheResource();
 
+
             boolean ok = resource.toCache(absolute);
             if (ok){
                 cacheHandler.addCache(absolute, resource);
@@ -58,12 +59,17 @@ public class DefaultServlet extends HttpServlet{
         String extension = name.substring(name.lastIndexOf(".")+1);
 
         if (resp.getContentType()==null){
-            resp.setContentType(MimeTypes.getContentTypeByExtension(extension)+";charset="+charset);
+            String mime = MimeTypes.getContentTypeByExtension(extension);
+            if (mime.startsWith("text")){
+                mime += (";charset="+charset);
+            }
+            resp.setContentType(mime);
 
         }
         resp.setContentLength(content.length);
 
         try {
+            resp.setBufferSize(content.length);
             resp.getOutputStream().write(content);
         } catch (IOException e) {
             e.printStackTrace();

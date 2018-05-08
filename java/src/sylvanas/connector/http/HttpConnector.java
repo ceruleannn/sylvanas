@@ -1,6 +1,5 @@
 package sylvanas.connector.http;
 
-import sylvanas.component.lifecycle.LifecycleBase;
 import sylvanas.component.lifecycle.LifecycleException;
 import sylvanas.container.Container;
 
@@ -10,7 +9,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 
-public class HttpConnector extends LifecycleBase implements Runnable {
+public class HttpConnector extends AbstractConnector implements Runnable {
 
     //TODO: ServerSocketFactory
 
@@ -18,10 +17,11 @@ public class HttpConnector extends LifecycleBase implements Runnable {
     private int port = 8080;
     private String ip = "127.0.0.1";
     private boolean stopped = false;
-    private HttpProcessorManager httpProcessorManager = null;
     private Container container = null;
 
     private ServerSocket serverSocket = null;
+
+    private HttpProcessorManager manager = HttpProcessorManager.getManager();
 
 
     public HttpConnector(){
@@ -35,7 +35,7 @@ public class HttpConnector extends LifecycleBase implements Runnable {
             Socket socket = null;
             try {
                 socket = serverSocket.accept();
-                httpProcessorManager.processSocket(socket);
+                manager.process(new HttpProcessor(this,socket));
 
             } catch (IOException e) {
                 e.printStackTrace();
@@ -52,7 +52,6 @@ public class HttpConnector extends LifecycleBase implements Runnable {
             e.printStackTrace();
         }
 
-        httpProcessorManager = new HttpProcessorManager(this);
     }
 
     @Override

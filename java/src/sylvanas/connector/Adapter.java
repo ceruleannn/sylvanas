@@ -1,8 +1,9 @@
 package sylvanas.connector;
 
-import sylvanas.connector.http.HttpConnector;
+import sylvanas.connector.http.Connector;
 
 import java.net.Socket;
+import java.nio.channels.SocketChannel;
 
 /**
  *  one request -  one thread - one adapter
@@ -19,22 +20,25 @@ import java.net.Socket;
  */
 public class Adapter {
 
-    private HttpConnector connector = null;
+    private Connector connector = null;
 
-    public Adapter(HttpConnector connector){
+    public Adapter(Connector connector){
         this.connector = connector;
     }
 
-    public void service(Socket socket, String raw){
+    public void handle(Socket socket,String raw){
+        RawResponse rawResponse = new RawResponse(socket);
+        service(rawResponse,raw);
+    }
 
-        try {
-            Thread.sleep(200);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+    public void handle(SocketChannel socketChannel, String raw){
+        RawResponse rawResponse = new RawResponse(socketChannel);
+        service(rawResponse,raw);
+    }
+
+    private void service(RawResponse rawResponse,String raw){
 
         RawRequest rawRequest = new RawRequest(raw);
-        RawResponse rawResponse = new RawResponse(socket);
 
         Request request = new Request(rawRequest);
         Response response = new Response(rawResponse);

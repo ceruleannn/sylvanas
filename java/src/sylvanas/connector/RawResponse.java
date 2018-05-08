@@ -1,19 +1,25 @@
 package sylvanas.connector;
 
+import sylvanas.bootstrap.Server;
 import sylvanas.component.http.OutputBuffer;
 
 import java.io.IOException;
 import java.io.OutputStream;
 import java.net.Socket;
+import java.nio.channels.SocketChannel;
 
 /**
  * response for socket
  */
 public class RawResponse {
 
+    private int IOmode;
+
     private Response response;
 
     private Socket socket = null;
+
+    private SocketChannel socketChannel;
 
     private RawRequest rawRequest = null;
 
@@ -23,20 +29,20 @@ public class RawResponse {
 
     private boolean commited = false;
 
-
-    private static final String HTML = "HTTP/1.1 200 OK\r\n"
-            + "Content-Type: text/html\r\n"
-            + "Content-Length: %d\r\n" + "\r\n"
-            + "%s";
-
     public RawResponse(Socket socket){
         this.socket = socket;
+        IOmode = Server.BIO_MODE;
 
         try {
             this.outputStream = socket.getOutputStream();
         } catch (IOException e) {
             throw new RuntimeException("get out put stream failed");
         }
+    }
+
+    public RawResponse(SocketChannel socketChannel){
+        this.socketChannel = socketChannel;
+        IOmode = Server.NIO_MODE;
     }
 
     public Socket getSocket() {
@@ -70,5 +76,17 @@ public class RawResponse {
 
     public OutputBuffer getOutputBuffer() {
         return outputBuffer;
+    }
+
+    public int getIOmode() {
+        return IOmode;
+    }
+
+    public SocketChannel getSocketChannel() {
+        return socketChannel;
+    }
+
+    public void setSocketChannel(SocketChannel socketChannel) {
+        this.socketChannel = socketChannel;
     }
 }

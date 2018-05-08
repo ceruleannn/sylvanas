@@ -1,6 +1,5 @@
 package sylvanas.container.core;
 
-import sylvanas.component.context.DefaultDispatcher;
 import sylvanas.container.Context;
 
 import javax.servlet.*;

@@ -1,5 +1,7 @@
 package sylvanas.component.lifecycle;
 
+import sylvanas.component.exception.ExceptionUtils;
+
 /**
  *
  *
@@ -41,12 +43,14 @@ public abstract  class LifecycleBase implements Lifecycle{
         } catch (Throwable t) {
            // ExceptionUtils.handleThrowable(t);
             setStateInternal(LifecycleState.FAILED, null);
-            throw new LifecycleException("lifecycleBase.initFail "+t);
+            throw new LifecycleException("lifecycleBase.initFail "+ ExceptionUtils.Stack2String(t));
         }
         setStateInternal(LifecycleState.INITIALIZED, null);
     }
 
-    protected abstract void initInternal() throws LifecycleException;
+    protected void initInternal() throws LifecycleException{
+
+    }
 
     @Override
     public void start() throws LifecycleException {
@@ -80,7 +84,9 @@ public abstract  class LifecycleBase implements Lifecycle{
 
     }
 
-    protected abstract void startInternal() throws LifecycleException;
+    protected void startInternal() throws LifecycleException{
+
+    }
 
     @Override
     public void stop() throws LifecycleException {
@@ -107,7 +113,9 @@ public abstract  class LifecycleBase implements Lifecycle{
         }
     }
 
-    protected abstract void stopInternal() throws LifecycleException;
+    protected void stopInternal() throws LifecycleException{
+
+    }
 
     @Override
     public void destroy() throws LifecycleException {
@@ -131,7 +139,9 @@ public abstract  class LifecycleBase implements Lifecycle{
         setStateInternal(LifecycleState.DESTROYED, null);
     }
 
-    protected abstract void destroyInternal() throws LifecycleException;
+    protected void destroyInternal() throws LifecycleException{
+
+    }
 
     @Override
     public LifecycleState getState() {

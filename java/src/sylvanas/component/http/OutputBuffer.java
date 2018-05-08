@@ -1,5 +1,6 @@
 package sylvanas.component.http;
 
+import sylvanas.bootstrap.Server;
 import sylvanas.connector.Response;
 import sylvanas.util.Constants;
 import sylvanas.util.StringUtils;
@@ -9,6 +10,7 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.nio.ByteBuffer;
 import java.nio.CharBuffer;
+import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
 import java.util.Arrays;
 import java.util.Enumeration;
@@ -18,6 +20,8 @@ import java.util.Enumeration;
  */
 public class OutputBuffer extends Writer{
 
+    private int io_mode;
+
     private int bufferSize = 2048;
 
     private byte[] buf = new byte[bufferSize];
@@ -26,7 +30,9 @@ public class OutputBuffer extends Writer{
 
     private Response response;
 
+    // 返回客户端的流或channel
     private OutputStream outputStream ;
+    private SocketChannel socketChannel;
 
     // has been written to stream
     private boolean commited;
@@ -36,8 +42,15 @@ public class OutputBuffer extends Writer{
     private String encode = Constants.DEFAULT_ENCODING;
 
     public OutputBuffer(Response response, OutputStream outputStream){
+        this.io_mode = Server.BIO_MODE;
         this.response = response;
         this.outputStream = outputStream;
+    }
+
+    public OutputBuffer(Response response, SocketChannel socketChannel){
+        this.io_mode = Server.NIO_MODE;
+        this.response = response;
+        this.socketChannel = socketChannel;
     }
 
     public void write(int i) {
@@ -55,10 +68,11 @@ public class OutputBuffer extends Writer{
         cb.flip();
 
         ByteBuffer bb = cs.encode(cb);
+
+        //TODO remain is better?
         byte[] nb = new byte[bb.limit()];
         bb.get(nb);
         write(nb);
-
 
     }
 
@@ -87,8 +101,9 @@ public class OutputBuffer extends Writer{
     @Override
     public void flush() throws IOException{
         if (commited){
-
-            outputStream.flush();
+            if (io_mode==Server.BIO_MODE){
+                outputStream.flush();
+            }
             return;
         }
         doWrite();
@@ -98,9 +113,14 @@ public class OutputBuffer extends Writer{
     public void close(){
 
         try {
-            outputStream.close();
-        } catch (IOException e) {
+            if (io_mode==Server.BIO_MODE){
+                outputStream.close();
+            }else {
+                socketChannel.close();
+            }
 
+        } catch (IOException e) {
+            //NOOP
         }
     }
 
@@ -112,8 +132,21 @@ public class OutputBuffer extends Writer{
         commited = true;
 
         writeHeaders();
-        outputStream.write(buf,0,pos);
-        outputStream.flush();
+        if (io_mode==Server.BIO_MODE){
+            outputStream.write(buf,0,pos);
+            outputStream.flush();
+        }else {
+
+            ByteBuffer bb = ByteBuffer.wrap(buf,0,pos);
+
+            // wow! byteBuffer一次只写256kb !!!
+            // 好大一个坑...
+            while(bb.hasRemaining()){
+                socketChannel.write(bb);
+            }
+
+        }
+
     }
 
     public int getBufferSize() {
