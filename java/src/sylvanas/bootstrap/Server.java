@@ -18,7 +18,9 @@ public class Server extends LifecycleBase{
     public final static int BIO_MODE = 1;
     public final static int NIO_MODE = 2;
 
+    //private int IOmode = BIO_MODE;
     private int IOmode = NIO_MODE;
+
 
     private Host host;
     private HttpConnector connector;

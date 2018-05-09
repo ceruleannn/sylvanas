@@ -2,6 +2,7 @@ package sylvanas.connector.http;
 
 import sylvanas.component.exception.ExceptionUtils;
 import sylvanas.component.lifecycle.LifecycleException;
+import sylvanas.connector.Adapter;
 import sylvanas.container.Container;
 
 import java.io.IOException;
@@ -84,7 +85,7 @@ public class HttpNioConnector extends AbstractConnector implements Runnable {
 
     private void handleKey(SelectionKey key)
             throws IOException {
-        SocketChannel channel = null;
+        final SocketChannel channel;
         int i=0;
         if (key.isAcceptable()) {
             ServerSocketChannel serverChannel = (ServerSocketChannel) key.channel();
@@ -106,7 +107,26 @@ public class HttpNioConnector extends AbstractConnector implements Runnable {
             }
 
             if (count > 0) {
-                manager.process(new HttpNioProcessor(this,channel,readBuffer));
+ //               manager.process(new HttpNioProcessor(this,channel,readBuffer));
+                readBuffer.flip();
+
+                byte[] bytes = new byte[readBuffer.remaining()];
+                readBuffer.get(bytes);
+                String raw = new String(bytes);
+                //System.out.println(raw);
+
+                Runnable runnable = new Runnable() {
+                    @Override
+                    public void run() {
+                        Adapter adapter = new Adapter(HttpNioConnector.this);
+                        adapter.handle(channel, raw);
+                    }
+                };
+                manager.process(runnable);
+
+
+            }else {
+                channel.close();
             }
 
         }

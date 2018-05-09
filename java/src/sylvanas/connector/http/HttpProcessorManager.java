@@ -14,7 +14,7 @@ public class HttpProcessorManager {
     //TODO: Limit latch 流量控制
 
     private ThreadPoolExecutor executor = null;
-    private int maxSize = 500;
+    private int maxSize = 50;
     private int coreSize = 10;
 
 

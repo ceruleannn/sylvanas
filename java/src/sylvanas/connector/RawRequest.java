@@ -105,9 +105,7 @@ public class RawRequest {
 
     private void parseDepart(){
         int lr = raw.indexOf("\r\n");
-        if (lr==-1){
-            lr = raw.indexOf("\n");
-        }
+
         rawRequestLine = raw.substring(0,lr);
 
         String temp = raw.substring(rawRequestLine.length()+2);
