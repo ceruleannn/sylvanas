@@ -1,5 +1,7 @@
 package sylvanas.connector.session;
 
+import sylvanas.component.lifecycle.LifecycleBase;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Map;
@@ -14,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  * 1.维护 map<id,session>
  * 2.开启timer线程检查session超时
  */
-public class SessionHandler {
+public class SessionHandler extends LifecycleBase{
 
     private Map<String, StandardSession> sessions = new ConcurrentHashMap<String, StandardSession>();
 

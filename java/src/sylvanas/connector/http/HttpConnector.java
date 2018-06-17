@@ -1,5 +1,6 @@
 package sylvanas.connector.http;
 
+import sylvanas.component.context.ExceptionHandler;
 import sylvanas.component.lifecycle.LifecycleException;
 import sylvanas.container.Container;
 
@@ -38,7 +39,8 @@ public class HttpConnector extends AbstractConnector implements Runnable {
                 manager.process(new HttpProcessor(this,socket));
 
             } catch (IOException e) {
-                e.printStackTrace();
+                String message = "等待连接时发生 I/O 错误";
+                ExceptionHandler.handleServerException(e,message);
             }
         }
     }

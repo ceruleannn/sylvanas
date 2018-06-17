@@ -144,14 +144,17 @@ public class Context extends ContainerBase{
         request.setContext(this);
         request.setServletContext(servletContext);
 
-
         String uri = request.getRequestURI();
         Wrapper wrapper = mapper.map(uri.substring(path.length(),uri.length()));
 
-        addNextContainer(wrapper);
+        if (wrapper!=null){
+            this.addNextContainer(wrapper);
+            return null;
+        }
+        else {
+            return "404";
+        }
 
-       // System.out.println("wrapper mapped "+ uri.substring(path.length(),uri.length()));
-        return null;
     }
 
     public ErrorPageHandler getErrorPageHandler() {

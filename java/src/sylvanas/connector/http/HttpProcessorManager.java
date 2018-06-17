@@ -14,7 +14,6 @@ public class HttpProcessorManager {
     //TODO: Limit latch 流量控制
 
     private ThreadPoolExecutor executor = null;
-    private int maxSize = 50;
     private int coreSize = 10;
 
 
@@ -22,9 +21,8 @@ public class HttpProcessorManager {
 
     private HttpProcessorManager(){
         executor = (ThreadPoolExecutor) Executors.newCachedThreadPool();
-        executor.setMaximumPoolSize(maxSize);
         executor.setCorePoolSize(coreSize);
-        executor.setKeepAliveTime(10, TimeUnit.SECONDS);
+        executor.setKeepAliveTime(5, TimeUnit.SECONDS);
 
     }
 
@@ -32,15 +30,6 @@ public class HttpProcessorManager {
         getExecutor().execute(runnable);
     }
 
-
-    public int getMaxSize() {
-        return maxSize;
-    }
-
-    public void setMaxSize(int maxSize) {
-        this.maxSize = maxSize;
-        executor.setMaximumPoolSize(maxSize);
-    }
 
     public int getCoreSize() {
         return coreSize;

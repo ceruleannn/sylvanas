@@ -5,9 +5,7 @@ import sylvanas.connector.Request;
 import sylvanas.connector.Response;
 import sylvanas.container.startup.HostConfig;
 
-/**
- * @Description:
- */
+
 public class Host extends ContainerBase{
 
     protected HostMapper mapper = null;

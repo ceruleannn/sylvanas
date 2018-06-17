@@ -72,14 +72,12 @@ public class ManagerServlet extends HttpServlet implements ContainerServlet {
 
         req.getSession();
 
-
-
         String query = req.getParameter("query");
         if (query==null){
 
             // 返回完整页面
             resp.setContentType("text/html;charset=UTF-8");
-            req.getRequestDispatcher("/manager.html").forward(req,resp);
+            req.getRequestDispatcher("/managerord.html").forward(req,resp);
         }
         else if ("contexts".equals(query)) {
             // 返回部署信息

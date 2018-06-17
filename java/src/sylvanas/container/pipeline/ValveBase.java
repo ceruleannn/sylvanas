@@ -32,10 +32,6 @@ public abstract  class ValveBase implements Valve{
         return "";
     }
 
-    public Map<String, String> getParameters() {
-        return parameters;
-    }
-
     @Override
     public void addInitParameter(String name, String value){
         if (parameters.containsKey(name)) {

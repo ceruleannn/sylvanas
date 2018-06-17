@@ -1,5 +1,6 @@
 package sylvanas.connector.http;
 
+import sylvanas.component.context.ExceptionHandler;
 import sylvanas.component.exception.ExceptionUtils;
 import sylvanas.component.lifecycle.LifecycleException;
 import sylvanas.connector.Adapter;
@@ -8,10 +9,7 @@ import sylvanas.container.Container;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
-import java.nio.channels.SelectionKey;
-import java.nio.channels.Selector;
-import java.nio.channels.ServerSocketChannel;
-import java.nio.channels.SocketChannel;
+import java.nio.channels.*;
 import java.util.Iterator;
 
 /**
@@ -24,6 +22,7 @@ public class HttpNioConnector extends AbstractConnector implements Runnable {
     private int port = 8080;
     private String ip = "127.0.0.1";
     private int bufferSize = 4096;
+    private boolean stopped = false;
 
     private Container container = null;
     private ByteBuffer readBuffer;
@@ -34,19 +33,28 @@ public class HttpNioConnector extends AbstractConnector implements Runnable {
 
     @Override
     public void run() {
-        while (true) {
+        int errorcount = 0;
+        while (!stopped) {
+            SelectionKey key = null;
             try {
                 selector.select();
                 Iterator ite = selector.selectedKeys().iterator();
 
                 while (ite.hasNext()) {
-                    SelectionKey key = (SelectionKey) ite.next();
+                    key = (SelectionKey) ite.next();
                     ite.remove(); //确保不重复处理
                     handleKey(key);
-
                 }
-            } catch (Throwable t) {
-                t.printStackTrace();
+            } catch (IOException t) {
+                String message = "NIO连接器 等待连接时发生错误";
+                ExceptionHandler.handleServerException(t,message);
+            } catch (CancelledKeyException c){
+                if (key!=null){
+                    key.cancel();
+                }
+                errorcount++;
+                String message = "NIO连接已被取消"+errorcount;
+                ExceptionHandler.handleServerException(c,message);
             }
         }
     }
@@ -84,7 +92,7 @@ public class HttpNioConnector extends AbstractConnector implements Runnable {
 
 
     private void handleKey(SelectionKey key)
-            throws IOException {
+            throws IOException,CancelledKeyException{
         final SocketChannel channel;
         int i=0;
         if (key.isAcceptable()) {
@@ -99,7 +107,6 @@ public class HttpNioConnector extends AbstractConnector implements Runnable {
             /*当客户端channel关闭后，会不断收到read事件，但没有消息，即read方法返回-1
              * 所以这时服务器端也需要关闭channel，避免无限无效的处理*/
             int count = 0;
-
             try {
                 count = channel.read(readBuffer);
             } catch (IOException e) {

@@ -8,7 +8,6 @@ import sylvanas.util.Constants;
 import javax.servlet.http.Cookie;
 
 /**
- * @Description:
  * a RawRequest for process String
  * 处理请求源 字符串的解析处理
  */

@@ -33,6 +33,9 @@ public abstract class ContainerBase extends LifecycleBase implements Container{
      */
     protected String name = null;
 
+    /**
+     * chain of Responsibility
+     */
     @Override
     public final String doChain(Request request, Response response){
 
@@ -50,7 +53,6 @@ public abstract class ContainerBase extends LifecycleBase implements Container{
         }
         return null;
     }
-
 
 
     /**

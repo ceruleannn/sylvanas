@@ -79,6 +79,7 @@ public class Server extends LifecycleBase{
 // WEB DEPLOY
 // FILE UPLOAD
 // LIFECYCLE LISTENER
+// NETTY3
 
 // LOG / ERROR PAGE /ACCESS LOG /EXCEPTION HANDLER
 // 读写Syl.xml 配置容器, 容器管理Factory
@@ -88,8 +89,5 @@ public class Server extends LifecycleBase{
 
 // DEBUG AND TO DO
 
-
-// 优化策略 为什么同样的静态项目 tomcat 1.6秒 syl要3秒
-// NIO? ETAG 缓存 长连接?
 
 // 优化策略 stop关闭后台线程  timer等

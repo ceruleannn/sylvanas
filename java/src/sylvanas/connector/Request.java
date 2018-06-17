@@ -210,7 +210,7 @@ public class Request implements HttpServletRequest {
      * 2 获取SessionManager；
      * 3 从StandardManager的Session缓存中获取Session，如果有则返回此Session，否则进入下一步；
      * 4 创建Session；
-     * 5 创建保存Session ID的Cookie；
+     * 5 创建保存Session ID的Cookie,写入到Response中。
      * 6 通过调用Session的access方法更新Session的访问时间以及访问次数。
      *
      * @param create

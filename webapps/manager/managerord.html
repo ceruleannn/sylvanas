@@ -7,7 +7,7 @@
     <script src="https://libs.baidu.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
     <script src="http://cdn.staticfile.org/vue/2.2.6/vue.js"></script>
     <script src="https://cdn.bootcss.com/axios/0.18.0/axios.min.js"></script>
-    <script src="https://cdn.bootcss.com/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="ui/highcharts.js"></script>
     <script src="ui/exporting.js"></script>
     <script src="ui/export-data.js"></script>
@@ -58,64 +58,64 @@
 </head>
 <body>
 <div id="app">
-<div>
-    <div >
-        <img class="col-md-3 header" src="ui/logo.png"/>
-        <p class="col-md-6 header title2">Web应用服务器的设计与实现</p>
-        <img class="col-md-3 header" src="ui/logo2.png"/>
+    <div>
+        <div >
+            <img class="col-md-3 header" src="ui/logo.png"/>
+            <p class="col-md-6 header title2">Web应用服务器管理</p>
+            <img class="col-md-3 header" src="ui/logo2.png"/>
+        </div>
+
     </div>
 
-</div>
+    <div class="col-md-offset-2 col-md-8 text-center">
+        <table class="table table-bordered table-hover" >
+            <caption class="caption">项目管理</caption>
+            <thead>
+            <tr>
+                <th>path</th>
+                <th>project name</th>
+                <th>status</th>
+                <th>sessions</th>
+                <th>commands</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr v-for="context in contexts">
+                <td width="15%">{{context.path}}</td>
+                <td width="25%"><a v-bind:href="'/'+context.projectName+'/index.html'" target="_blank">{{context.projectName}}</a></td>
+                <td>{{context.status}}</td>
+                <td>{{context.sessions}}</td>
+                <td v-bind:id="context.projectName">
+                    <button  v-on:click="handle($event)" type="button" class="btn btn-default " value="Start">Start</button>
+                    <button  v-on:click="handle($event)" type="button" class="btn btn-default " value="Stop">Stop</button>
+                    <button  v-on:click="handle($event)" type="button" class="btn btn-default " value="Undeploy">Undeploy</button>
+                    <button  v-on:click="handle($event)" type="button" class="btn btn-default " value="Sessions">Expire Sessions</button>
+                </td>
+            </tr>
 
-<div class="col-md-offset-2 col-md-8 text-center">
-<table class="table table-bordered table-hover" >
-    <caption class="caption">项目管理</caption>
-    <thead>
-    <tr>
-        <th>路径</th>
-        <th>项目名</th>
-        <th>状态</th>
-        <th>会话数</th>
-        <th>命令</th>
-    </tr>
-    </thead>
-    <tbody>
-    <tr v-for="context in contexts">
-        <td width="15%">{{context.path}}</td>
-        <td width="25%"><a v-bind:href="'/'+context.projectName+'/index.html'" target="_blank">{{context.projectName}}</a></td>
-        <td>{{context.status}}</td>
-        <td>{{context.sessions}}</td>
-        <td v-bind:id="context.projectName">
-            <button  v-on:click="handle($event)" type="button" class="btn btn-default " value="Start">Start</button>
-            <button  v-on:click="handle($event)" type="button" class="btn btn-default " value="Stop">Stop</button>
-            <button  v-on:click="handle($event)" type="button" class="btn btn-default " value="Undeploy">Undeploy</button>
-            <button  v-on:click="handle($event)" type="button" class="btn btn-default " value="Sessions">Expire Sessions</button>
-        </td>
-    </tr>
+            </tbody>
+        </table>
 
-    </tbody>
-</table>
+    </div>
 
-</div>
+    <div style="margin-top: 30px;margin-bottom: 30px" class="col-md-offset-4 col-md-4 text-center" >
 
-<div style="margin-top: 30px;margin-bottom: 30px" class="col-md-offset-4 col-md-4 text-center" >
+        <input  v-model="deployPath" class="text1" type="text" />
+        <input  v-on:click="handle($event)" type="button" class="btn btn-default " value="部署"/>
+    </div>
 
-    <input  v-model="deployPath" class="text1" type="text" />
-    <input  v-on:click="handle($event)" type="button" class="btn btn-default " value="部署项目"/>
-</div>
+    <div class="col-md-offset-2 col-md-8 " style="display:inline;margin-top: 30px">
 
-<div class="col-md-offset-2 col-md-8 " style="display:inline;margin-top: 30px">
+        <div class=" col-md-4 " id="container" style="height: 250px"></div>
+        <div class=" col-md-4 " id="container2" style="height: 250px"></div>
+        <div class=" col-md-4 " id="container3" style="height: 250px"></div>
 
-    <div class=" col-md-4 " id="container" style="height: 250px"></div>
-    <div class=" col-md-4 " id="container2" style="height: 250px"></div>
-    <div class=" col-md-4 " id="container3" style="height: 250px"></div>
-
-</div>
+    </div>
 
 
     <div class="col-md-offset-2 col-md-8 text-center" style="margin-bottom: 80px;margin-top: 70px">
         <table class="table table-bordered table-hover" >
-            <caption class="caption">服务器系统信息</caption>
+            <caption class="caption">Server Information</caption>
             <thead>
             <tr>
                 <th>Server Version</th>
@@ -153,7 +153,7 @@
         部署项目核心流程<br/><br/>
         1.将项目复制到/webapp<br/>
         2.解析项目下web.xml<br/>
-        3.创建相关容器组件<br/>
+        3.创建相关容器组件
         4.根据xml 构造请求映射<br/>
         5.使用类加载器载入类<br/>
 
@@ -168,7 +168,7 @@
         6.1 动态资源: 传入request和response 调用Servlet的service方法<br/>
         6.2 静态资源: 访问DefaultServlet (缓存管理静态资源)<br/>
         7.织入response header<br/>
-        8.响应数据,回收资源<br/>
+        8.返回数据,回收资源<br/>
     </p>
 
 </div>
@@ -195,11 +195,11 @@
 
                 axios.post(url)
                     .then(function (response) {
-                       if (response.data['code']==="200"){
-                           window.location.href = "/manager/html";
-                       }else {
-                           alert("操作失败 服务器错误");
-                       }
+                        if (response.data['code']==="200"){
+                            window.location.href = "/manager/html";
+                        }else {
+                            alert("操作失败 服务器错误");
+                        }
 
                     })
                     .catch(function (error) {
@@ -211,25 +211,25 @@
         mounted:function() {
             var that = this;
             axios.post('/manager/html?query=contexts')
-            .then(function (response) {
-                var cs = response.data;
-                for (var i=0;i<cs.length;i++){
-                    that.contexts.push(cs[i]);
-                }
-            })
-            .catch(function (error) {
-                alert("请求失败 "+error);
-                console.log(error);
-            });
+                .then(function (response) {
+                    var cs = response.data;
+                    for (var i=0;i<cs.length;i++){
+                        that.contexts.push(cs[i]);
+                    }
+                })
+                .catch(function (error) {
+                    alert("请求失败 "+error);
+                    console.log(error);
+                });
 
             axios.post('/manager/html?query=system')
-            .then(function (response) {
-                that.sys = response.data;
-            })
-            .catch(function (error) {
-                alert("请求失败 "+error);
-                console.log(error);
-            });
+                .then(function (response) {
+                    that.sys = response.data;
+                })
+                .catch(function (error) {
+                    alert("请求失败 "+error);
+                    console.log(error);
+                });
         }
     });
 
@@ -256,7 +256,7 @@
 
         },
         title: {
-            text: 'CPU 占用率'
+            text: 'CPU Usage'
         },
         xAxis: {
             type: 'datetime',
@@ -317,7 +317,7 @@
 
         },
         title: {
-            text: '内存占用'
+            text: 'MEMORY'
         },
         xAxis: {
             type: 'datetime',
@@ -378,7 +378,7 @@
 
         },
         title: {
-            text: '线程数'
+            text: 'THREAD'
         },
         xAxis: {
             type: 'datetime',

@@ -54,7 +54,7 @@ public class Wrapper extends ContainerBase {
 
     private String servletClass;
 
-    private Servlet instance;
+    private Servlet servlet;
 
     private Context context;
 
@@ -83,10 +83,10 @@ public class Wrapper extends ContainerBase {
         }
 
         if (obj instanceof Servlet){
-            instance = (Servlet)obj;
+            servlet = (Servlet)obj;
 
-            if (instance instanceof ContainerServlet&&servletClass.startsWith("sylvanas")){
-                ((ContainerServlet)instance).setWrapper(this);
+            if (servlet instanceof ContainerServlet&&servletClass.startsWith("sylvanas")){
+                ((ContainerServlet)servlet).setWrapper(this);
             }
 
         }
@@ -104,12 +104,12 @@ public class Wrapper extends ContainerBase {
     @Override
     public String doHandle(Request request, Response response) {
 
-        if (instance==null){
+        if (servlet==null){
             return "404";
         }
 
         try {
-            instance.service(request,response);
+            servlet.service(request,response);
         } catch (ServletException e) {
             e.printStackTrace();
         } catch (IOException e) {
@@ -168,7 +168,7 @@ public class Wrapper extends ContainerBase {
         this.path = path;
     }
 
-    public Servlet getInstance() {
-        return instance;
+    public Servlet getServlet() {
+        return servlet;
     }
 }

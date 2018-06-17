@@ -43,6 +43,6 @@ public class DefaultDispatcher implements RequestDispatcher{
         request1.setRequestURI(context.getPath()+path);
 
         Wrapper wrapper = context.getMapper().map(path);
-        wrapper.getInstance().service(request1,response);
+        wrapper.getServlet().service(request1,response);
     }
 }
